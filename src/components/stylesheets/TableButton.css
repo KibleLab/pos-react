@@ -1,0 +1,30 @@
+.TableButton {
+  position: absolute;
+  background-color: #ffd1d1;
+  color: black;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-align: left;
+  font-size: 24px;
+  line-height: 50px;
+  text-indent: 15px;
+  width: 380px;
+  height: 385px;
+}
+
+.TableButton:hover {
+  background-color: rgba(0, 255, 0, 0.25);
+}
+
+.TableButton:active {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0);
+}
+
+.order {
+  position: absolute;
+  width: 367px;
+  height: 315px;
+}
+
+.order::-webkit-scrollbar {
+  display: none;
+}

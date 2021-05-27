@@ -1,0 +1,36 @@
+.stockEdit {
+  position: relative;
+  width: 720px;
+  height: 613px;
+  margin-left: 600px;
+  margin-top: 233px;
+  background: linear-gradient(to right, #48c6ef 0%, #6f86d6 100%);
+  border-radius: 15px;
+}
+
+.stockEdit:focus {
+  outline: none;
+}
+
+.stock {
+  position: absolute;
+  width: 624px;
+  height: 42px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 4;
+  text-align: center;
+  color: #000000;
+}
+
+.name {
+  position: absolute;
+  width: 589px;
+  left: 17px;
+  top: 128px;
+  font-size: 24px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+}

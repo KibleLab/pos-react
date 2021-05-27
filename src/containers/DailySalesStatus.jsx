@@ -14,6 +14,15 @@ import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
 import {getDailySales} from '../reducers/dailySales';
 
+const backStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '1920px',
+  height: '1080px',
+  background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
+};
+
 const style = {
   p: {
     position: 'absolute',
@@ -74,7 +83,7 @@ const DailySalesStatus = () => {
   };
 
   return (
-    <div>
+    <div style={backStyle}>
       <Plate color={'#FFFFFF'} width={1824} height={882} left={48} top={48}>
         <div className="ag-theme-alpine" style={style.dataGrid}>
           <AgGridReact rowData={dailySales} suppressMovableColumns={true}>

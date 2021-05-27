@@ -12,8 +12,13 @@ import {useSelector, useDispatch} from 'react-redux';
 import {getTable} from '../reducers/main';
 import {modalOpen} from '../reducers/modal';
 
-const mainStyle = {
-  width: '100%',
+const backStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '1920px',
+  height: '1080px',
+  background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
 };
 
 const Main = () => {
@@ -62,7 +67,7 @@ const Main = () => {
   };
 
   return (
-    <div style={mainStyle}>
+    <div style={backStyle}>
       <Title />
       <Link to={'/MenuManagement'}>
         <Button

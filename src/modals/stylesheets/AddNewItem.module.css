@@ -1,0 +1,56 @@
+.AddNewItem {
+  position: relative;
+  width: 720px;
+  height: 900px;
+  margin-left: 600px;
+  margin-top: 48px;
+  background: linear-gradient(to right, #48c6ef 0%, #6f86d6 100%);
+  border-radius: 15px;
+}
+
+.AddNewItem:focus {
+  outline: none;
+}
+
+.information {
+  position: absolute;
+  width: 380px;
+  height: 42px;
+  left: 148px;
+  top: 44px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 42px;
+  color: #000000;
+}
+
+.name {
+  position: absolute;
+  width: 589px;
+  left: 17px;
+  top: 150px;
+  font-size: 24px;
+  border-radius: 5px 5px 0px 0px;
+  background-color: white;
+}
+
+.price {
+  position: absolute;
+  width: 589px;
+  left: 17px;
+  top: 270px;
+  font-size: 24px;
+  border-radius: 5px 5px 0px 0px;
+  background-color: white;
+}
+
+.stock {
+  position: absolute;
+  width: 589px;
+  left: 17px;
+  top: 390px;
+  font-size: 24px;
+  border-radius: 5px 5px 0px 0px;
+  background-color: white;
+}

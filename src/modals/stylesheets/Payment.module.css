@@ -1,0 +1,27 @@
+.Payment {
+  position: relative;
+  width: 720px;
+  height: 900px;
+  margin-left: 600px;
+  margin-top: 48px;
+  background: linear-gradient(to right, #48c6ef 0%, #6f86d6 100%);
+  border-radius: 15px;
+}
+
+.Payment:focus {
+  outline: none;
+}
+
+.text {
+  position: absolute;
+  width: 595px;
+  height: 296px;
+  margin-left: 14px;
+  margin-top: 146px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 42px;
+  text-align: center;
+  color: #000000;
+}

@@ -13,15 +13,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
 import {getOS} from '../reducers/orderSheet';
 
-const backStyle = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '1920px',
-  height: '1080px',
-  background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
-};
-
 const style = {
   payText: {
     position: 'absolute',
@@ -156,7 +147,13 @@ const OrderSheet = ({match}) => {
   };
 
   return (
-    <div style={backStyle}>
+    <Frame
+      color={`linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)`}
+      width={1920}
+      height={1080}
+      left={0}
+      top={0}
+    >
       <Frame color={'#FFFFFF'} width={1146} height={903} left={48} top={48} radius={25}>
         <div className="ag-theme-alpine" style={style.dataGrid}>
           <AgGridReact rowData={order} suppressMovableColumns={true}>
@@ -230,7 +227,7 @@ const OrderSheet = ({match}) => {
       />
       <Alert text={text} />
       <Payment />
-    </div>
+    </Frame>
   );
 };
 

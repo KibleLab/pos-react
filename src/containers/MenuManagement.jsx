@@ -17,15 +17,6 @@ import {modalOpen} from '../reducers/modal';
 import {setSelect, resetSelect} from '../reducers/select';
 import {getMenu} from '../reducers/menuManagement';
 
-const backStyle = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '1920px',
-  height: '1080px',
-  background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
-};
-
 const style = {
   dataGrid: {
     width: '98%',
@@ -75,7 +66,13 @@ const MenuManagement = ({history}) => {
   };
 
   return (
-    <div style={backStyle}>
+    <Frame
+      color={`linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)`}
+      width={1920}
+      height={1080}
+      left={0}
+      top={0}
+    >
       <Frame color={'#FFFFFF'} width={1795} height={874} left={48} top={55} radius={25}>
         <div className="ag-theme-alpine" style={style.dataGrid}>
           <AgGridReact
@@ -151,7 +148,7 @@ const MenuManagement = ({history}) => {
         text={'Back'}
       />
       <Alert text={text} />
-    </div>
+    </Frame>
   );
 };
 

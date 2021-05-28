@@ -2,7 +2,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {withRouter} from 'react-router-dom';
@@ -76,7 +76,7 @@ const MenuManagement = ({history}) => {
 
   return (
     <div style={backStyle}>
-      <Plate color={'#FFFFFF'} width={1795} height={874} left={48} top={55}>
+      <Frame color={'#FFFFFF'} width={1795} height={874} left={48} top={55} radius={25}>
         <div className="ag-theme-alpine" style={style.dataGrid}>
           <AgGridReact
             rowData={rows}
@@ -102,7 +102,7 @@ const MenuManagement = ({history}) => {
             />
           </AgGridReact>
         </div>
-      </Plate>
+      </Frame>
       <Button
         onClick={() => dispatch(modalOpen({index: 0, open: true}))}
         backColor={'#ebff00'}

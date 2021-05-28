@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useState, useEffect} from 'react';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 import MenuButton from '../components/MenuButton';
 import OrderMenuButton from '../components/OrderMenuButton';
@@ -150,14 +150,14 @@ const MenuSelect = ({match, history}) => {
 
   return (
     <div style={backStyle}>
-      <Plate color={'#FFFFFF'} width={1146} height={903} left={48} top={48}>
+      <Frame color={'#FFFFFF'} width={1146} height={903} left={48} top={48} radius={25}>
         {menuButtonList}
-      </Plate>
-      <Plate color={'#FFFFFF'} width={651} height={903} left={1229} top={48}>
-        <Plate color={'#FFFFFF'} width={620} height={859} left={23} top={22}>
+      </Frame>
+      <Frame color={'#FFFFFF'} width={651} height={903} left={1229} top={48} radius={25}>
+        <Frame color={'#FFFFFF'} width={620} height={859} left={23} top={22}>
           {orderMenuButtonList}
-        </Plate>
-      </Plate>
+        </Frame>
+      </Frame>
       <Button
         onClick={goBack}
         backColor={'#adff00'}
@@ -182,9 +182,9 @@ const MenuSelect = ({match, history}) => {
           text={'메뉴 관리'}
         />
       </Link>
-      <Plate color={'#ffd1d1'} width={450} height={88} left={745} top={969} radius={10}>
+      <Frame color={'#ffd1d1'} width={450} height={88} left={745} top={969} radius={10}>
         <div style={style.table_name}>{'Table' + table_no}</div>
-      </Plate>
+      </Frame>
       <Button
         onClick={() => sendOrderSheet()}
         backColor={'#ff006b'}

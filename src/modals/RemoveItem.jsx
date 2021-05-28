@@ -1,7 +1,7 @@
 import style from './stylesheets/RemoveItem.module.css';
 import React from 'react';
 import Modal from 'react-modal';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -26,12 +26,12 @@ const AddNewItem = () => {
 
   return (
     <Modal className={style.root} isOpen={open[1]}>
-      <Plate color={'#F2C94C'} width={624} height={210} left={49} top={54}>
+      <Frame color={'#F2C94C'} width={624} height={210} left={49} top={54} radius={25}>
         <p className={style.text}>
           이상품을 메뉴판에서
           <br /> 제거 하시겠습니까?
         </p>
-      </Plate>
+      </Frame>
       <Button
         onClick={close}
         backColor={'#adff00'}

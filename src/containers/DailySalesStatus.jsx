@@ -2,7 +2,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {Link} from 'react-router-dom';
@@ -84,7 +84,7 @@ const DailySalesStatus = () => {
 
   return (
     <div style={backStyle}>
-      <Plate color={'#FFFFFF'} width={1824} height={882} left={48} top={48}>
+      <Frame color={'#FFFFFF'} width={1824} height={882} left={48} top={48} radius={25}>
         <div className="ag-theme-alpine" style={style.dataGrid}>
           <AgGridReact rowData={dailySales} suppressMovableColumns={true}>
             <AgGridColumn field={'sales_no'} headerName={'No.'} width={150} />
@@ -112,11 +112,11 @@ const DailySalesStatus = () => {
             />
           </AgGridReact>
         </div>
-      </Plate>
-      <Plate color={'#E5D1FF'} width={897} height={90} left={48} top={955}>
+      </Frame>
+      <Frame color={'#E5D1FF'} width={897} height={90} left={48} top={955} radius={25}>
         <p style={style.p}>총 매출액</p>
         <div style={style.won}>{Number(total()).toLocaleString()}원</div>
-      </Plate>
+      </Frame>
       <Link to={'/'}>
         <Button
           backColor={'#ebff00'}

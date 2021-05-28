@@ -1,7 +1,7 @@
 import style from './stylesheets/TableManagement.module.css';
 import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -68,7 +68,7 @@ const TableManagement = () => {
 
   return (
     <Modal className={style.TableManagement} isOpen={open[6]}>
-      <Plate color={'#F2C94C'} width={624} height={304} left={49} top={54}>
+      <Frame color={'#F2C94C'} width={624} height={304} left={49} top={54} radius={25}>
         <div className={style.name}>테이블 관리</div>
         <TextField className={style.table} variant={'outlined'} value={input} onChange={onChange} />
         <Button
@@ -95,7 +95,7 @@ const TableManagement = () => {
           text={'–'}
           onClick={minus}
         />
-      </Plate>
+      </Frame>
       <Button
         onClick={close}
         backColor={'#adff00'}

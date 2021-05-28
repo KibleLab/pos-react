@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Title from '../components/Title';
 import Button from '../components/Button';
 import TableButton from '../components/TableButton';
@@ -105,11 +105,11 @@ const Main = () => {
         />
       </Link>
 
-      <Plate color={'#FFFFFF'} width={1800} height={870} left={58} top={162}>
-        <Plate color={'#FFF'} width={1766} height={810} left={34} top={31} radius={0}>
+      <Frame color={'#FFFFFF'} width={1800} height={870} left={58} top={162} radius={25}>
+        <Frame color={'#FFF'} width={1766} height={810} left={34} top={31}>
           {tableButtonList}
-        </Plate>
-      </Plate>
+        </Frame>
+      </Frame>
       <TableManagement />
       <Alert text={text} />
     </div>

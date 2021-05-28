@@ -2,7 +2,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 import Payment from '../modals/Payment';
 import Alert from '../modals/Alert';
@@ -157,7 +157,7 @@ const OrderSheet = ({match}) => {
 
   return (
     <div style={backStyle}>
-      <Plate color={'#FFFFFF'} width={1146} height={903} left={48} top={48}>
+      <Frame color={'#FFFFFF'} width={1146} height={903} left={48} top={48} radius={25}>
         <div className="ag-theme-alpine" style={style.dataGrid}>
           <AgGridReact rowData={order} suppressMovableColumns={true}>
             <AgGridColumn field={'order_no'} headerName={'No.'} width={150} />
@@ -178,8 +178,8 @@ const OrderSheet = ({match}) => {
             />
           </AgGridReact>
         </div>
-      </Plate>
-      <Plate color={'#E5D1FF'} width={651} height={903} left={1229} top={48}>
+      </Frame>
+      <Frame color={'#E5D1FF'} width={651} height={903} left={1229} top={48} radius={25}>
         <p style={style.payText}>결제 금액</p>
         <div style={style.calc}>{Number(totalPrice()).toLocaleString()}원</div>
         <hr style={style.bar} />
@@ -187,7 +187,7 @@ const OrderSheet = ({match}) => {
         <div style={style.supplyCalc}>{Number(supplyPrice()).toLocaleString()}원</div>
         <p style={style.taxPrice}>부가가치세</p>
         <div style={style.taxCalc}>{Number(taxPrice()).toLocaleString()}원</div>
-      </Plate>
+      </Frame>
       <Link to={'/'}>
         <Button
           backColor={'#ebff00'}
@@ -212,9 +212,9 @@ const OrderSheet = ({match}) => {
           text={'상품추가'}
         />
       </Link>
-      <Plate color={'#ffd1d1'} width={450} height={88} left={745} top={969} radius={10}>
+      <Frame color={'#ffd1d1'} width={450} height={88} left={745} top={969} radius={10}>
         <div style={style.table_name}>{'Table' + table_no}</div>
-      </Plate>
+      </Frame>
       <Button
         onClick={() => payment()}
         backColor={'#ff006b'}

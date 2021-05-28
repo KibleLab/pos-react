@@ -1,7 +1,7 @@
 import style from './stylesheets/StockEdit.module.css';
 import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -52,7 +52,7 @@ const StockEdit = () => {
 
   return (
     <Modal className={style.stockEdit} isOpen={open[2]}>
-      <Plate color={'#F2C94C'} width={624} height={304} left={49} top={54}>
+      <Frame color={'#F2C94C'} width={624} height={304} left={49} top={54} radius={25}>
         <div className={style.stock}>재고수정 - {select.menu_name}</div>
         <TextField className={style.name} variant={'outlined'} value={input} onChange={onChange} />
         <Button
@@ -79,7 +79,7 @@ const StockEdit = () => {
           text={'–'}
           onClick={minus}
         />
-      </Plate>
+      </Frame>
       <Button
         onClick={close}
         backColor={'#adff00'}

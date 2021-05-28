@@ -1,6 +1,6 @@
-import './stylesheets/Plate.css';
+import './stylesheets/Frame.css';
 
-const Plate = (props) => {
+const Frame = (props) => {
   const style = {
     backgroundColor: props.color,
     width: props.width,
@@ -11,10 +11,10 @@ const Plate = (props) => {
   };
 
   return (
-    <div className={'Plate'} style={style}>
+    <div className={'Frame'} style={style}>
       {props.children}
     </div>
   );
 };
 
-export default Plate;
+export default Frame;

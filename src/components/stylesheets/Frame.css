@@ -1,15 +1,14 @@
-.Plate {
+.Frame {
   position: absolute;
-  border-radius: 25px;
   overflow-x: hidden;
   overflow-y: auto;
   cursor: default;
 }
 
-.Plate::-webkit-scrollbar {
+.Frame::-webkit-scrollbar {
   width: 5px;
 }
-.Plate::-webkit-scrollbar-thumb {
+.Frame::-webkit-scrollbar-thumb {
   background-color: #c7c7c7;
   border-radius: 10px;
 }

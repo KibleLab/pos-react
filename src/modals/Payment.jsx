@@ -1,6 +1,6 @@
 import style from './stylesheets/Payment.module.css';
 import Modal from 'react-modal';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 import {withRouter} from 'react-router-dom';
 
@@ -45,7 +45,7 @@ const Payment = ({match, history}) => {
 
   return (
     <Modal className={style.Payment} isOpen={open[3]}>
-      <Plate color={'#FFFFFF'} width={624} height={609} left={49} top={54}>
+      <Frame color={'#FFFFFF'} width={624} height={609} left={49} top={54} radius={25}>
         <p className={style.text}>
           IC 카드를 삽입하여 주십시오.
           <br />
@@ -56,7 +56,7 @@ const Payment = ({match, history}) => {
           <br />
           카드를 삽입하거나 긁은 후<br /> 결제 버튼을 눌러주십시오.
         </p>
-      </Plate>
+      </Frame>
       <Button
         onClick={close}
         backColor={'#adff00'}

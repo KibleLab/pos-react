@@ -1,7 +1,7 @@
 import style from './stylesheets/AddNewItem.module.css';
 import {useState} from 'react';
 import Modal from 'react-modal';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 import TextField from '@material-ui/core/TextField';
 import Alert from '../modals/Alert';
@@ -52,7 +52,7 @@ const AddNewItem = () => {
 
   return (
     <Modal className={style.AddNewItem} isOpen={open[0]}>
-      <Plate color={'#F2C94C'} width={624} height={609} left={49} top={54}>
+      <Frame color={'#F2C94C'} width={624} height={609} left={49} top={54} radius={25}>
         <div className={style.information}>등록할 상품 정보 입력</div>
         <TextField
           className={style.name}
@@ -84,7 +84,7 @@ const AddNewItem = () => {
           value={menu_stock}
           onChange={onChange}
         />
-      </Plate>
+      </Frame>
       <Button
         onClick={close}
         backColor={'#adff00'}

@@ -1,7 +1,7 @@
 import style from './stylesheets/Deadline.module.css';
 import {useState} from 'react';
 import Modal from 'react-modal';
-import Plate from '../components/Plate';
+import Frame from '../components/Frame';
 import Button from '../components/Button';
 import Alert from '../modals/Alert';
 import {withRouter} from 'react-router-dom';
@@ -36,9 +36,9 @@ const BusinessDeadline = ({history}) => {
 
   return (
     <Modal className={style.root} isOpen={open[4]}>
-      <Plate color={'#F2C94C'} width={624} height={210} left={49} top={54}>
+      <Frame color={'#F2C94C'} width={624} height={210} left={49} top={54} radius={25}>
         <p className={style.text}>영업을 마감하시겠습니까?</p>
-      </Plate>
+      </Frame>
       <Button
         onClick={close}
         backColor={'#adff00'}

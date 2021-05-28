@@ -73,7 +73,7 @@ const MenuManagement = ({history}) => {
       left={0}
       top={0}
     >
-      <Frame color={'#FFFFFF'} width={1795} height={874} left={48} top={55} radius={25}>
+      <Frame color={'#FFFFFF'} width={1796} height={874} left={62} top={55} radius={25}>
         <div className="ag-theme-alpine" style={style.dataGrid}>
           <AgGridReact
             rowData={rows}
@@ -104,10 +104,10 @@ const MenuManagement = ({history}) => {
         onClick={() => dispatch(modalOpen({index: 0, open: true}))}
         backColor={'#ebff00'}
         radius={25}
-        width={409}
+        width={410}
         height={90}
         lineHeight={2.4}
-        left={48}
+        left={62}
         top={951}
         text={'새 상품 추가'}
       />
@@ -116,10 +116,10 @@ const MenuManagement = ({history}) => {
         onClick={() => onClick(1)}
         backColor={'#ebff00'}
         radius={25}
-        width={409}
+        width={410}
         height={90}
         lineHeight={2.4}
-        left={510}
+        left={62+52+410}
         top={951}
         text={'기존 상품 삭제'}
       />
@@ -128,10 +128,10 @@ const MenuManagement = ({history}) => {
         onClick={() => onClick(2)}
         backColor={'#ebff00'}
         radius={25}
-        width={409}
+        width={410}
         height={90}
         lineHeight={2.4}
-        left={974}
+        left={62+52*2+410*2}
         top={951}
         text={'재고 수정'}
       />
@@ -140,10 +140,10 @@ const MenuManagement = ({history}) => {
         onClick={goBack}
         backColor={'#adff00'}
         radius={25}
-        width={409}
+        width={410}
         height={90}
         lineHeight={2.4}
-        left={1436}
+        left={62+52*3+410*3}
         top={951}
         text={'Back'}
       />

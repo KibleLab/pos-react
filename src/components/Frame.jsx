@@ -2,11 +2,11 @@ import './stylesheets/Frame.css';
 
 const Frame = (props) => {
   const style = {
-    backgroundColor: props.color,
+    background: props.color,
     width: props.width,
     height: props.height,
-    marginLeft: props.left,
-    marginTop: props.top,
+    left: props.left,
+    top: props.top,
     borderRadius: props.radius,
   };
 

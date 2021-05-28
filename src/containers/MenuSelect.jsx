@@ -22,15 +22,6 @@ import {changeMenu} from '../reducers/menuManagement';
 import {addOS, quanIncrOS} from '../reducers/orderSheet';
 import {modalOpen} from '../reducers/modal';
 
-const backStyle = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '1920px',
-  height: '1080px',
-  background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
-};
-
 const style = {
   table_name: {
     textAlign: 'center',
@@ -149,7 +140,13 @@ const MenuSelect = ({match, history}) => {
   };
 
   return (
-    <div style={backStyle}>
+    <Frame
+      color={`linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)`}
+      width={1920}
+      height={1080}
+      left={0}
+      top={0}
+    >
       <Frame color={'#FFFFFF'} width={1146} height={903} left={48} top={48} radius={25}>
         {menuButtonList}
       </Frame>
@@ -199,7 +196,7 @@ const MenuSelect = ({match, history}) => {
         text={'주문서에 추가'}
       />
       <Alert text={text} />
-    </div>
+    </Frame>
   );
 };
 

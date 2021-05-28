@@ -12,15 +12,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import {getTable} from '../reducers/main';
 import {modalOpen} from '../reducers/modal';
 
-const backStyle = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '1920px',
-  height: '1080px',
-  background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
-};
-
 const Main = () => {
   const dispatch = useDispatch();
   const table = useSelector((state) => [...state.main.table]);
@@ -67,7 +58,13 @@ const Main = () => {
   };
 
   return (
-    <div style={backStyle}>
+    <Frame
+      color={`linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)`}
+      width={1920}
+      height={1080}
+      left={0}
+      top={0}
+    >
       <Title />
       <Link to={'/MenuManagement'}>
         <Button
@@ -112,7 +109,7 @@ const Main = () => {
       </Frame>
       <TableManagement />
       <Alert text={text} />
-    </div>
+    </Frame>
   );
 };
 

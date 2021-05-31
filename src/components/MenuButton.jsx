@@ -17,7 +17,7 @@ const MenuButton = (props) => {
       fontSize: 24,
       display: 'flex',
       alignItems: 'center',
-      textAlign: 'center',
+      textAlign: 'left',
     },
     stock: {
       position: 'absolute',

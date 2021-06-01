@@ -11,6 +11,8 @@ import TableManagement from '../modals/TableManagement';
 import {useSelector, useDispatch} from 'react-redux';
 import {getTable} from '../reducers/main';
 import {modalOpen} from '../reducers/modal';
+import NewButton from '../components/MUIButton';
+import MUIButton from '../components/MUIButton';
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -67,35 +69,35 @@ const Main = () => {
     >
       <Title />
       <Link to={'/MenuManagement'}>
-        <Button
-          backColor={'#ebff00'}
+        <MUIButton
+          color={'#ebff00'}
+          fontSize={36}
           radius={25}
           width={290}
           height={100}
-          lineHeight={2.8}
           left={934}
           top={24}
           text={'메뉴 관리'}
         />
       </Link>
-      <Button
+      <MUIButton
         onClick={onClick}
-        backColor={'#ebff00'}
+        color={'#ebff00'}
+        fontSize={36}
         radius={25}
         width={290}
         height={100}
-        lineHeight={2.8}
         left={1250}
         top={24}
         text={'테이블 관리'}
       />
       <Link to={'/DailySalesStatus'}>
-        <Button
-          backColor={'#ebff00'}
+        <MUIButton
+          color={'#ebff00'}
+          fontSize={36}
           radius={25}
           width={290}
           height={100}
-          lineHeight={2.8}
           left={1566}
           top={24}
           text={'정산'}

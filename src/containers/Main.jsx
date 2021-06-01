@@ -70,7 +70,7 @@ const Main = () => {
       <Title />
       <Link to={'/MenuManagement'}>
         <MUIButton
-          color={'#ebff00'}
+          backColor={'#ebff00'}
           fontSize={36}
           radius={25}
           width={290}
@@ -82,7 +82,7 @@ const Main = () => {
       </Link>
       <MUIButton
         onClick={onClick}
-        color={'#ebff00'}
+        backColor={'#ebff00'}
         fontSize={36}
         radius={25}
         width={290}
@@ -93,7 +93,7 @@ const Main = () => {
       />
       <Link to={'/DailySalesStatus'}>
         <MUIButton
-          color={'#ebff00'}
+          backColor={'#ebff00'}
           fontSize={36}
           radius={25}
           width={290}

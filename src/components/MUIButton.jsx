@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/core/styles';
 const useStyles = makeStyles({
   root: (props) => ({
     position: 'absolute',
-    background: props.color,
+    background: props.backColor,
     color: props.fontColor,
     fontSize: props.fontSize,
     borderRadius: props.radius,
@@ -15,6 +15,7 @@ const useStyles = makeStyles({
     top: props.top,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     fontWeight: 'bold',
+    '&:hover': {backgroundColor: props.backColor},
   }),
 });
 

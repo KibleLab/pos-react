@@ -3,7 +3,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 import Payment from '../modals/Payment';
 import Alert from '../modals/Alert';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
@@ -186,24 +186,24 @@ const OrderSheet = ({match}) => {
         <div style={style.taxCalc}>{Number(taxPrice()).toLocaleString()}원</div>
       </Frame>
       <Link to={'/'}>
-        <Button
+        <MUIButton
           backColor={'#ebff00'}
+          fontSize={36}
           radius={25}
           width={312}
           height={90}
-          lineHeight={2.4}
           left={47}
           top={968}
           text={'HOME'}
         />
       </Link>
       <Link to={'/MenuSelect/' + table_no}>
-        <Button
+        <MUIButton
           backColor={'#ebff00'}
+          fontSize={36}
           radius={25}
           width={312}
           height={90}
-          lineHeight={2.4}
           left={396}
           top={968}
           text={'상품추가'}
@@ -212,7 +212,7 @@ const OrderSheet = ({match}) => {
       <Frame color={'#ffd1d1'} width={450} height={88} left={745} top={969} radius={10}>
         <div style={style.table_name}>{'Table' + table_no}</div>
       </Frame>
-      <Button
+      <MUIButton
         onClick={() => payment()}
         backColor={'#ff006b'}
         fontColor={'white'}
@@ -220,7 +220,6 @@ const OrderSheet = ({match}) => {
         radius={25}
         width={651}
         height={90}
-        lineHeight={1.8}
         left={1229}
         top={968}
         text={'결제'}

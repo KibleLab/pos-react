@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import Frame from '../components/Frame';
 import Title from '../components/Title';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 import TableButton from '../components/TableButton';
 import {Link} from 'react-router-dom';
 
@@ -11,8 +11,6 @@ import TableManagement from '../modals/TableManagement';
 import {useSelector, useDispatch} from 'react-redux';
 import {getTable} from '../reducers/main';
 import {modalOpen} from '../reducers/modal';
-import NewButton from '../components/MUIButton';
-import MUIButton from '../components/MUIButton';
 
 const Main = () => {
   const dispatch = useDispatch();

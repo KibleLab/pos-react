@@ -2,7 +2,7 @@ import style from './stylesheets/Deadline.module.css';
 import {useState} from 'react';
 import Modal from 'react-modal';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 import Alert from '../modals/Alert';
 import {withRouter} from 'react-router-dom';
 
@@ -39,18 +39,18 @@ const BusinessDeadline = ({history}) => {
       <Frame color={'#F2C94C'} width={624} height={210} left={49} top={54} radius={25}>
         <p className={style.text}>영업을 마감하시겠습니까?</p>
       </Frame>
-      <Button
+      <MUIButton
         onClick={close}
         backColor={'#adff00'}
+        fontSize={36}
         radius={20}
         width={624}
         height={90}
-        lineHeight={2.4}
         left={49}
         top={289}
         text={'Back'}
       />
-      <Button
+      <MUIButton
         onClick={deadline}
         backColor={'#ff006b'}
         fontColor={'white'}
@@ -58,7 +58,6 @@ const BusinessDeadline = ({history}) => {
         radius={20}
         width={624}
         height={90}
-        lineHeight={1.8}
         left={49}
         top={394}
         text={'마감'}

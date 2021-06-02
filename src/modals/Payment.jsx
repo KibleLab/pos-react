@@ -1,7 +1,7 @@
 import style from './stylesheets/Payment.module.css';
 import Modal from 'react-modal';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 import {withRouter} from 'react-router-dom';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -57,18 +57,18 @@ const Payment = ({match, history}) => {
           카드를 삽입하거나 긁은 후<br /> 결제 버튼을 눌러주십시오.
         </p>
       </Frame>
-      <Button
+      <MUIButton
         onClick={close}
         backColor={'#adff00'}
+        fontSize={36}
         radius={20}
         width={624}
         height={90}
-        lineHeight={2.4}
         left={49}
         top={681}
         text={'Back'}
       />
-      <Button
+      <MUIButton
         onClick={payCalc}
         backColor={'#ff006b'}
         fontColor={'white'}
@@ -76,7 +76,6 @@ const Payment = ({match, history}) => {
         radius={20}
         width={624}
         height={90}
-        lineHeight={1.8}
         left={49}
         top={781}
         text={'결제'}

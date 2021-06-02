@@ -2,7 +2,7 @@ import style from './stylesheets/AddNewItem.module.css';
 import {useState} from 'react';
 import Modal from 'react-modal';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 import TextField from '@material-ui/core/TextField';
 import Alert from '../modals/Alert';
 
@@ -85,18 +85,18 @@ const AddNewItem = () => {
           onChange={onChange}
         />
       </Frame>
-      <Button
+      <MUIButton
         onClick={close}
         backColor={'#adff00'}
+        fontSize={36}
         radius={20}
         width={624}
         height={90}
-        lineHeight={2.4}
         left={49}
         top={681}
         text={'Back'}
       />
-      <Button
+      <MUIButton
         onClick={addNewItem}
         backColor={'#ff006b'}
         fontColor={'white'}
@@ -104,7 +104,6 @@ const AddNewItem = () => {
         radius={20}
         width={624}
         height={90}
-        lineHeight={1.8}
         left={49}
         top={781}
         text={'등록'}

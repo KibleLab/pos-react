@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 import Frame from '../components/Frame';
 import MUIButton from '../components/MUIButton';
-import TextField from '@material-ui/core/TextField';
+import MUITextField from '../components/MUITextField';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
@@ -54,7 +54,17 @@ const StockEdit = () => {
     <Modal className={style.stockEdit} isOpen={open[2]}>
       <Frame color={'#F2C94C'} width={624} height={304} left={49} top={54} radius={25}>
         <div className={style.stock}>재고수정 - {select.menu_name}</div>
-        <TextField className={style.name} variant={'outlined'} value={input} onChange={onChange} />
+        <MUITextField
+          backColor={'white'}
+          width={589}
+          left={16}
+          top={128}
+          fontSize={24}
+          radius={'5px'}
+          variant={'outlined'}
+          value={input}
+          onChange={onChange}
+        />
         <MUIButton
           backColor={'#68DBFF'}
           fontSize={48}

@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 import Frame from '../components/Frame';
 import MUIButton from '../components/MUIButton';
-import TextField from '@material-ui/core/TextField';
+import MUITextField from '../components/MUITextField';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
@@ -70,7 +70,17 @@ const TableManagement = () => {
     <Modal className={style.TableManagement} isOpen={open[6]}>
       <Frame color={'#F2C94C'} width={624} height={304} left={49} top={54} radius={25}>
         <div className={style.name}>테이블 관리</div>
-        <TextField className={style.table} variant={'outlined'} value={input} onChange={onChange} />
+        <MUITextField
+          backColor={'white'}
+          width={589}
+          left={16}
+          top={128}
+          fontSize={24}
+          radius={'5px'}
+          variant={'outlined'}
+          value={input}
+          onChange={onChange}
+        />
         <MUIButton
           backColor={'#68DBFF'}
           fontSize={48}

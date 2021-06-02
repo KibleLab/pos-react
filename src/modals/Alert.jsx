@@ -2,7 +2,7 @@ import style from './stylesheets/Alert.module.css';
 
 import Modal from 'react-modal';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
@@ -20,13 +20,13 @@ const Alert = (props) => {
       <Frame color={'#F2C94C'} width={624} height={210} left={49} top={54} radius={25}>
         <p className={style.text}>{props.text}</p>
       </Frame>
-      <Button
+      <MUIButton
         onClick={close}
         backColor={'#adff00'}
+        fontSize={36}
         radius={20}
         width={624}
         height={90}
-        lineHeight={2.4}
         left={49}
         top={289}
         text={'Back'}

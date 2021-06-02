@@ -2,7 +2,7 @@ import style from './stylesheets/TableManagement.module.css';
 import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 import TextField from '@material-ui/core/TextField';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -71,43 +71,41 @@ const TableManagement = () => {
       <Frame color={'#F2C94C'} width={624} height={304} left={49} top={54} radius={25}>
         <div className={style.name}>테이블 관리</div>
         <TextField className={style.table} variant={'outlined'} value={input} onChange={onChange} />
-        <Button
+        <MUIButton
           backColor={'#68DBFF'}
           fontSize={48}
           radius={15}
           width={287}
           height={59}
-          lineHeight={1}
           left={16}
-          top={150}
+          top={211}
           text={'+'}
           onClick={plus}
         />
-        <Button
+        <MUIButton
           backColor={'#68DBFF'}
           fontSize={48}
           radius={15}
           width={287}
           height={59}
-          lineHeight={1}
           left={318}
-          top={150}
+          top={211}
           text={'–'}
           onClick={minus}
         />
       </Frame>
-      <Button
+      <MUIButton
         onClick={close}
         backColor={'#adff00'}
+        fontSize={36}
         radius={20}
         width={624}
         height={90}
-        lineHeight={2.4}
         left={49}
         top={383}
         text={'Back'}
       />
-      <Button
+      <MUIButton
         onClick={tableEdit}
         backColor={'#ff006b'}
         fontColor={'white'}
@@ -115,7 +113,6 @@ const TableManagement = () => {
         radius={20}
         width={624}
         height={90}
-        lineHeight={1.8}
         left={49}
         top={487}
         text={'수정'}

@@ -3,7 +3,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {withRouter} from 'react-router-dom';
 
@@ -100,50 +100,53 @@ const MenuManagement = ({history}) => {
           </AgGridReact>
         </div>
       </Frame>
-      <Button
+      <MUIButton
         onClick={() => dispatch(modalOpen({index: 0, open: true}))}
         backColor={'#ebff00'}
+        fontSize={36}
         radius={25}
         width={410}
         height={90}
-        lineHeight={2.4}
         left={62}
         top={951}
         text={'새 상품 추가'}
       />
       <AddNewItem />
-      <Button
+      <MUIButton
         onClick={() => onClick(1)}
         backColor={'#ebff00'}
+        fontSize={36}
         radius={25}
         width={410}
         height={90}
         lineHeight={2.4}
-        left={62+52+410}
+        left={62 + 52 + 410}
         top={951}
         text={'기존 상품 삭제'}
       />
       <RemoveItem />
-      <Button
+      <MUIButton
         onClick={() => onClick(2)}
         backColor={'#ebff00'}
+        fontSize={36}
         radius={25}
         width={410}
         height={90}
         lineHeight={2.4}
-        left={62+52*2+410*2}
+        left={62 + 52 * 2 + 410 * 2}
         top={951}
         text={'재고 수정'}
       />
       <StockEdit />
-      <Button
+      <MUIButton
         onClick={goBack}
         backColor={'#adff00'}
+        fontSize={36}
         radius={25}
         width={410}
         height={90}
         lineHeight={2.4}
-        left={62+52*3+410*3}
+        left={62 + 52 * 3 + 410 * 3}
         top={951}
         text={'Back'}
       />

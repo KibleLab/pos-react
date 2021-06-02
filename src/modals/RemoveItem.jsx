@@ -2,7 +2,7 @@ import style from './stylesheets/RemoveItem.module.css';
 import React from 'react';
 import Modal from 'react-modal';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
@@ -32,18 +32,18 @@ const AddNewItem = () => {
           <br /> 제거 하시겠습니까?
         </p>
       </Frame>
-      <Button
+      <MUIButton
         onClick={close}
         backColor={'#adff00'}
+        fontSize={36}
         radius={20}
         width={624}
         height={90}
-        lineHeight={2.4}
         left={49}
         top={289}
         text={'Back'}
       />
-      <Button
+      <MUIButton
         onClick={removeItem}
         backColor={'#ff006b'}
         fontColor={'white'}
@@ -51,7 +51,6 @@ const AddNewItem = () => {
         radius={20}
         width={624}
         height={90}
-        lineHeight={1.8}
         left={49}
         top={394}
         text={'제거'}

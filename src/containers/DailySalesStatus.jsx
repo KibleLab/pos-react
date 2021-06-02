@@ -3,7 +3,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {Link} from 'react-router-dom';
 
@@ -115,18 +115,18 @@ const DailySalesStatus = () => {
         <div style={style.won}>{Number(total()).toLocaleString()}원</div>
       </Frame>
       <Link to={'/'}>
-        <Button
+        <MUIButton
           backColor={'#ebff00'}
+          fontSize={36}
           radius={25}
           width={400}
           height={90}
-          lineHeight={2.4}
           left={984}
           top={955}
           text={'HOME'}
         />
       </Link>
-      <Button
+      <MUIButton
         onClick={() => deadline()}
         backColor={'#ff006b'}
         fontColor={'white'}
@@ -134,7 +134,6 @@ const DailySalesStatus = () => {
         radius={25}
         width={450}
         height={90}
-        lineHeight={1.8}
         left={1422}
         top={955}
         text={'영업마감'}

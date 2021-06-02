@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useState, useEffect} from 'react';
 import Frame from '../components/Frame';
-import Button from '../components/Button';
+import MUIButton from '../components/MUIButton';
 import MenuButton from '../components/MenuButton';
 import OrderMenuButton from '../components/OrderMenuButton';
 import {Link} from 'react-router-dom';
@@ -155,25 +155,25 @@ const MenuSelect = ({match, history}) => {
           {orderMenuButtonList}
         </Frame>
       </Frame>
-      <Button
+      <MUIButton
         onClick={goBack}
         backColor={'#adff00'}
+        fontSize={36}
         radius={25}
         width={312}
         height={90}
-        lineHeight={2.4}
         left={47}
         top={968}
         text={'Back'}
       />
       <Link to={'/MenuManagement'}>
-        <Button
+        <MUIButton
           onClick={() => dispatch(resetOrder())}
           backColor={'#ebff00'}
+          fontSize={36}
           radius={25}
           width={312}
           height={90}
-          lineHeight={2.4}
           left={396}
           top={968}
           text={'메뉴 관리'}
@@ -182,7 +182,7 @@ const MenuSelect = ({match, history}) => {
       <Frame color={'#ffd1d1'} width={450} height={88} left={745} top={969} radius={10}>
         <div style={style.table_name}>{'Table' + table_no}</div>
       </Frame>
-      <Button
+      <MUIButton
         onClick={() => sendOrderSheet()}
         backColor={'#ff006b'}
         fontColor={'white'}
@@ -190,7 +190,6 @@ const MenuSelect = ({match, history}) => {
         radius={25}
         width={651}
         height={90}
-        lineHeight={1.8}
         left={1229}
         top={968}
         text={'주문서에 추가'}

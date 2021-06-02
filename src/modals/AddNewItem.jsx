@@ -3,7 +3,7 @@ import {useState} from 'react';
 import Modal from 'react-modal';
 import Frame from '../components/Frame';
 import MUIButton from '../components/MUIButton';
-import TextField from '@material-ui/core/TextField';
+import MUITextField from '../components/MUITextField';
 import Alert from '../modals/Alert';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -54,8 +54,13 @@ const AddNewItem = () => {
     <Modal className={style.AddNewItem} isOpen={open[0]}>
       <Frame color={'#F2C94C'} width={624} height={609} left={49} top={54} radius={25}>
         <div className={style.information}>등록할 상품 정보 입력</div>
-        <TextField
-          className={style.name}
+        <MUITextField
+          backColor={'white'}
+          width={589}
+          left={17}
+          top={145}
+          fontSize={24}
+          radius={'5px 5px 0px 0px'}
           label={'상품명 입력'}
           variant={'filled'}
           autoComplete={'off'}
@@ -64,8 +69,13 @@ const AddNewItem = () => {
           value={menu_name}
           onChange={onChange}
         />
-        <TextField
-          className={style.price}
+        <MUITextField
+          backColor={'white'}
+          width={589}
+          left={17}
+          top={326}
+          fontSize={24}
+          radius={'5px 5px 0px 0px'}
           label={'단가 입력'}
           variant={'filled'}
           autoComplete={'off'}
@@ -74,8 +84,13 @@ const AddNewItem = () => {
           value={menu_price}
           onChange={onChange}
         />
-        <TextField
-          className={style.stock}
+        <MUITextField
+          backColor={'white'}
+          width={589}
+          left={17}
+          top={507}
+          fontSize={24}
+          radius={'5px 5px 0px 0px'}
           label={'재고 입력'}
           variant={'filled'}
           autoComplete={'off'}

@@ -22,7 +22,24 @@ function MUIButton(props) {
   const classes = useStyles(props);
 
   return (
-    <Button className={classes.root} variant="contained" onClick={props.onClick}>
+    <Button
+      className={classes.root}
+      children={props.children}
+      classes={props.classes}
+      color={props.color}
+      component={props.component}
+      disabled={props.disabled}
+      disableElevation={props.disableElevation}
+      disableFocusRipple={props.disableFocusRipple}
+      disableRipple={props.disableRipple}
+      endIcon={props.endIcon}
+      fullWidth={props.fullWidth}
+      href={props.href}
+      size={props.size}
+      startIcon={props.startIcon}
+      variant={props.variant}
+      onClick={props.onClick}
+    >
       {props.text}
     </Button>
   );

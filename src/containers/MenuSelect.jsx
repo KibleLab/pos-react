@@ -1,76 +1,70 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import {useState, useEffect} from 'react';
-import Frame from '../components/Frame';
-import MUIButton from '../components/MUIButton';
-import MenuButton from '../components/MenuButton';
-import OrderMenuButton from '../components/OrderMenuButton';
-import {Link} from 'react-router-dom';
+import {makeStyles} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
-import Alert from '../modals/Alert';
+import {useState, useEffect} from 'react';
+import MenuButton from '../components/MenuButton';
+import WishButton from '../components/WishButton';
+import {Link} from 'react-router-dom';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  addOrder,
-  delOrder,
+  addWish,
+  delWish,
   getMenu,
   quanIncr,
-  resetOrder,
+  quanDecr,
+  stockIncr,
   stockDecr,
   stockRest,
+  resetWish,
 } from '../reducers/menuSelect';
 import {changeMenu} from '../reducers/menuManagement';
 import {addOS, quanIncrOS} from '../reducers/orderSheet';
-import {modalOpen} from '../reducers/modal';
-
-const style = {
-  table_name: {
-    textAlign: 'center',
-    marginTop: 18,
-    fontWeight: 'bold',
-    fontSize: 36,
-  },
-};
 
 const MenuSelect = ({match, history}) => {
+  const classes = useStyles();
   const {table_no} = match.params;
   const menu = useSelector((state) => [...state.menuSelect.menu]);
-  const order = useSelector((state) => [...state.menuSelect.order]);
-  const orderSheet = useSelector((state) => [...state.orderSheet.order[table_no - 1]]);
-  const [text, setText] = useState();
+  const wish = useSelector((state) => [...state.menuSelect.wish]);
+  const order = useSelector((state) => [...state.orderSheet.order[table_no - 1]]);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMenu(table_no));
-  }, []);
+  }, [dispatch, table_no]);
 
-  const sendOrder = (data) => {
-    if (data.menu_stock > 0) {
+  const sendWish = (data) => {
+    if (wish.length <= 0) {
+      dispatch(addWish(data));
       dispatch(stockDecr(data));
-      if (order.length === 0) {
-        dispatch(addOrder(data));
-      } else if (order.length > 0) {
-        const index = order.findIndex((order) => order.menu_no === data.menu_no);
-        if (index === -1) {
-          dispatch(addOrder(data));
+    } else if (wish.length > 0) {
+      const index = wish.findIndex((wish) => wish.menu_no === data.menu_no);
+      if (index === -1) {
+        dispatch(addWish(data));
+        dispatch(stockDecr(data));
+      } else {
+        if (data.menu_stock < 1) {
+          setMessage('재고가 없습니다.');
+          setOpen(true);
         } else {
           dispatch(quanIncr(index));
+          dispatch(stockDecr(data));
         }
       }
-    } else {
-      setText('재고가 없습니다.');
-      dispatch(modalOpen({index: 5, open: true}));
     }
   };
 
-  const rmOrder = (data) => {
-    dispatch(stockRest(data));
-    dispatch(delOrder(data));
-  };
-
   const sendOrderSheet = () => {
-    if (Array.isArray(order) && order.length === 0) {
-      setText('선택된 상품이 없습니다.');
-      dispatch(modalOpen({index: 5, open: true}));
+    if (Array.isArray(wish) && wish.length === 0) {
+      setMessage('주문할 상품이 없습니다.');
+      setOpen(true);
     } else {
       for (let i = 0; i < menu.length; i++) {
         setTimeout(() => {
@@ -78,125 +72,270 @@ const MenuSelect = ({match, history}) => {
           dispatch(changeMenu(data));
         }, 500);
       }
-      if (orderSheet.length === 0) {
-        for (let i = 0; i < order.length; i++) {
+      if (order.length === 0) {
+        for (let i = 0; i < wish.length; i++) {
           setTimeout(() => {
-            dispatch(addOS({table_no: table_no, data: order[i]}));
+            dispatch(addOS({table_no: table_no, data: wish[i]}));
           }, 500);
         }
-      } else if (orderSheet.length > 0) {
-        for (let i = 0; i < order.length; i++) {
-          const index = orderSheet.findIndex(
-            (orderSheet) => orderSheet.menu_no === order[i].menu_no
-          );
+      } else if (order.length > 0) {
+        for (let i = 0; i < wish.length; i++) {
+          const index = order.findIndex((order) => order.menu_no === wish[i].menu_no);
           if (index === -1) {
             setTimeout(() => {
-              dispatch(addOS({table_no: table_no, data: order[i]}));
+              dispatch(addOS({table_no: table_no, data: wish[i]}));
             }, 500);
           } else {
             setTimeout(() => {
               const data = {
-                menu_no: order[i].menu_no,
-                order_quantity: orderSheet[index].order_quantity + order[i].order_quantity,
+                menu_no: wish[i].menu_no,
+                order_quantity: order[index].order_quantity + wish[i].order_quantity,
               };
               dispatch(quanIncrOS({table_no: table_no, data: data}));
             }, 500);
           }
         }
       }
-      dispatch(resetOrder());
-      history.goBack();
+      dispatch(resetWish());
+      history.push('/OrderSheet/' + table_no);
     }
   };
 
-  let top = 22;
-  let left = 23;
+  const plus = (data, index) => {
+    const menuIdx = menu.findIndex((menu) => menu.menu_no === data.menu_no);
+    if (menu[menuIdx].menu_stock < 1) {
+      setMessage('재고가 없습니다.');
+      setOpen(true);
+    } else {
+      dispatch(quanIncr(index));
+      dispatch(stockDecr(data));
+    }
+  };
+
+  const minus = (data, index) => {
+    if (data.order_quantity < 2) {
+      dispatch(stockIncr(data));
+      dispatch(delWish(data));
+      setMessage(data.menu_name + '이/가 찜목록에서 삭제됨.');
+      setOpen(true);
+    } else {
+      dispatch(quanDecr(index));
+      dispatch(stockIncr(data));
+    }
+  };
+
+  const rmWish = (data) => {
+    dispatch(stockRest(data));
+    dispatch(delWish(data));
+    setMessage(data.menu_name + '이/가 찜목록에서 삭제됨.');
+    setOpen(true);
+  };
+
   const menuButtonList = menu.map((data, index) => (
     <MenuButton
-      onClick={() => sendOrder(data)}
+      onClick={() => sendWish(data)}
       key={index}
+      index={index}
       name={data.menu_name}
       price={data.menu_price}
       stock={data.menu_stock}
-      left={left + 279 * (index % 4)}
-      top={top + 176 * Math.floor(index / 4)}
     />
   ));
 
-  const orderMenuButtonList = order.map((data, index) => (
-    <OrderMenuButton
-      onClick={() => rmOrder(data)}
+  const WishButtonList = wish.map((data, index) => (
+    <WishButton
       key={index}
+      index={index}
       name={data.menu_name}
       price={data.menu_price}
       quantity={data.order_quantity}
-      top={index * 154}
+      delete={() => rmWish(data)}
+      plus={() => plus(data, index)}
+      minus={() => minus(data, index)}
     />
   ));
 
-  const goBack = () => {
-    dispatch(resetOrder());
-    history.goBack();
-  };
-
   return (
-    <Frame
-      color={`linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)`}
-      width={1920}
-      height={1080}
-      left={0}
-      top={0}
-    >
-      <Frame color={'#FFFFFF'} width={1146} height={903} left={48} top={48} radius={25}>
-        {menuButtonList}
-      </Frame>
-      <Frame color={'#FFFFFF'} width={651} height={903} left={1229} top={48} radius={25}>
-        <Frame color={'#FFFFFF'} width={620} height={859} left={23} top={22}>
-          {orderMenuButtonList}
-        </Frame>
-      </Frame>
-      <MUIButton
-        onClick={goBack}
-        backColor={'#adff00'}
-        fontSize={36}
-        radius={25}
-        width={312}
-        height={90}
-        left={47}
-        top={968}
-        text={'Back'}
+    <Container className={classes.root} maxWidth={false}>
+      <Container className={classes.menuC} maxWidth={false}>
+        <Container className={classes.menuList} maxWidth={false}>
+          {menuButtonList}
+        </Container>
+      </Container>
+
+      <Container className={classes.wishC} maxWidth={false}>
+        <Container className={classes.wishList} maxWidth={false}>
+          {WishButtonList}
+        </Container>
+      </Container>
+
+      <Button
+        className={classes.backB}
+        onClick={() => dispatch(resetWish())}
+        component={Link}
+        to={'/OrderSheet/' + table_no}
+      >
+        Back
+      </Button>
+
+      <Button
+        className={classes.menuManageB}
+        onClick={() => dispatch(resetWish())}
+        component={Link}
+        to={'/MenuManagement'}
+      >
+        메뉴 관리
+      </Button>
+
+      <Container className={classes.tableNameC} maxWidth={false}>
+        <Typography className={classes.tableName}>{'Table' + table_no}</Typography>
+      </Container>
+
+      <Button className={classes.addOSB} onClick={() => sendOrderSheet()}>
+        주문서에 추가
+      </Button>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={open}
+        autoHideDuration={1500}
+        onClose={() => setOpen(false)}
+        message={message}
+        action={
+          <IconButton
+            aria-label="close"
+            style={{color: 'yellow'}}
+            className={classes.close}
+            onClick={() => setOpen(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
       />
-      <Link to={'/MenuManagement'}>
-        <MUIButton
-          onClick={() => dispatch(resetOrder())}
-          backColor={'#ebff00'}
-          fontSize={36}
-          radius={25}
-          width={312}
-          height={90}
-          left={396}
-          top={968}
-          text={'메뉴 관리'}
-        />
-      </Link>
-      <Frame color={'#ffd1d1'} width={450} height={88} left={745} top={969} radius={10}>
-        <div style={style.table_name}>{'Table' + table_no}</div>
-      </Frame>
-      <MUIButton
-        onClick={() => sendOrderSheet()}
-        backColor={'#ff006b'}
-        fontColor={'white'}
-        fontSize={48}
-        radius={25}
-        width={651}
-        height={90}
-        left={1229}
-        top={968}
-        text={'주문서에 추가'}
-      />
-      <Alert text={text} />
-    </Frame>
+    </Container>
   );
 };
+
+const useStyles = makeStyles({
+  root: {
+    position: 'absolute',
+    background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
+    width: 1920,
+    height: 1080,
+    left: 0,
+    top: 0,
+    padding: 40,
+  },
+  menuC: {
+    position: 'absolute',
+    background: 'white',
+    width: 1120,
+    height: 896,
+    left: 40,
+    top: 40,
+    borderRadius: 24,
+  },
+  menuList: {
+    position: 'absolute',
+    background: 'white',
+    width: 1098,
+    height: 864,
+    left: 16,
+    top: 16,
+    padding: 0,
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {width: 5},
+    '&::-webkit-scrollbar-thumb': {
+      background: '#c7c7c7',
+      borderRadius: 10,
+    },
+  },
+  wishC: {
+    position: 'absolute',
+    background: 'white',
+    width: 680,
+    height: 896,
+    right: 40,
+    top: 40,
+    padding: 0,
+    borderRadius: 24,
+  },
+  wishList: {
+    position: 'absolute',
+    background: 'white',
+    width: 658,
+    height: 864,
+    right: 6,
+    top: 16,
+    padding: 0,
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {width: 5},
+    '&::-webkit-scrollbar-thumb': {
+      background: '#c7c7c7',
+      borderRadius: 10,
+    },
+  },
+  backB: {
+    position: 'absolute',
+    background: '#adff00',
+    width: 312,
+    height: 80,
+    left: 40,
+    bottom: 40,
+    borderRadius: 15,
+    fontSize: 30,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#adff00'},
+  },
+  menuManageB: {
+    position: 'absolute',
+    background: '#ebff00',
+    width: 312,
+    height: 80,
+    left: 400,
+    bottom: 40,
+    borderRadius: 15,
+    fontSize: 30,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ebff00'},
+  },
+  tableNameC: {
+    position: 'absolute',
+    background: '#ffd1d1',
+    width: 400,
+    height: 80,
+    left: 760,
+    bottom: 40,
+    borderRadius: 15,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  tableName: {
+    position: 'relative',
+    width: '100%',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  addOSB: {
+    position: 'absolute',
+    background: '#ff006b',
+    width: 680,
+    height: 80,
+    right: 40,
+    bottom: 40,
+    borderRadius: 15,
+    color: 'white',
+    fontSize: 32,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ff006b'},
+  },
+});
 
 export default MenuSelect;

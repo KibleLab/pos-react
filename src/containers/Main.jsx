@@ -1,11 +1,15 @@
+import {makeStyles} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 import {useState, useEffect} from 'react';
-import Frame from '../components/Frame';
 import Title from '../components/Title';
-import MUIButton from '../components/MUIButton';
 import TableButton from '../components/TableButton';
 import {Link} from 'react-router-dom';
 
-import Alert from '../modals/Alert';
 import TableManagement from '../modals/TableManagement';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -13,10 +17,12 @@ import {getTable} from '../reducers/main';
 import {modalOpen} from '../reducers/modal';
 
 const Main = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const table = useSelector((state) => [...state.main.table]);
   const order = useSelector((state) => state.orderSheet.order);
-  const [text, setText] = useState();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     dispatch(getTable());
@@ -31,12 +37,7 @@ const Main = () => {
   const tableButtonList = table.map((data, index) => (
     <div key={index}>
       <Link to={'/OrderSheet/' + data.table_no}>
-        <TableButton
-          table_no={data.table_no}
-          left={452 * (index % 4) + 'px'}
-          top={419 * Math.floor(index / 4) + 'px'}
-          text={data.table_name}
-        />
+        <TableButton index={index} table_no={data.table_no} title={data.table_name} />
       </Link>
     </div>
   ));
@@ -49,8 +50,8 @@ const Main = () => {
         if (order[i].length === 0 && i === table.length - 1) {
           dispatch(modalOpen({index: 6, open: true}));
         } else if (order[i].length !== 0) {
-          setText('결제가 안된 테이블이 있습니다.');
-          dispatch(modalOpen({index: 5, open: true}));
+          setMessage('결제가 안된 테이블이 있습니다.');
+          setOpen(true);
           break;
         }
       }
@@ -58,59 +59,124 @@ const Main = () => {
   };
 
   return (
-    <Frame
-      color={`linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)`}
-      width={1920}
-      height={1080}
-      left={0}
-      top={0}
-    >
+    <Container className={classes.root} maxWidth={false}>
       <Title />
-      <Link to={'/MenuManagement'}>
-        <MUIButton
-          backColor={'#ebff00'}
-          fontSize={36}
-          radius={25}
-          width={290}
-          height={100}
-          left={934}
-          top={24}
-          text={'메뉴 관리'}
-        />
-      </Link>
-      <MUIButton
-        onClick={onClick}
-        backColor={'#ebff00'}
-        fontSize={36}
-        radius={25}
-        width={290}
-        height={100}
-        left={1250}
-        top={24}
-        text={'테이블 관리'}
-      />
-      <Link to={'/DailySalesStatus'}>
-        <MUIButton
-          backColor={'#ebff00'}
-          fontSize={36}
-          radius={25}
-          width={290}
-          height={100}
-          left={1566}
-          top={24}
-          text={'정산'}
-        />
-      </Link>
 
-      <Frame color={'#FFFFFF'} width={1800} height={870} left={58} top={162} radius={25}>
-        <Frame color={'#FFF'} width={1766} height={810} left={34} top={31}>
+      <Button className={classes.menuManageB} component={Link} to={'/MenuManagement'}>
+        메뉴 관리
+      </Button>
+
+      <Button className={classes.tableManageB} onClick={onClick}>
+        테이블 관리
+      </Button>
+
+      <Button className={classes.calcB} component={Link} to={'/DailySalesStatus'}>
+        정산
+      </Button>
+
+      <Container className={classes.tableListC} maxWidth={false}>
+        <Container className={classes.tableList} maxWidth={false}>
           {tableButtonList}
-        </Frame>
-      </Frame>
+        </Container>
+      </Container>
+
       <TableManagement />
-      <Alert text={text} />
-    </Frame>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={open}
+        autoHideDuration={1500}
+        onClose={() => setOpen(false)}
+        message={message}
+        action={
+          <IconButton
+            aria-label="close"
+            style={{color: 'yellow'}}
+            className={classes.close}
+            onClick={() => setOpen(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
+      />
+    </Container>
   );
 };
+
+const useStyles = makeStyles({
+  root: {
+    position: 'absolute',
+    background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
+    width: 1920,
+    height: 1080,
+    left: 0,
+    top: 0,
+    padding: 40,
+  },
+  tableListC: {
+    position: 'absolute',
+    background: 'white',
+    width: 1840,
+    height: 880,
+    left: 40,
+    bottom: 40,
+    borderRadius: 25,
+  },
+  tableList: {
+    position: 'absolute',
+    width: 1770,
+    height: 800,
+    left: 40,
+    top: 40,
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {width: 5},
+    '&::-webkit-scrollbar-thumb': {
+      background: '#c7c7c7',
+      borderRadius: 10,
+    },
+  },
+  menuManageB: {
+    position: 'absolute',
+    background: '#ebff00',
+    width: 290,
+    height: 90,
+    right: 700,
+    top: 40,
+    borderRadius: 15,
+    fontSize: 38,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ebff00'},
+  },
+  tableManageB: {
+    position: 'absolute',
+    background: '#ebff00',
+    width: 290,
+    height: 90,
+    right: 370,
+    top: 40,
+    borderRadius: 15,
+    fontSize: 38,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ebff00'},
+  },
+  calcB: {
+    position: 'absolute',
+    background: '#ebff00',
+    width: 290,
+    height: 90,
+    right: 40,
+    top: 40,
+    borderRadius: 15,
+    fontSize: 38,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ebff00'},
+  },
+});
 
 export default Main;

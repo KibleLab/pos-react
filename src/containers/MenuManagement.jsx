@@ -1,36 +1,32 @@
+import {makeStyles} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
-import Frame from '../components/Frame';
-import MUIButton from '../components/MUIButton';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {withRouter} from 'react-router-dom';
 
 import AddNewItem from '../modals/AddNewItem';
 import RemoveItem from '../modals/RemoveItem';
 import StockEdit from '../modals/StockEdit';
-import Alert from '../modals/Alert';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
 import {setSelect, resetSelect} from '../reducers/select';
 import {getMenu} from '../reducers/menuManagement';
 
-const style = {
-  dataGrid: {
-    width: '98%',
-    height: '95%',
-    margin: 20,
-  },
-  numberCell: {
-    textAlign: 'right',
-  },
-};
 const MenuManagement = ({history}) => {
+  const classes = useStyles();
   const select = useSelector((state) => state.select.select);
   const rows = useSelector((state) => [...state.menuManagement.menu]);
-  const [text, setText] = useState();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,8 +40,8 @@ const MenuManagement = ({history}) => {
 
   const onClick = (index) => {
     if (Object.keys(select).length === 0) {
-      setText('상품을 선택해주세요.');
-      dispatch(modalOpen({index: 5, open: true}));
+      setMessage('상품을 선택해주세요.');
+      setOpen(true);
     } else {
       dispatch(modalOpen({index: index, open: true}));
     }
@@ -66,15 +62,9 @@ const MenuManagement = ({history}) => {
   };
 
   return (
-    <Frame
-      color={`linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)`}
-      width={1920}
-      height={1080}
-      left={0}
-      top={0}
-    >
-      <Frame color={'#FFFFFF'} width={1796} height={874} left={62} top={55} radius={25}>
-        <div className="ag-theme-alpine" style={style.dataGrid}>
+    <Container className={classes.root} maxWidth={false}>
+      <Container className={classes.gridC} maxWidth={false}>
+        <div className="ag-theme-alpine" style={{width: '100%', height: '100%', padding: 0}}>
           <AgGridReact
             rowData={rows}
             rowSelection={'single'}
@@ -99,60 +89,126 @@ const MenuManagement = ({history}) => {
             />
           </AgGridReact>
         </div>
-      </Frame>
-      <MUIButton
+      </Container>
+
+      <Button
+        className={classes.addNewItemB}
         onClick={() => dispatch(modalOpen({index: 0, open: true}))}
-        backColor={'#ebff00'}
-        fontSize={36}
-        radius={25}
-        width={410}
-        height={90}
-        left={62}
-        top={951}
-        text={'새 상품 추가'}
-      />
+      >
+        새 상품 추가
+      </Button>
       <AddNewItem />
-      <MUIButton
-        onClick={() => onClick(1)}
-        backColor={'#ebff00'}
-        fontSize={36}
-        radius={25}
-        width={410}
-        height={90}
-        lineHeight={2.4}
-        left={62 + 52 + 410}
-        top={951}
-        text={'기존 상품 삭제'}
-      />
+
+      <Button className={classes.removeItemB} onClick={() => onClick(1)}>
+        기존 상품 제거
+      </Button>
       <RemoveItem />
-      <MUIButton
-        onClick={() => onClick(2)}
-        backColor={'#ebff00'}
-        fontSize={36}
-        radius={25}
-        width={410}
-        height={90}
-        lineHeight={2.4}
-        left={62 + 52 * 2 + 410 * 2}
-        top={951}
-        text={'재고 수정'}
-      />
+
+      <Button className={classes.stockEditB} onClick={() => onClick(2)}>
+        재고 수정
+      </Button>
       <StockEdit />
-      <MUIButton
-        onClick={goBack}
-        backColor={'#adff00'}
-        fontSize={36}
-        radius={25}
-        width={410}
-        height={90}
-        lineHeight={2.4}
-        left={62 + 52 * 3 + 410 * 3}
-        top={951}
-        text={'Back'}
+
+      <Button className={classes.backB} onClick={goBack}>
+        Back
+      </Button>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={open}
+        autoHideDuration={1500}
+        onClose={() => setOpen(false)}
+        message={message}
+        action={
+          <IconButton
+            aria-label="close"
+            style={{color: 'yellow'}}
+            className={classes.close}
+            onClick={() => setOpen(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
       />
-      <Alert text={text} />
-    </Frame>
+    </Container>
   );
 };
+
+const useStyles = makeStyles({
+  root: {
+    position: 'absolute',
+    background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
+    width: 1920,
+    height: 1080,
+    left: 0,
+    top: 0,
+    padding: 40,
+  },
+  gridC: {
+    position: 'absolute',
+    background: 'white',
+    width: 1840,
+    height: 896,
+    left: 40,
+    top: 40,
+    padding: 16,
+    borderRadius: 24,
+  },
+  addNewItemB: {
+    position: 'absolute',
+    background: '#ebff00',
+    width: 430,
+    height: 80,
+    left: 40,
+    bottom: 40,
+    borderRadius: 15,
+    fontSize: 30,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ebff00'},
+  },
+  removeItemB: {
+    position: 'absolute',
+    background: '#ebff00',
+    width: 430,
+    height: 80,
+    left: 510,
+    bottom: 40,
+    borderRadius: 15,
+    fontSize: 30,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ebff00'},
+  },
+  stockEditB: {
+    position: 'absolute',
+    background: '#ebff00',
+    width: 430,
+    height: 80,
+    right: 510,
+    bottom: 40,
+    borderRadius: 15,
+    fontSize: 30,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ebff00'},
+  },
+  backB: {
+    position: 'absolute',
+    background: '#adff00',
+    width: 430,
+    height: 80,
+    right: 40,
+    bottom: 40,
+    borderRadius: 15,
+    fontSize: 30,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#adff00'},
+  },
+});
 
 export default withRouter(MenuManagement);

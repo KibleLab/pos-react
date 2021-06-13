@@ -2,27 +2,6 @@ import {makeStyles} from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
-const style = {
-  text1: {
-    position: 'absolute',
-    left: 603,
-    marginTop: 335,
-    fontWeight: 'bold',
-    fontSize: 144,
-    textAlign: 'center',
-    color: '#FF0000',
-  },
-  text2: {
-    position: 'absolute',
-    left: 603,
-    marginTop: 496,
-    fontWeight: 'normal',
-    fontSize: 72,
-    textAlign: 'center',
-    color: '#000000',
-  },
-};
-
 const ErrorPage = () => {
   const classes = useStyles();
   return (

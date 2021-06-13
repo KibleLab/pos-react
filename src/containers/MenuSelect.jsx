@@ -324,7 +324,8 @@ const useStyles = makeStyles({
   },
   addOSB: {
     position: 'absolute',
-    background: '#ff006b',
+    background:
+      'linear-gradient(90deg, rgba(254, 107, 139, 0.3) 0%, rgba(255, 142, 83, 0.9) 100%), #FF006B',
     width: 680,
     height: 80,
     right: 40,
@@ -334,7 +335,10 @@ const useStyles = makeStyles({
     fontSize: 32,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ff006b'},
+    '&:hover': {
+      backgroundColor:
+        'linear-gradient(90deg, rgba(254, 107, 139, 0.3) 0%, rgba(255, 142, 83, 0.9) 100%), #FF006B',
+    },
   },
 });
 

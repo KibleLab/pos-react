@@ -1,45 +1,29 @@
+import {makeStyles} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
-import Frame from '../components/Frame';
-import MUIButton from '../components/MUIButton';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {Link} from 'react-router-dom';
 
 import BusinessDeadline from '../modals/BusinessDeadline';
-import Alert from '../modals/Alert';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
 import {getDailySales} from '../reducers/dailySales';
 
-const style = {
-  p: {
-    position: 'absolute',
-    marginLeft: 35,
-    marginTop: 20,
-    fontWeight: 'bold',
-    fontSize: 36,
-    color: '#000000',
-  },
-  won: {
-    position: 'absolute',
-    right: 31,
-    marginTop: 29,
-    fontSize: 24,
-    color: '#FF0000',
-  },
-  dataGrid: {
-    width: '98%',
-    height: '95%',
-    margin: 20,
-  },
-};
-
 const DailySalesStatus = () => {
+  const classes = useStyles();
   const dailySales = useSelector((state) => [...state.dailySales.dailySales]);
-  const [text, setText] = useState();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,8 +40,8 @@ const DailySalesStatus = () => {
 
   const deadline = () => {
     if (Array.isArray(dailySales) && dailySales.length === 0) {
-      setText('정산할 내역이 없습니다.');
-      dispatch(modalOpen({index: 5, open: true}));
+      setMessage('정산할 내역이 없습니다.');
+      setOpen(true);
     } else {
       dispatch(modalOpen({index: 4, open: true}));
     }
@@ -74,15 +58,9 @@ const DailySalesStatus = () => {
   };
 
   return (
-    <Frame
-      color={`linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)`}
-      width={1920}
-      height={1080}
-      left={0}
-      top={0}
-    >
-      <Frame color={'#FFFFFF'} width={1824} height={882} left={48} top={48} radius={25}>
-        <div className="ag-theme-alpine" style={style.dataGrid}>
+    <Container className={classes.root} maxWidth={false}>
+      <Container className={classes.gridC} maxWidth={false}>
+        <div className="ag-theme-alpine" style={{width: '100%', height: '100%', padding: 0}}>
           <AgGridReact rowData={dailySales} suppressMovableColumns={true}>
             <AgGridColumn field={'sales_no'} headerName={'No.'} width={150} />
             <AgGridColumn field={'menu_name'} headerName={'상품명'} width={550} />
@@ -109,39 +87,120 @@ const DailySalesStatus = () => {
             />
           </AgGridReact>
         </div>
-      </Frame>
-      <Frame color={'#E5D1FF'} width={897} height={90} left={48} top={955} radius={25}>
-        <p style={style.p}>총 매출액</p>
-        <div style={style.won}>{Number(total()).toLocaleString()}원</div>
-      </Frame>
-      <Link to={'/'}>
-        <MUIButton
-          backColor={'#ebff00'}
-          fontSize={36}
-          radius={25}
-          width={400}
-          height={90}
-          left={984}
-          top={955}
-          text={'HOME'}
-        />
-      </Link>
-      <MUIButton
-        onClick={() => deadline()}
-        backColor={'#ff006b'}
-        fontColor={'white'}
-        fontSize={48}
-        radius={25}
-        width={450}
-        height={90}
-        left={1422}
-        top={955}
-        text={'영업마감'}
+      </Container>
+
+      <Container className={classes.salesC} maxWidth={false}>
+        <Typography className={classes.salesTitle}>총 매출액</Typography>
+        <Typography className={classes.salesTotal}>{Number(total()).toLocaleString()}원</Typography>
+      </Container>
+
+      <Button className={classes.homeB} component={Link} to={'/'}>
+        Home
+      </Button>
+
+      <Button className={classes.businessDeadLineB} onClick={() => deadline()}>
+        영업마감
+      </Button>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={open}
+        autoHideDuration={1500}
+        onClose={() => setOpen(false)}
+        message={message}
+        action={
+          <IconButton
+            aria-label="close"
+            style={{color: 'yellow'}}
+            className={classes.close}
+            onClick={() => setOpen(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
       />
-      <Alert text={text} />
+
       <BusinessDeadline />
-    </Frame>
+    </Container>
   );
 };
+
+const useStyles = makeStyles({
+  root: {
+    position: 'absolute',
+    background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
+    width: 1920,
+    height: 1080,
+    left: 0,
+    top: 0,
+    padding: 40,
+  },
+  gridC: {
+    position: 'absolute',
+    background: 'white',
+    width: 1840,
+    height: 896,
+    left: 40,
+    top: 40,
+    padding: 16,
+    borderRadius: 24,
+  },
+  salesC: {
+    position: 'absolute',
+    background: '#E5D1FF',
+    width: 900,
+    height: 80,
+    left: 40,
+    bottom: 40,
+    padding: 0,
+    borderRadius: 15,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  salesTitle: {
+    position: 'absolute',
+    left: 32,
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'left',
+  },
+  salesTotal: {
+    position: 'absolute',
+    right: 32,
+    color: 'red',
+    fontSize: 24,
+    textAlign: 'right',
+  },
+  homeB: {
+    position: 'absolute',
+    background: '#ebff00',
+    width: 430,
+    height: 80,
+    right: 510,
+    bottom: 40,
+    borderRadius: 15,
+    fontSize: 30,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ebff00'},
+  },
+  businessDeadLineB: {
+    position: 'absolute',
+    background: '#ff006b',
+    width: 430,
+    height: 80,
+    right: 40,
+    bottom: 40,
+    borderRadius: 15,
+    color: 'white',
+    fontSize: 38,
+    fontWeight: 'bold',
+    textTransform: 'none',
+    '&:hover': {backgroundColor: '#ff006b'},
+  },
+});
 
 export default DailySalesStatus;

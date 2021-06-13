@@ -1,4 +1,6 @@
-import Frame from '../components/Frame';
+import {makeStyles} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 const style = {
   text1: {
@@ -22,20 +24,54 @@ const style = {
 };
 
 const ErrorPage = () => {
+  const classes = useStyles();
   return (
-    <Frame
-      color={`linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)`}
-      width={1920}
-      height={1080}
-      left={0}
-      top={0}
-    >
-      <Frame color="#FFFFFF" width="1824px" height="984px" left="48px" top="48px" radius={25}>
-        <p style={style.text1}>Error</p>
-        <p style={style.text2}>Page is not Found :(</p>
-      </Frame>
-    </Frame>
+    <Container className={classes.root} maxWidth={false}>
+      <Container className={classes.contents} maxWidth={false}>
+        <Typography className={classes.text1}>Error</Typography>
+        <Typography className={classes.text2}>Page is not Found :(</Typography>
+      </Container>
+    </Container>
   );
 };
+
+const useStyles = makeStyles({
+  root: {
+    position: 'absolute',
+    background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
+    width: 1920,
+    height: 1080,
+    left: 0,
+    top: 0,
+    padding: 40,
+  },
+  contents: {
+    position: 'absolute',
+    background: 'white',
+    width: 1840,
+    height: 1000,
+    left: 40,
+    top: 40,
+    borderRadius: 25,
+  },
+  text1: {
+    position: 'absolute',
+    left: 589,
+    top: 334,
+    fontWeight: 'bold',
+    fontSize: 136,
+    textAlign: 'center',
+    color: '#FF0000',
+  },
+  text2: {
+    position: 'absolute',
+    left: 589,
+    bottom: 334,
+    fontWeight: 'normal',
+    fontSize: 72,
+    textAlign: 'center',
+    color: '#000000',
+  },
+});
 
 export default ErrorPage;

@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.23",
+    "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -21,7 +22,7 @@
     "redux": "^4.0.5",
     "web-vitals": "^1.0.1"
   },
-  "proxy": "http://localhost:3050",
+  "proxy": "http://localhost",
   "author": "Hyeonjun Lee, Chanwoong Park, Jungi Kim",
   "license": "MIT",
   "scripts": {

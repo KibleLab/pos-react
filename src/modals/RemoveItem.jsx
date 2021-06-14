@@ -53,6 +53,7 @@ const useStyles = makeStyles({
     left: 600,
     top: 280,
     borderRadius: 15,
+    outline:'none',
   },
   contents: {
     position: 'absolute',

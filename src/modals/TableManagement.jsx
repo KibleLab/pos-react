@@ -206,8 +206,7 @@ const useStyles = makeStyles({
   },
   editB: {
     position: 'absolute',
-    background:
-      'linear-gradient(90deg, rgba(254, 107, 139, 0.3) 0%, rgba(255, 142, 83, 0.9) 100%), #FF006B',
+    background: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     width: 640,
     height: 80,
     right: 40,
@@ -218,8 +217,7 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor:
-        'linear-gradient(90deg, rgba(254, 107, 139, 0.3) 0%, rgba(255, 142, 83, 0.9) 100%), #FF006B',
+      backgroundColor: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     },
   },
 });

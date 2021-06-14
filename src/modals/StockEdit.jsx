@@ -97,6 +97,7 @@ const useStyles = makeStyles({
     left: 600,
     top: 230,
     borderRadius: 15,
+    outline:'none',
   },
   contents: {
     position: 'absolute',

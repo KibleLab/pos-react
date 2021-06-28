@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import {useState, useEffect} from 'react';
 import Title from '../components/Title';
@@ -20,6 +21,7 @@ const Main = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const table = useSelector((state) => [...state.main.table]);
+  const load = useSelector((state) => state.main.load);
   const order = useSelector((state) => state.orderSheet.order);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -60,6 +62,8 @@ const Main = () => {
 
   return (
     <Container className={classes.root} maxWidth={false}>
+      {load === false ? '' : <LinearProgress className={classes.loadingBar} color="secondary" />}
+
       <Title />
 
       <Button className={classes.menuManageB} component={Link} to={'/MenuManagement'}>
@@ -176,6 +180,12 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     textTransform: 'none',
     '&:hover': {backgroundColor: '#ebff00'},
+  },
+  loadingBar: {
+    position: 'absolute',
+    width: '100%',
+    left: 0,
+    top: 0,
   },
 });
 

@@ -45,7 +45,7 @@ const MenuSelect = ({match, history}) => {
       dispatch(addWish(data));
       dispatch(stockDecr(data));
     } else if (wish.length > 0) {
-      const index = wish.findIndex((wish) => wish.menu_no === data.menu_no);
+      const index = wish.findIndex((wish) => wish.menu_name === data.menu_name);
       if (index === -1) {
         dispatch(addWish(data));
         dispatch(stockDecr(data));
@@ -68,7 +68,7 @@ const MenuSelect = ({match, history}) => {
     } else {
       for (let i = 0; i < menu.length; i++) {
         setTimeout(() => {
-          const data = {menu_no: menu[i].menu_no, menu_stock: menu[i].menu_stock};
+          const data = {_id: menu[i]._id, menu_stock: menu[i].menu_stock};
           dispatch(changeMenu(data));
         }, 500);
       }
@@ -80,7 +80,7 @@ const MenuSelect = ({match, history}) => {
         }
       } else if (order.length > 0) {
         for (let i = 0; i < wish.length; i++) {
-          const index = order.findIndex((order) => order.menu_no === wish[i].menu_no);
+          const index = order.findIndex((order) => order.menu_name === wish[i].menu_name);
           if (index === -1) {
             setTimeout(() => {
               dispatch(addOS({table_no: table_no, data: wish[i]}));
@@ -88,9 +88,10 @@ const MenuSelect = ({match, history}) => {
           } else {
             setTimeout(() => {
               const data = {
-                menu_no: wish[i].menu_no,
+                menu_name: wish[i].menu_name,
                 order_quantity: order[index].order_quantity + wish[i].order_quantity,
               };
+              console.log(data.order_quantity);
               dispatch(quanIncrOS({table_no: table_no, data: data}));
             }, 500);
           }
@@ -102,7 +103,8 @@ const MenuSelect = ({match, history}) => {
   };
 
   const plus = (data, index) => {
-    const menuIdx = menu.findIndex((menu) => menu.menu_no === data.menu_no);
+    const menuIdx = menu.findIndex((menu) => menu.menu_name === data.menu_name);
+    console.log(menuIdx);
     if (menu[menuIdx].menu_stock < 1) {
       setMessage('재고가 없습니다.');
       setOpen(true);

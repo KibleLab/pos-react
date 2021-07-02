@@ -71,7 +71,6 @@ const MenuManagement = ({history}) => {
             onRowClicked={onRowSelected}
             suppressMovableColumns={true}
           >
-            <AgGridColumn field={'menu_no'} headerName={'No.'} width={150} />
             <AgGridColumn field={'menu_name'} headerName={'상품명'} width={700} />
             <AgGridColumn
               field={'menu_price'}

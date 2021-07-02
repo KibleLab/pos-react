@@ -72,7 +72,6 @@ const OrderSheet = ({match}) => {
       <Container className={classes.gridC} maxWidth={false}>
         <div className="ag-theme-alpine" style={{width: '100%', height: '100%', padding: 0}}>
           <AgGridReact rowData={order} suppressMovableColumns={true}>
-            <AgGridColumn field={'order_no'} headerName={'No.'} width={150} />
             <AgGridColumn field={'menu_name'} headerName={'상품명'} width={500} />
             <AgGridColumn
               field={'menu_price'}
@@ -300,8 +299,7 @@ const useStyles = makeStyles({
   },
   payment: {
     position: 'absolute',
-    background:
-     `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
+    background: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     width: 680,
     height: 80,
     right: 40,
@@ -312,8 +310,7 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor:
-       `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
+      backgroundColor: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     },
   },
 });

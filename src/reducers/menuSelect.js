@@ -16,27 +16,27 @@ const menuSelectSlice = createSlice({
   initialState,
   reducers: {
     stockIncr: (state, action) => {
-      const index = state.menu.findIndex((menu) => menu.menu_no === action.payload.menu_no);
+      const index = state.menu.findIndex((menu) => menu.menu_name === action.payload.menu_name);
+      console.log(index);
       state.menu[index].menu_stock += 1;
     },
     stockDecr: (state, action) => {
-      const index = state.menu.findIndex((menu) => menu.menu_no === action.payload.menu_no);
+      const index = state.menu.findIndex((menu) => menu.menu_name === action.payload.menu_name);
       state.menu[index].menu_stock -= 1;
     },
     stockRest: (state, action) => {
-      const index = state.menu.findIndex((menu) => menu.menu_no === action.payload.menu_no);
+      const index = state.menu.findIndex((menu) => menu.menu_name === action.payload.menu_name);
       state.menu[index].menu_stock += action.payload.order_quantity;
     },
     addWish: (state, action) => {
       state.wish.push({
-        menu_no: action.payload.menu_no,
         menu_name: action.payload.menu_name,
         menu_price: action.payload.menu_price,
         order_quantity: 1,
       });
     },
     delWish: (state, action) => {
-      const index = state.wish.findIndex((wish) => wish.menu_no === action.payload.menu_no);
+      const index = state.wish.findIndex((wish) => wish.menu_name === action.payload.menu_name);
       state.wish.splice(index, 1);
     },
     quanIncr: (state, action) => {

@@ -50,7 +50,7 @@ const StockEdit = () => {
   };
 
   const stockEdit = () => {
-    const data = {menu_no: select.menu_no, menu_stock: input};
+    const data = {_id: select._id, menu_stock: input};
     dispatch(editStock(data));
     dispatch(resetSelect());
     dispatch(modalOpen({index: 2, open: false}));
@@ -97,7 +97,7 @@ const useStyles = makeStyles({
     left: 600,
     top: 230,
     borderRadius: 15,
-    outline:'none',
+    outline: 'none',
   },
   contents: {
     position: 'absolute',
@@ -168,8 +168,7 @@ const useStyles = makeStyles({
   },
   editB: {
     position: 'absolute',
-    background:
-      `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
+    background: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     width: 640,
     height: 80,
     right: 40,
@@ -180,8 +179,7 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor:
-        `linear-gradient(45deg, #FF6B8B 30%, #FF8E53 90%)`,
+      backgroundColor: `linear-gradient(45deg, #FF6B8B 30%, #FF8E53 90%)`,
     },
   },
 });

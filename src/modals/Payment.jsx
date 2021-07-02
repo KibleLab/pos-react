@@ -18,7 +18,7 @@ const Payment = ({match, history}) => {
   const {table_no} = match.params;
   const open = useSelector((state) => [...state.modal.open]);
   const order = useSelector((state) => state.orderSheet.order[table_no - 1]);
-  const dailySales = useSelector((state) => state.dailySales.dailySales);
+  const sales = useSelector((state) => state.dailySales.dailySales);
   const dispatch = useDispatch();
 
   const close = () => {
@@ -26,7 +26,7 @@ const Payment = ({match, history}) => {
   };
   const payCalc = () => {
     for (let i = 0; i < order.length; i++) {
-      const index = dailySales.findIndex((dailySales) => dailySales.menu_no === order[i].menu_no);
+      const index = sales.findIndex((sales) => sales.menu_name === order[i].menu_name);
       if (index === -1) {
         setTimeout(() => {
           dispatch(addSales({table_no: table_no, data: order[i]}));
@@ -34,8 +34,10 @@ const Payment = ({match, history}) => {
       } else {
         setTimeout(() => {
           const data = {
-            sales_no: dailySales[index].sales_no,
-            sales_quantity: dailySales[index].sales_quantity + order[i].order_quantity,
+            menu_name: sales[index].menu_name,
+            sales_quantity: sales[index].sales_quantity + order[i].order_quantity,
+            total_price:
+              (sales[index].sales_quantity + order[i].order_quantity) * order[i].menu_price,
           };
           dispatch(quanIncrDS({table_no: table_no, data: data}));
         }, 500);
@@ -84,7 +86,7 @@ const useStyles = makeStyles({
     left: 600,
     top: 90,
     borderRadius: 15,
-    outline:'none',
+    outline: 'none',
   },
   contents: {
     position: 'absolute',
@@ -119,8 +121,7 @@ const useStyles = makeStyles({
   },
   payB: {
     position: 'absolute',
-    background:
-     `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
+    background: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     width: 640,
     height: 80,
     right: 40,
@@ -131,8 +132,7 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor:
-       `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
+      backgroundColor: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     },
   },
 });

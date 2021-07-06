@@ -12,10 +12,10 @@ import Modal from 'react-modal';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
-import {addMenu} from '../reducers/menuManagement';
+import {addMenu} from '../reducers/menuMgnt';
 import {resetSelect} from '../reducers/select';
 
-const AddNewItem = () => {
+const AddMenu = () => {
   const classes = useStyles();
   const open = useSelector((state) => [...state.modal.open]);
   const [inputs, setInputs] = useState({menu_name: '', menu_price: '', menu_stock: ''});
@@ -44,12 +44,12 @@ const AddNewItem = () => {
     dispatch(modalOpen({index: 0, open: false}));
   };
 
-  const addNewItem = () => {
+  const _addMenu = () => {
     if (inputs.menu_name === '' || inputs.menu_price === '' || inputs.menu_stock === '') {
       setMessage('정보를 입력해주세요');
       setOpenSnackBar(true);
     } else {
-      dispatch(addMenu(inputs));
+      dispatch(addMenu({addData: inputs}));
       dispatch(resetSelect());
       setInputs({menu_name: '', menu_price: '', menu_stock: ''});
       dispatch(modalOpen({index: 0, open: false}));
@@ -99,7 +99,7 @@ const AddNewItem = () => {
         Back
       </Button>
 
-      <Button className={classes.enrollB} onClick={addNewItem}>
+      <Button className={classes.enrollB} onClick={_addMenu}>
         등록
       </Button>
 
@@ -136,7 +136,7 @@ const useStyles = makeStyles({
     left: 600,
     top: 90,
     borderRadius: 15,
-    outline:'none',
+    outline: 'none',
   },
   contents: {
     position: 'absolute',
@@ -213,4 +213,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default AddNewItem;
+export default AddMenu;

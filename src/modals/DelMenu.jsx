@@ -7,10 +7,10 @@ import Modal from 'react-modal';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
-import {delMenu} from '../reducers/menuManagement';
+import {delMenu} from '../reducers/menuMgnt';
 import {resetSelect} from '../reducers/select';
 
-const RemoveItem = () => {
+const DelMenu = () => {
   const classes = useStyles();
   const open = useSelector((state) => [...state.modal.open]);
   const select = useSelector((state) => state.select.select);
@@ -20,8 +20,8 @@ const RemoveItem = () => {
     dispatch(modalOpen({index: 1, open: false}));
   };
 
-  const removeItem = () => {
-    dispatch(delMenu({data: select}));
+  const _delMenu = () => {
+    dispatch(delMenu({delData: select}));
     dispatch(resetSelect());
     dispatch(modalOpen({index: 1, open: false}));
   };
@@ -37,7 +37,7 @@ const RemoveItem = () => {
         Back
       </Button>
 
-      <Button className={classes.removeB} onClick={removeItem}>
+      <Button className={classes.delB} onClick={_delMenu}>
         제거
       </Button>
     </Modal>
@@ -53,7 +53,7 @@ const useStyles = makeStyles({
     left: 600,
     top: 280,
     borderRadius: 15,
-    outline:'none',
+    outline: 'none',
   },
   contents: {
     position: 'absolute',
@@ -86,7 +86,7 @@ const useStyles = makeStyles({
     textTransform: 'none',
     '&:hover': {backgroundColor: '#adff00'},
   },
-  removeB: {
+  delB: {
     position: 'absolute',
     background: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     width: 640,
@@ -99,10 +99,9 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor:
-        `linear-gradient(45deg, #FE6B8B 0%, #FF8E53 90%)`,
+      backgroundColor: `linear-gradient(45deg, #FE6B8B 0%, #FF8E53 90%)`,
     },
   },
 });
 
-export default RemoveItem;
+export default DelMenu;

@@ -12,19 +12,19 @@ import {useState, useEffect} from 'react';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {withRouter} from 'react-router-dom';
 
-import AddNewItem from '../modals/AddNewItem';
-import RemoveItem from '../modals/RemoveItem';
-import StockEdit from '../modals/StockEdit';
+import AddMenu from '../modals/AddMenu';
+import DelMenu from '../modals/DelMenu';
+import EditStock from '../modals/EditStock';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
 import {setSelect, resetSelect} from '../reducers/select';
-import {getMenu} from '../reducers/menuManagement';
+import {getMenu} from '../reducers/menuMgnt';
 
-const MenuManagement = ({history}) => {
+const MenuMgnt = ({history}) => {
   const classes = useStyles();
   const select = useSelector((state) => state.select.select);
-  const rows = useSelector((state) => [...state.menuManagement.menu]);
+  const rows = useSelector((state) => [...state.menuMgnt.menu]);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
@@ -91,22 +91,22 @@ const MenuManagement = ({history}) => {
       </Container>
 
       <Button
-        className={classes.addNewItemB}
+        className={classes.addMenuB}
         onClick={() => dispatch(modalOpen({index: 0, open: true}))}
       >
         새 상품 추가
       </Button>
-      <AddNewItem />
+      <AddMenu />
 
-      <Button className={classes.removeItemB} onClick={() => onClick(1)}>
+      <Button className={classes.delMenuB} onClick={() => onClick(1)}>
         기존 상품 제거
       </Button>
-      <RemoveItem />
+      <DelMenu />
 
-      <Button className={classes.stockEditB} onClick={() => onClick(2)}>
+      <Button className={classes.editStockB} onClick={() => onClick(2)}>
         재고 수정
       </Button>
-      <StockEdit />
+      <EditStock />
 
       <Button className={classes.backB} onClick={goBack}>
         Back
@@ -156,7 +156,7 @@ const useStyles = makeStyles({
     padding: 16,
     borderRadius: 24,
   },
-  addNewItemB: {
+  addMenuB: {
     position: 'absolute',
     background: '#ebff00',
     width: 430,
@@ -169,7 +169,7 @@ const useStyles = makeStyles({
     textTransform: 'none',
     '&:hover': {backgroundColor: '#ebff00'},
   },
-  removeItemB: {
+  delMenuB: {
     position: 'absolute',
     background: '#ebff00',
     width: 430,
@@ -182,7 +182,7 @@ const useStyles = makeStyles({
     textTransform: 'none',
     '&:hover': {backgroundColor: '#ebff00'},
   },
-  stockEditB: {
+  editStockB: {
     position: 'absolute',
     background: '#ebff00',
     width: 430,
@@ -210,4 +210,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default withRouter(MenuManagement);
+export default withRouter(MenuMgnt);

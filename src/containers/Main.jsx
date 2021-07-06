@@ -11,17 +11,17 @@ import Title from '../components/Title';
 import TableButton from '../components/TableButton';
 import {Link} from 'react-router-dom';
 
-import TableManagement from '../modals/TableManagement';
+import TableMgnt from '../modals/TableMgnt';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {getTable} from '../reducers/main';
+import {getTable} from '../reducers/tableMgnt';
 import {modalOpen} from '../reducers/modal';
 
 const Main = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const table = useSelector((state) => [...state.main.table]);
-  const load = useSelector((state) => state.main.load);
+  const table = useSelector((state) => [...state.tableMgnt.table]);
+  const load = useSelector((state) => state.tableMgnt.load);
   const order = useSelector((state) => state.orderSheet.order);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -38,7 +38,7 @@ const Main = () => {
 
   const tableButtonList = table.map((data, index) => (
     <div key={index}>
-      <Link to={'/OrderSheet/' + data.table_no}>
+      <Link to={'/ordersheet/' + data.table_no}>
         <TableButton index={index} table_no={data.table_no} title={data.table_name} />
       </Link>
     </div>
@@ -66,7 +66,7 @@ const Main = () => {
 
       <Title />
 
-      <Button className={classes.menuManageB} component={Link} to={'/MenuManagement'}>
+      <Button className={classes.menuManageB} component={Link} to={'/menu-mgnt'}>
         메뉴 관리
       </Button>
 
@@ -74,7 +74,7 @@ const Main = () => {
         테이블 관리
       </Button>
 
-      <Button className={classes.calcB} component={Link} to={'/DailySalesStatus'}>
+      <Button className={classes.calcB} component={Link} to={'/dailysales'}>
         정산
       </Button>
 
@@ -84,7 +84,7 @@ const Main = () => {
         </Container>
       </Container>
 
-      <TableManagement />
+      <TableMgnt />
 
       <Snackbar
         anchorOrigin={{

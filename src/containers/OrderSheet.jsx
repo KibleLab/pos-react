@@ -16,19 +16,19 @@ import {Link} from 'react-router-dom';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
-import {getOS} from '../reducers/orderSheet';
+import {getOrder} from '../reducers/orderSheet';
 
 const OrderSheet = ({match}) => {
   const classes = useStyles();
-  const {table_no} = match.params;
-  const order = useSelector((state) => [...state.orderSheet.order[table_no - 1]]);
+  const {table} = match.params;
+  const order = useSelector((state) => [...state.orderSheet.order[table - 1]]);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOS(table_no));
-  }, [dispatch, table_no]);
+    dispatch(getOrder(table));
+  }, [dispatch, table]);
 
   const totalPrice = () => {
     let total = 0;
@@ -115,12 +115,12 @@ const OrderSheet = ({match}) => {
       <Button className={classes.backB} component={Link} to={'/'}>
         Back
       </Button>
-      <Button className={classes.addMenuB} component={Link} to={'/MenuSelect/' + table_no}>
+      <Button className={classes.addMenuB} component={Link} to={'/menu-slct/' + table}>
         메뉴 추가
       </Button>
 
       <Container className={classes.tableNameC} maxWidth={false}>
-        <Typography className={classes.tableName}>{'Table' + table_no}</Typography>
+        <Typography className={classes.tableName}>{'Table' + table}</Typography>
       </Container>
 
       <Button className={classes.payment} onClick={() => payment()}>

@@ -8,16 +8,16 @@ import {withRouter} from 'react-router-dom';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
-import {resetOS} from '../reducers/orderSheet';
-import {addSales, quanIncrDS} from '../reducers/dailySales';
+import {resetOrder} from '../reducers/orderSheet';
+import {addSales, quanIncrSales} from '../reducers/dailySales';
 
 Modal.setAppElement('body');
 
 const Payment = ({match, history}) => {
   const classes = useStyles();
-  const {table_no} = match.params;
+  const {table} = match.params;
   const open = useSelector((state) => [...state.modal.open]);
-  const order = useSelector((state) => state.orderSheet.order[table_no - 1]);
+  const order = useSelector((state) => state.orderSheet.order[table - 1]);
   const sales = useSelector((state) => state.dailySales.dailySales);
   const dispatch = useDispatch();
 
@@ -29,21 +29,15 @@ const Payment = ({match, history}) => {
       const index = sales.findIndex((sales) => sales.menu_name === order[i].menu_name);
       if (index === -1) {
         setTimeout(() => {
-          dispatch(addSales({table_no: table_no, data: order[i]}));
+          dispatch(addSales({orderData: order[i]}));
         }, 500);
       } else {
         setTimeout(() => {
-          const data = {
-            menu_name: sales[index].menu_name,
-            sales_quantity: sales[index].sales_quantity + order[i].order_quantity,
-            total_price:
-              (sales[index].sales_quantity + order[i].order_quantity) * order[i].menu_price,
-          };
-          dispatch(quanIncrDS({table_no: table_no, data: data}));
+          dispatch(quanIncrSales({orderData: order[i], salesData: sales[index]}));
         }, 500);
       }
     }
-    dispatch(resetOS(table_no));
+    dispatch(resetOrder(table));
     dispatch(modalOpen({index: 3, open: false}));
     history.push('/');
   };

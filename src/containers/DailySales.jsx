@@ -13,13 +13,13 @@ import {useState, useEffect} from 'react';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {Link} from 'react-router-dom';
 
-import BusinessDeadline from '../modals/BusinessDeadline';
+import Deadline from '../modals/Deadline';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
 import {getDailySales} from '../reducers/dailySales';
 
-const DailySalesStatus = () => {
+const DailySales = () => {
   const classes = useStyles();
   const dailySales = useSelector((state) => [...state.dailySales.dailySales]);
   const [open, setOpen] = useState(false);
@@ -122,7 +122,7 @@ const DailySalesStatus = () => {
         }
       />
 
-      <BusinessDeadline />
+      <Deadline />
     </Container>
   );
 };
@@ -204,4 +204,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default DailySalesStatus;
+export default DailySales;

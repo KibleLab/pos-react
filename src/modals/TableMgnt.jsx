@@ -6,27 +6,30 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 
 import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
-import {editStock} from '../reducers/menuManagement';
-import {resetSelect} from '../reducers/select';
+import {postTable, deleteTable} from '../reducers/tableMgnt';
 
-const StockEdit = () => {
+const TableMgnt = () => {
   const classes = useStyles();
   const open = useSelector((state) => [...state.modal.open]);
-  const select = useSelector((state) => state.select.select);
-  const [input, setInput] = useState(0);
-
-  useEffect(() => {
-    setInput(select.menu_stock);
-  }, [select.menu_stock]);
+  const table = useSelector((state) => [...state.tableMgnt.table]);
+  const [input, setInput] = useState(1);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [message, setMessage] = useState('');
   const regex = /^[0-9]*$/;
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setInput(table.length);
+  }, [table.length]);
 
   const onChange = (e) => {
     if (regex.test(e.target.value)) {
@@ -35,34 +38,49 @@ const StockEdit = () => {
   };
 
   const plus = () => {
-    setInput((input) => input + 1);
+    if (input >= 0 && input < 100) {
+      setInput((input) => input + 1);
+    }
   };
 
   const minus = () => {
-    if (input > 0) {
+    if (input > 1 && input < 101) {
       setInput((input) => input - 1);
     }
   };
 
   const close = (e) => {
-    setInput(select.menu_stock);
-    dispatch(modalOpen({index: 2, open: false}));
+    dispatch(modalOpen({index: 6, open: false}));
   };
 
-  const stockEdit = () => {
-    const data = {_id: select._id, menu_stock: input};
-    dispatch(editStock(data));
-    dispatch(resetSelect());
-    dispatch(modalOpen({index: 2, open: false}));
+  const tableEdit = () => {
+    if (input < 1) {
+      setMessage('테이블은 1개 이상 설치해야 합니다.');
+      setOpenSnackBar(true);
+      setInput(table.length);
+    } else if (input > 100) {
+      setMessage('테이블 설치 한도 초과입니다.');
+      setOpenSnackBar(true);
+      setInput(table.length);
+    } else {
+      dispatch(deleteTable());
+      for (let j = 1; j < input + 1; j++) {
+        setTimeout(() => {
+          const data = {table_no: j, table_name: 'Table' + j};
+          dispatch(postTable(data));
+        }, 500);
+      }
+      dispatch(modalOpen({index: 6, open: false}));
+    }
   };
 
   return (
-    <Modal className={classes.root} isOpen={open[2]}>
+    <Modal className={classes.root} isOpen={open[6]}>
       <Container className={classes.contents} maxWidth={false}>
-        <Typography className={classes.title}>재고수정 - {select.menu_name}</Typography>
+        <Typography className={classes.title}>테이블 관리</Typography>
 
         <TextField
-          className={classes.stock}
+          className={classes.count}
           variant={'outlined'}
           value={input}
           onChange={onChange}
@@ -81,9 +99,30 @@ const StockEdit = () => {
         Back
       </Button>
 
-      <Button className={classes.editB} onClick={stockEdit}>
+      <Button className={classes.editB} onClick={tableEdit}>
         수정
       </Button>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={openSnackBar}
+        autoHideDuration={1500}
+        onClose={() => setOpenSnackBar(false)}
+        message={message}
+        action={
+          <IconButton
+            aria-label="close"
+            style={{color: 'yellow'}}
+            className={classes.close}
+            onClick={() => setOpenSnackBar(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
+      />
     </Modal>
   );
 };
@@ -116,7 +155,7 @@ const useStyles = makeStyles({
     fontSize: 36,
     textAlign: 'center',
   },
-  stock: {
+  count: {
     position: 'absolute',
     background: 'white',
     width: 560,
@@ -179,9 +218,9 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor: `linear-gradient(45deg, #FF6B8B 30%, #FF8E53 90%)`,
+      backgroundColor: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     },
   },
 });
 
-export default StockEdit;
+export default TableMgnt;

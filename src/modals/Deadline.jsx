@@ -14,7 +14,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {modalOpen} from '../reducers/modal';
 import {resetSales} from '../reducers/dailySales';
 
-const BusinessDeadline = ({history}) => {
+const Deadline = ({history}) => {
   const classes = useStyles();
   const open = useSelector((state) => [...state.modal.open]);
   const order = useSelector((state) => state.orderSheet.order);
@@ -26,7 +26,7 @@ const BusinessDeadline = ({history}) => {
     dispatch(modalOpen({index: 4, open: false}));
   };
 
-  const deadline = () => {
+  const _resetSales = () => {
     for (let i = 0; i < order.length; i++) {
       if (order[i].length === 0 && i === order.length - 1) {
         dispatch(resetSales());
@@ -50,7 +50,7 @@ const BusinessDeadline = ({history}) => {
         Back
       </Button>
 
-      <Button className={classes.deadlineB} onClick={deadline}>
+      <Button className={classes.resetSalesB} onClick={_resetSales}>
         마감
       </Button>
 
@@ -87,7 +87,7 @@ const useStyles = makeStyles({
     left: 600,
     top: 280,
     borderRadius: 15,
-    outline:'none',
+    outline: 'none',
   },
   contents: {
     position: 'absolute',
@@ -120,10 +120,9 @@ const useStyles = makeStyles({
     textTransform: 'none',
     '&:hover': {backgroundColor: '#adff00'},
   },
-  deadlineB: {
+  resetSalesB: {
     position: 'absolute',
-    background:
-     `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
+    background: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     width: 640,
     height: 80,
     right: 40,
@@ -134,10 +133,9 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor:
-       `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
+      backgroundColor: `linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)`,
     },
   },
 });
 
-export default withRouter(BusinessDeadline);
+export default withRouter(Deadline);

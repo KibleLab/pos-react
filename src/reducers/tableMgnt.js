@@ -2,19 +2,19 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const getTable = createAsyncThunk('getTable', async () => {
-  const res = await axios.get('/api');
+  const res = await axios.get('/table-mgnt');
   return res.data;
 });
 
 export const postTable = createAsyncThunk('postTable', async (data) => {
-  await axios.post('/api', data);
-  const res = await axios.get('/api');
+  await axios.post('/table-mgnt', data);
+  const res = await axios.get('/table-mgnt');
   return res.data;
 });
 
 export const deleteTable = createAsyncThunk('deleteTable', async () => {
-  await axios.delete('/api');
-  const res = await axios.get('/api');
+  await axios.delete('/table-mgnt');
+  const res = await axios.get('/table-mgnt');
   return res.data;
 });
 
@@ -23,8 +23,8 @@ const initialState = {
   load: false,
 };
 
-const mainSlice = createSlice({
-  name: 'main',
+const tableMgntSlice = createSlice({
+  name: 'tableMgnt',
   initialState,
   extraReducers: {
     [getTable.pending]: (state) => {
@@ -48,4 +48,4 @@ const mainSlice = createSlice({
   },
 });
 
-export default mainSlice.reducer;
+export default tableMgntSlice.reducer;

@@ -2,25 +2,37 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const getDailySales = createAsyncThunk('getDailySales', async () => {
-  const res = await axios.get('/api/DailySalesStatus');
+  const res = await axios.get('/dailysales');
   return res.data;
 });
 
-export const addSales = createAsyncThunk('addSales', async ({table_no, data}) => {
-  await axios.post(`/api/OrderSheet/${table_no}`, data);
-  const res = await axios.get('/api/DailySalesStatus');
+export const addSales = createAsyncThunk('addSales', async ({orderData}) => {
+  const menu_name = orderData.menu_name;
+  const sales_quantity = orderData.order_quantity;
+  const menu_price = orderData.menu_price;
+  const total_price = orderData.menu_price * orderData.order_quantity;
+  await axios.post('/dailysales', {
+    menu_name,
+    sales_quantity,
+    menu_price,
+    total_price,
+  });
+  const res = await axios.get('/dailysales');
   return res.data;
 });
 
-export const quanIncrDS = createAsyncThunk('quanIncrDS', async ({table_no, data}) => {
-  await axios.patch(`/api/OrderSheet/${table_no}`, data);
-  const res = await axios.get('/api/DailySalesStatus');
+export const quanIncrSales = createAsyncThunk('quanIncrSales', async ({orderData, salesData}) => {
+  const menu_name = salesData.menu_name;
+  const sales_quantity = salesData.sales_quantity + orderData.order_quantity;
+  const total_price = salesData.menu_price * sales_quantity;
+  await axios.patch('/dailysales', {menu_name, sales_quantity, total_price});
+  const res = await axios.get('/dailysales');
   return res.data;
 });
 
 export const resetSales = createAsyncThunk('resetSales', async () => {
-  await axios.delete('/api/DailySalesStatus');
-  const res = await axios.get('/api/DailySalesStatus');
+  await axios.delete('/dailysales');
+  const res = await axios.get('/dailysales');
   return res.data;
 });
 
@@ -38,7 +50,7 @@ const dailySalesSlice = createSlice({
     [addSales.fulfilled]: (state, {payload}) => {
       state.dailySales = [...payload];
     },
-    [quanIncrDS.fulfilled]: (state, {payload}) => {
+    [quanIncrSales.fulfilled]: (state, {payload}) => {
       state.dailySales = [...payload];
     },
     [resetSales.fulfilled]: (state, {payload}) => {

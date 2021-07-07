@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const getWish = createAsyncThunk('addWish', async (table) => {
-  const res = await axios.get(`/wishlist/${table}`);
+  const res = await axios.get(`/api/wishlist/${table}`);
   const temp = {table: table, data: res.data};
   return temp;
 });
@@ -10,23 +10,23 @@ export const getWish = createAsyncThunk('addWish', async (table) => {
 export const addWish = createAsyncThunk('addWish', async ({table, menuData}) => {
   const menu_name = menuData.menu_name;
   const menu_price = menuData.menu_price;
-  await axios.post(`/wishlist/${table}`, {menu_name, menu_price});
-  const res = await axios.get(`/wishlist/${table}`);
+  await axios.post(`/api/wishlist/${table}`, {menu_name, menu_price});
+  const res = await axios.get(`/api/wishlist/${table}`);
   const temp = {table: table, data: res.data};
   return temp;
 });
 
 export const delWish = createAsyncThunk('delWish', async ({table, wishData}) => {
   const menu_name = wishData.menu_name;
-  await axios.delete(`/wishlist/${table}`, {data: {menu_name}});
-  const res = await axios.get(`/wishlist/${table}`);
+  await axios.delete(`/api/wishlist/${table}`, {data: {menu_name}});
+  const res = await axios.get(`/api/wishlist/${table}`);
   const temp = {table: table, data: res.data};
   return temp;
 });
 
 export const resetWish = createAsyncThunk('resetWish', async (table) => {
-  await axios.delete(`/wishlist/reset/${table}`);
-  const res = await axios.get(`/wishlist/${table}`);
+  await axios.delete(`/api/wishlist/reset/${table}`);
+  const res = await axios.get(`/api/wishlist/${table}`);
   const temp = {table: table, data: res.data};
   return temp;
 });
@@ -34,8 +34,8 @@ export const resetWish = createAsyncThunk('resetWish', async (table) => {
 export const quanIncr = createAsyncThunk('quanIncr', async ({table, wishData}) => {
   const menu_name = wishData.menu_name;
   const wish_quantity = wishData.wish_quantity + 1;
-  await axios.patch(`/wishlist/${table}`, {menu_name, wish_quantity});
-  const res = await axios.get(`/wishlist/${table}`);
+  await axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
+  const res = await axios.get(`/api/wishlist/${table}`);
   const temp = {table: table, data: res.data};
   return temp;
 });
@@ -43,8 +43,8 @@ export const quanIncr = createAsyncThunk('quanIncr', async ({table, wishData}) =
 export const quanDecr = createAsyncThunk('quanDecr', async ({table, wishData}) => {
   const menu_name = wishData.menu_name;
   const wish_quantity = wishData.wish_quantity - 1;
-  await axios.patch(`/wishlist/${table}`, {menu_name, wish_quantity});
-  const res = await axios.get(`/wishlist/${table}`);
+  await axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
+  const res = await axios.get(`/api/wishlist/${table}`);
   const temp = {table: table, data: res.data};
   return temp;
 });

@@ -2,19 +2,21 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const getTable = createAsyncThunk('getTable', async () => {
-  const res = await axios.get('/table-mgnt');
+  const res = await axios.get('/api/table-mgnt');
   return res.data;
 });
 
-export const postTable = createAsyncThunk('postTable', async (data) => {
-  await axios.post('/table-mgnt', data);
-  const res = await axios.get('/table-mgnt');
+export const postTable = createAsyncThunk('postTable', async ({addData}) => {
+  const table_no = addData.table_no;
+  const table_name = addData.table_name;
+  await axios.post('/api/table-mgnt', {table_no, table_name});
+  const res = await axios.get('/api/table-mgnt');
   return res.data;
 });
 
 export const deleteTable = createAsyncThunk('deleteTable', async () => {
-  await axios.delete('/table-mgnt');
-  const res = await axios.get('/table-mgnt');
+  await axios.delete('/api/table-mgnt');
+  const res = await axios.get('/api/table-mgnt');
   return res.data;
 });
 

@@ -121,7 +121,7 @@ const useStyles = makeStyles({
     position: 'relative',
     background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
     width: 720,
-    height: 530,
+    height: 515,
     left: 600,
     top: 230,
     borderRadius: 15,

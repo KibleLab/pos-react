@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const getOrder = createAsyncThunk('getOrder', async (table) => {
-  const res = await axios.get(`/ordersheet/${table}`);
+  const res = await axios.get(`/api/ordersheet/${table}`);
   const temp = {table: table, data: res.data};
   return temp;
 });
@@ -11,8 +11,8 @@ export const addOrder = createAsyncThunk('addOrder', async ({table, wishData}) =
   const menu_name = wishData.menu_name;
   const menu_price = wishData.menu_price;
   const order_quantity = wishData.wish_quantity;
-  await axios.post(`/ordersheet/${table}`, {menu_name, menu_price, order_quantity});
-  const res = await axios.get(`/ordersheet/${table}`);
+  await axios.post(`/api/ordersheet/${table}`, {menu_name, menu_price, order_quantity});
+  const res = await axios.get(`/api/ordersheet/${table}`);
   const temp = {table: table, data: res.data};
   return temp;
 });
@@ -22,16 +22,16 @@ export const quanIncrOrder = createAsyncThunk(
   async ({table, wishData, orderData}) => {
     const menu_name = orderData.menu_name;
     const order_quantity = orderData.order_quantity + wishData.wish_quantity;
-    await axios.patch(`/ordersheet/${table}`, {menu_name, order_quantity});
-    const res = await axios.get(`/ordersheet/${table}`);
+    await axios.patch(`/api/ordersheet/${table}`, {menu_name, order_quantity});
+    const res = await axios.get(`/api/ordersheet/${table}`);
     const temp = {table: table, data: res.data};
     return temp;
   }
 );
 
 export const resetOrder = createAsyncThunk('resetOrder', async (table) => {
-  await axios.delete(`/ordersheet/${table}`);
-  const res = await axios.get(`/ordersheet/${table}`);
+  await axios.delete(`/api/ordersheet/${table}`);
+  const res = await axios.get(`/api/ordersheet/${table}`);
   const temp = {table: table, data: res.data};
   return temp;
 });

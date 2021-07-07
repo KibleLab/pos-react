@@ -121,9 +121,8 @@ const MenuSlct = ({match, history}) => {
       setMessage('재고가 없습니다.');
       setOpen(true);
     } else {
-      const menuData = menu[index];
       dispatch(quanIncr({table, wishData}));
-      dispatch(stockDecr(menuData));
+      dispatch(stockDecr({menuData: menu[index]}));
     }
   };
 

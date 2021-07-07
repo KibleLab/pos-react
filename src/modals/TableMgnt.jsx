@@ -13,12 +13,10 @@ import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {modalOpen} from '../reducers/modal';
 import {postTable, deleteTable} from '../reducers/tableMgnt';
 
-const TableMgnt = () => {
+const TableMgnt = (props) => {
   const classes = useStyles();
-  const open = useSelector((state) => [...state.modal.open]);
   const table = useSelector((state) => [...state.tableMgnt.table]);
   const [input, setInput] = useState(1);
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -49,10 +47,6 @@ const TableMgnt = () => {
     }
   };
 
-  const close = (e) => {
-    dispatch(modalOpen({index: 6, open: false}));
-  };
-
   const tableEdit = () => {
     if (input < 1) {
       setMessage('테이블은 1개 이상 설치해야 합니다.');
@@ -70,14 +64,13 @@ const TableMgnt = () => {
           dispatch(postTable({addData}));
         }, 500);
       }
-      dispatch(modalOpen({index: 6, open: false}));
     }
   };
 
   return (
-    <Modal className={classes.root} isOpen={open[6]}>
+    <Modal className={classes.root} isOpen={props.isOpen}>
       <Container className={classes.contents} maxWidth={false}>
-        <Typography className={classes.title}>테이블 관리</Typography>
+        <Typography className={classes.title}>테이블 초기 설정</Typography>
 
         <TextField
           className={classes.count}
@@ -94,10 +87,6 @@ const TableMgnt = () => {
           <RemoveIcon />
         </IconButton>
       </Container>
-
-      <Button className={classes.backB} onClick={close}>
-        Back
-      </Button>
 
       <Button className={classes.editB} onClick={tableEdit}>
         수정
@@ -132,7 +121,7 @@ const useStyles = makeStyles({
     position: 'relative',
     background: 'linear-gradient(to right, #48c6ef 0%, #6f86d6 100%)',
     width: 720,
-    height: 620,
+    height: 530,
     left: 600,
     top: 230,
     borderRadius: 15,
@@ -191,19 +180,6 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     textTransform: 'none',
     '&:hover': {backgroundColor: '#68DBFF'},
-  },
-  backB: {
-    position: 'absolute',
-    background: '#adff00',
-    width: 640,
-    height: 80,
-    left: 40,
-    bottom: 145,
-    borderRadius: 15,
-    fontSize: 30,
-    fontWeight: 'bold',
-    textTransform: 'none',
-    '&:hover': {backgroundColor: '#adff00'},
   },
   editB: {
     position: 'absolute',

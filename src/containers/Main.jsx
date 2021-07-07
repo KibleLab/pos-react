@@ -1,12 +1,9 @@
 import {makeStyles} from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import {useState, useEffect} from 'react';
+import {useEffect} from 'react';
 import Title from '../components/Title';
 import TableButton from '../components/TableButton';
 import {Link} from 'react-router-dom';
@@ -15,16 +12,12 @@ import TableMgnt from '../modals/TableMgnt';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {getTable} from '../reducers/tableMgnt';
-import {modalOpen} from '../reducers/modal';
 
 const Main = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const table = useSelector((state) => [...state.tableMgnt.table]);
   const load = useSelector((state) => state.tableMgnt.load);
-  const order = useSelector((state) => state.orderSheet.order);
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
 
   useEffect(() => {
     dispatch(getTable());
@@ -44,34 +37,28 @@ const Main = () => {
     </div>
   ));
 
-  const onClick = () => {
-    if (table.length === 0) {
-      dispatch(modalOpen({index: 6, open: true}));
+  const initTable = () => {
+    if (load === false && table.length === 0) {
+      return <TableMgnt isOpen={true} />;
     } else {
-      for (let i = 0; i < table.length; i++) {
-        if (order[i].length === 0 && i === table.length - 1) {
-          dispatch(modalOpen({index: 6, open: true}));
-        } else if (order[i].length !== 0) {
-          setMessage('결제가 안된 테이블이 있습니다.');
-          setOpen(true);
-          break;
-        }
-      }
+      return <TableMgnt isOpen={false} />;
+    }
+  };
+
+  const progressBar = () => {
+    if (load === true) {
+      return <LinearProgress className={classes.progressBar} color="secondary" />;
     }
   };
 
   return (
     <Container className={classes.root} maxWidth={false}>
-      {load === false ? '' : <LinearProgress className={classes.loadingBar} color="secondary" />}
+      {progressBar()}
 
       <Title />
 
       <Button className={classes.menuManageB} component={Link} to={'/menu-mgnt'}>
         메뉴 관리
-      </Button>
-
-      <Button className={classes.tableManageB} onClick={onClick}>
-        테이블 관리
       </Button>
 
       <Button className={classes.calcB} component={Link} to={'/dailysales'}>
@@ -84,28 +71,7 @@ const Main = () => {
         </Container>
       </Container>
 
-      <TableMgnt />
-
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        open={open}
-        autoHideDuration={1500}
-        onClose={() => setOpen(false)}
-        message={message}
-        action={
-          <IconButton
-            aria-label="close"
-            style={{color: 'yellow'}}
-            className={classes.close}
-            onClick={() => setOpen(false)}
-          >
-            <CloseIcon />
-          </IconButton>
-        }
-      />
+      {initTable()}
     </Container>
   );
 };
@@ -147,7 +113,7 @@ const useStyles = makeStyles({
     background: '#ebff00',
     width: 290,
     height: 90,
-    right: 700,
+    right: 370,
     top: 40,
     borderRadius: 15,
     fontSize: 38,
@@ -160,7 +126,7 @@ const useStyles = makeStyles({
     background: '#ebff00',
     width: 290,
     height: 90,
-    right: 370,
+    right: 40,
     top: 40,
     borderRadius: 15,
     fontSize: 38,
@@ -181,7 +147,7 @@ const useStyles = makeStyles({
     textTransform: 'none',
     '&:hover': {backgroundColor: '#ebff00'},
   },
-  loadingBar: {
+  progressBar: {
     position: 'absolute',
     width: '100%',
     left: 0,

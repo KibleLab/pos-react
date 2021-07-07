@@ -66,8 +66,8 @@ const TableMgnt = () => {
       dispatch(deleteTable());
       for (let j = 1; j < input + 1; j++) {
         setTimeout(() => {
-          const data = {table_no: j, table_name: 'Table' + j};
-          dispatch(postTable(data));
+          const addData = {table_no: j, table_name: 'Table' + j};
+          dispatch(postTable({addData}));
         }, 500);
       }
       dispatch(modalOpen({index: 6, open: false}));

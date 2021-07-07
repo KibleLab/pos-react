@@ -123,7 +123,7 @@ const useStyles = makeStyles({
     width: 720,
     height: 515,
     left: 600,
-    top: 230,
+    top: 282.5,
     borderRadius: 15,
     outline: 'none',
   },

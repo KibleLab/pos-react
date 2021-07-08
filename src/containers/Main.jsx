@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import Title from '../components/Title';
 import TableButton from '../components/TableButton';
 import {Link} from 'react-router-dom';
@@ -18,9 +18,19 @@ const Main = () => {
   const dispatch = useDispatch();
   const table = useSelector((state) => [...state.tableMgnt.table]);
   const load = useSelector((state) => state.tableMgnt.load);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     dispatch(getTable());
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        const diff = Math.random() * 10;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 500);
+    return () => {
+      clearInterval(timer);
+    };
   }, [dispatch]);
 
   const sortingField = 'table_no';
@@ -47,7 +57,14 @@ const Main = () => {
 
   const progressBar = () => {
     if (load === true) {
-      return <LinearProgress className={classes.progressBar} color="secondary" />;
+      return (
+        <LinearProgress
+          className={classes.progressBar}
+          color="secondary"
+          variant="determinate"
+          value={progress}
+        />
+      );
     }
   };
 

@@ -143,6 +143,10 @@ const MenuSlct = ({match, history}) => {
     }
   };
 
+  window.onpopstate = () => {
+    _resetWish();
+  };
+
   const menuButtonList = menu.map((data, index) => (
     <MenuButton
       onClick={() => _addWish(data)}

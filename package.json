@@ -1,7 +1,7 @@
 {
   "name": "pos",
   "description": "Kible-POS System",
-  "version": "3.1.9",
+  "version": "3.1.10",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.23",

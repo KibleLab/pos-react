@@ -60,29 +60,37 @@ const DailySales = () => {
   return (
     <Container className={classes.root} maxWidth={false}>
       <Container className={classes.gridC} maxWidth={false}>
-        <div className="ag-theme-alpine" style={{width: '100%', height: '100%', padding: 0}}>
+        <div
+          className="ag-theme-alpine"
+          style={{width: '100%', height: '100%', padding: 0, fontSize: 26}}
+        >
           <AgGridReact rowData={dailySales} suppressMovableColumns={true}>
-            <AgGridColumn field={'menu_name'} headerName={'상품명'} width={550} />
+            <AgGridColumn
+              field={'menu_name'}
+              headerName={'상품명'}
+              cellStyle={{'font-size': '24px'}}
+              flex={2}
+            />
             <AgGridColumn
               field={'sales_quantity'}
               headerName={'판매수량'}
-              cellStyle={{textAlign: 'right'}}
+              cellStyle={{'font-size': '24px'}}
               valueFormatter={currencyFormatter}
-              width={200}
+              flex={1}
             />
             <AgGridColumn
               field={'menu_price'}
               headerName={'단가'}
-              cellStyle={{textAlign: 'right'}}
+              cellStyle={{'font-size': '24px'}}
               valueFormatter={currencyFormatter}
-              width={200}
+              flex={1}
             />
             <AgGridColumn
               field={'total_price'}
               headerName={'합계'}
-              cellStyle={{textAlign: 'right'}}
+              cellStyle={{'font-size': '24px'}}
               valueFormatter={currencyFormatter}
-              width={200}
+              flex={1}
             />
           </AgGridReact>
         </div>

@@ -25,7 +25,7 @@ const Main = () => {
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
+        return Math.min(oldProgress + diff, 98);
       });
     }, 500);
     return () => {

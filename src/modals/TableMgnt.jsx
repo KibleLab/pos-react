@@ -13,7 +13,7 @@ import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {postTable, deleteTable} from '../reducers/tableMgnt';
+import {ADD_TABLE_TABLE_MGNT_REQUEST} from '../reducers/tableMgnt';
 
 const TableMgnt = (props) => {
   const classes = useStyles();
@@ -57,12 +57,11 @@ const TableMgnt = (props) => {
       setOpenSnackBar(true);
       setInput(table.length);
     } else {
-      dispatch(deleteTable());
       for (let j = 1; j < input + 1; j++) {
         setTimeout(() => {
           const addData = {table_no: j, table_name: 'Table' + j};
-          dispatch(postTable({addData}));
-        }, 500);
+          dispatch(ADD_TABLE_TABLE_MGNT_REQUEST({addData}));
+        }, 1000);
       }
     }
   };

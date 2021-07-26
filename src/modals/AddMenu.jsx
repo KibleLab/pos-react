@@ -11,9 +11,9 @@ import {useState} from 'react';
 import Modal from 'react-modal';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {modalOpen} from '../reducers/modal';
-import {addMenu} from '../reducers/menuMgnt';
-import {resetSelect} from '../reducers/select';
+import {ADD_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
+import {MODAL_OPEN} from '../reducers/modal';
+import {RESET_SELECT} from '../reducers/select';
 
 const AddMenu = () => {
   const classes = useStyles();
@@ -41,18 +41,18 @@ const AddMenu = () => {
 
   const close = () => {
     setInputs({menu_name: '', menu_price: '', menu_stock: ''});
-    dispatch(modalOpen({index: 0, open: false}));
+    dispatch(MODAL_OPEN({index: 0, open: false}));
   };
 
-  const _addMenu = () => {
+  const addMenu = () => {
     if (inputs.menu_name === '' || inputs.menu_price === '' || inputs.menu_stock === '') {
       setMessage('정보를 입력해주세요');
       setOpenSnackBar(true);
     } else {
-      dispatch(addMenu({addData: inputs}));
-      dispatch(resetSelect());
+      dispatch(ADD_MENU_MENU_MGNT_REQUEST({addData: inputs}));
+      dispatch(RESET_SELECT());
       setInputs({menu_name: '', menu_price: '', menu_stock: ''});
-      dispatch(modalOpen({index: 0, open: false}));
+      dispatch(MODAL_OPEN({index: 0, open: false}));
     }
   };
 
@@ -99,7 +99,7 @@ const AddMenu = () => {
         Back
       </Button>
 
-      <Button className={classes.enrollB} onClick={_addMenu}>
+      <Button className={classes.enrollB} onClick={addMenu}>
         등록
       </Button>
 

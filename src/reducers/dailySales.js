@@ -1,62 +1,97 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-
-export const getDailySales = createAsyncThunk('getDailySales', async () => {
-  const res = await axios.get('/api/dailysales');
-  return res.data;
-});
-
-export const addSales = createAsyncThunk('addSales', async ({orderData}) => {
-  const menu_name = orderData.menu_name;
-  const sales_quantity = orderData.order_quantity;
-  const menu_price = orderData.menu_price;
-  const total_price = orderData.menu_price * orderData.order_quantity;
-  await axios.post('/api/dailysales', {
-    menu_name,
-    sales_quantity,
-    menu_price,
-    total_price,
-  });
-  const res = await axios.get('/api/dailysales');
-  return res.data;
-});
-
-export const quanIncrSales = createAsyncThunk('quanIncrSales', async ({orderData, salesData}) => {
-  const menu_name = salesData.menu_name;
-  const sales_quantity = salesData.sales_quantity + orderData.order_quantity;
-  const total_price = salesData.menu_price * sales_quantity;
-  await axios.patch('/api/dailysales', {menu_name, sales_quantity, total_price});
-  const res = await axios.get('/api/dailysales');
-  return res.data;
-});
-
-export const resetSales = createAsyncThunk('resetSales', async () => {
-  await axios.delete('/api/dailysales');
-  const res = await axios.get('/api/dailysales');
-  return res.data;
-});
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  dailySales: [],
+  sales: [],
+  getSalesLoading: false,
+  getSalesDone: false,
+  getSalesError: null,
+  addSalesLoading: false,
+  addSalesDone: false,
+  addSalesError: null,
+  quanIncrLoading: false,
+  quanIncrDone: false,
+  quanIncrError: null,
+  resetSalesLoading: false,
+  resetSalesDone: false,
+  resetSalesError: null,
 };
 
 const dailySalesSlice = createSlice({
   name: 'dailySales',
   initialState,
-  extraReducers: {
-    [getDailySales.fulfilled]: (state, {payload}) => {
-      state.dailySales = [...payload];
+  reducers: {
+    GET_SALES_DAILY_SALES_REQUEST: (state) => {
+      state.getSalesLoading = true;
+      state.getSalesDone = false;
+      state.getSalesError = null;
     },
-    [addSales.fulfilled]: (state, {payload}) => {
-      state.dailySales = [...payload];
+    GET_SALES_DAILY_SALES_SUCCESS: (state, action) => {
+      state.getSalesLoading = false;
+      state.getSalesDone = true;
+      state.sales = [...action.data];
     },
-    [quanIncrSales.fulfilled]: (state, {payload}) => {
-      state.dailySales = [...payload];
+    GET_SALES_DAILY_SALES_FAILURE: (state, action) => {
+      state.getSalesLoading = false;
+      state.getSalesError = action.error;
     },
-    [resetSales.fulfilled]: (state, {payload}) => {
-      state.dailySales = [...payload];
+    ADD_SALES_DAILY_SALES_REQUEST: (state) => {
+      state.addSalesLoading = true;
+      state.addSalesDone = false;
+      state.addSalesError = null;
+    },
+    ADD_SALES_DAILY_SALES_SUCCESS: (state, action) => {
+      state.addSalesLoading = false;
+      state.addSalesDone = true;
+      state.sales = [...action.data];
+    },
+    ADD_SALES_DAILY_SALES_FAILURE: (state, action) => {
+      state.addSalesLoading = false;
+      state.addSalesError = action.error;
+    },
+    QUAN_INCR_DAILY_SALES_REQUEST: (state) => {
+      state.quanIncrLoading = true;
+      state.quanIncrDone = false;
+      state.quanIncrError = null;
+    },
+    QUAN_INCR_DAILY_SALES_SUCCESS: (state, action) => {
+      state.quanIncrLoading = false;
+      state.quanIncrDone = true;
+      state.sales = [...action.data];
+    },
+    QUAN_INCR_DAILY_SALES_FAILURE: (state, action) => {
+      state.quanIncrLoading = false;
+      state.quanIncrError = action.error;
+    },
+    RESET_SALES_DAILY_SALES_REQUEST: (state) => {
+      state.resetSalesLoading = true;
+      state.resetSalesDone = false;
+      state.resetSalesError = null;
+    },
+    RESET_SALES_DAILY_SALES_SUCCESS: (state, action) => {
+      state.resetSalesLoading = false;
+      state.resetSalesDone = true;
+      state.sales = [...action.data];
+    },
+    RESET_SALES_DAILY_SALES_FAILURE: (state, action) => {
+      state.resetSalesLoading = false;
+      state.resetSalesError = action.error;
     },
   },
 });
+
+export const {
+  GET_SALES_DAILY_SALES_REQUEST,
+  GET_SALES_DAILY_SALES_SUCCESS,
+  GET_SALES_DAILY_SALES_FAILURE,
+  ADD_SALES_DAILY_SALES_REQUEST,
+  ADD_SALES_DAILY_SALES_SUCCESS,
+  ADD_SALES_DAILY_SALES_FAILURE,
+  QUAN_INCR_DAILY_SALES_REQUEST,
+  QUAN_INCR_DAILY_SALES_SUCCESS,
+  QUAN_INCR_DAILY_SALES_FAILURE,
+  RESET_SALES_DAILY_SALES_REQUEST,
+  RESET_SALES_DAILY_SALES_SUCCESS,
+  RESET_SALES_DAILY_SALES_FAILURE,
+} = dailySalesSlice.actions;
 
 export default dailySalesSlice.reducer;

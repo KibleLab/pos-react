@@ -1,53 +1,57 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-
-export const getTable = createAsyncThunk('getTable', async () => {
-  const res = await axios.get('/api/table-mgnt');
-  return res.data;
-});
-
-export const postTable = createAsyncThunk('postTable', async ({addData}) => {
-  const table_no = addData.table_no;
-  const table_name = addData.table_name;
-  await axios.post('/api/table-mgnt', {table_no, table_name});
-  const res = await axios.get('/api/table-mgnt');
-  return res.data;
-});
-
-export const deleteTable = createAsyncThunk('deleteTable', async () => {
-  await axios.delete('/api/table-mgnt');
-  const res = await axios.get('/api/table-mgnt');
-  return res.data;
-});
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   table: [],
-  load: false,
+  getTableLoading: false,
+  getTableDone: false,
+  getTableError: null,
+  addTableLoading: false,
+  addTableDone: false,
+  addTableError: null,
 };
 
 const tableMgntSlice = createSlice({
   name: 'tableMgnt',
   initialState,
-  extraReducers: {
-    [getTable.pending]: (state) => {
-      state.load = true;
+  reducers: {
+    GET_TABLE_TABLE_MGNT_REQUEST: (state) => {
+      state.getTableLoading = true;
+      state.getTableDone = false;
+      state.getTableError = null;
     },
-    //successful getTable  p.s).rejected is fail.
-    [getTable.fulfilled]: (state, {payload}) => {
-      state.load = false;
-      state.table = [...payload];
+    GET_TABLE_TABLE_MGNT_SUCCESS: (state, action) => {
+      state.getTableLoading = false;
+      state.getTableDone = true;
+      state.table = [...action.data];
     },
-    [postTable.pending]: (state) => {
-      state.load = true;
+    GET_TABLE_TABLE_MGNT_FAILURE: (state, action) => {
+      state.getTableLoading = false;
+      state.getTableError = action.error;
     },
-    [postTable.fulfilled]: (state, {payload}) => {
-      state.load = false;
-      state.table = [...payload];
+    ADD_TABLE_TABLE_MGNT_REQUEST: (state) => {
+      state.addTableLoading = true;
+      state.addTableDone = false;
+      state.addTableError = null;
     },
-    [deleteTable.fulfilled]: (state, {payload}) => {
-      state.table = [...payload];
+    ADD_TABLE_TABLE_MGNT_SUCCESS: (state, action) => {
+      state.addTableLoading = false;
+      state.addTableDone = true;
+      state.table = [...action.data];
+    },
+    ADD_TABLE_TABLE_MGNT_FAILURE: (state, action) => {
+      state.addTableLoading = false;
+      state.addTableError = action.error;
     },
   },
 });
+
+export const {
+  GET_TABLE_TABLE_MGNT_REQUEST,
+  GET_TABLE_TABLE_MGNT_SUCCESS,
+  GET_TABLE_TABLE_MGNT_FAILURE,
+  ADD_TABLE_TABLE_MGNT_REQUEST,
+  ADD_TABLE_TABLE_MGNT_SUCCESS,
+  ADD_TABLE_TABLE_MGNT_FAILURE,
+} = tableMgntSlice.actions;
 
 export default tableMgntSlice.reducer;

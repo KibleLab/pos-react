@@ -1,71 +1,117 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-
-export const getMenu = createAsyncThunk('getMenu', async () => {
-  const res = await axios.get('/api/menu-mgnt');
-  return res.data;
-});
-
-export const addMenu = createAsyncThunk('addMenu', async ({addData}) => {
-  const menu_name = addData.menu_name;
-  const menu_price = addData.menu_price;
-  const menu_stock = addData.menu_stock;
-  await axios.post('/api/menu-mgnt', {menu_name, menu_price, menu_stock});
-  await axios.post('/api/menu-slct', {menu_name, menu_price, menu_stock});
-  const res = await axios.get('/api/menu-mgnt');
-  return res.data;
-});
-
-export const editStock = createAsyncThunk('editStock', async ({editData}) => {
-  const menu_name = editData.menu_name;
-  const menu_stock = editData.menu_stock;
-  await axios.patch('/api/menu-mgnt', {menu_name, menu_stock});
-  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
-  const res = await axios.get('/api/menu-mgnt');
-  return res.data;
-});
-
-export const changeMenu = createAsyncThunk('changeMenu', async ({menuData}) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock;
-  await axios.patch('/api/menu-mgnt', {menu_name, menu_stock});
-  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
-  const res = await axios.get('/api/menu-mgnt');
-  return res.data;
-});
-
-export const delMenu = createAsyncThunk('delMenu', async ({delData}) => {
-  const menu_name = delData.menu_name;
-  await axios.delete('/api/menu-mgnt', {data: {menu_name}});
-  await axios.delete('/api/menu-slct', {data: {menu_name}});
-  const res = await axios.get('/api/menu-mgnt');
-  return res.data;
-});
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   menu: [],
+  getMenuLoading: false,
+  getMenuDone: false,
+  getMenuError: null,
+  addMenuLoading: false,
+  addMenuDone: false,
+  addMenuError: null,
+  editStockLoading: false,
+  editStockDone: false,
+  editStockError: null,
+  changeMenuLoading: false,
+  changeMenuDone: false,
+  changeMenuError: null,
+  deleteMenuLoading: false,
+  deleteMenuDone: false,
+  deleteMenuError: null,
 };
 
 const menuMgntSlice = createSlice({
   name: 'menuMgnt',
   initialState,
-  extraReducers: {
-    [getMenu.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+  reducers: {
+    GET_MENU_MENU_MGNT_REQUEST: (state) => {
+      state.getMenuLoading = true;
+      state.getMenuDone = false;
+      state.getMenuError = null;
     },
-    [addMenu.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+    GET_MENU_MENU_MGNT_SUCCESS: (state, action) => {
+      state.getMenuLoading = false;
+      state.getMenuDone = true;
+      state.menu = [...action.data];
     },
-    [editStock.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+    GET_MENU_MENU_MGNT_FAILURE: (state, action) => {
+      state.getMenuLoading = false;
+      state.getMenuError = action.error;
     },
-    [changeMenu.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+    ADD_MENU_MENU_MGNT_REQUEST: (state) => {
+      state.addMenuLoading = true;
+      state.addMenuDone = false;
+      state.addMenuError = null;
     },
-    [delMenu.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+    ADD_MENU_MENU_MGNT_SUCCESS: (state, action) => {
+      state.addMenuLoading = false;
+      state.addMenuDone = true;
+      state.menu = [...action.data];
+    },
+    ADD_MENU_MENU_MGNT_FAILURE: (state, action) => {
+      state.addMenuLoading = false;
+      state.addMenuError = action.error;
+    },
+    EDIT_STOCK_MENU_MGNT_REQUEST: (state) => {
+      state.editStockLoading = true;
+      state.editStockDone = false;
+      state.editStockError = null;
+    },
+    EDIT_STOCK_MENU_MGNT_SUCCESS: (state, action) => {
+      state.editStockLoading = false;
+      state.editStockDone = true;
+      state.menu = [...action.data];
+    },
+    EDIT_STOCK_MENU_MGNT_FAILURE: (state, action) => {
+      state.editStockLoading = false;
+      state.editStockError = action.error;
+    },
+    CHANGE_MENU_MENU_MGNT_REQUEST: (state) => {
+      state.changeMenuLoading = true;
+      state.changeMenuDone = false;
+      state.changeMenuError = null;
+    },
+    CHANGE_MENU_MENU_MGNT_SUCCESS: (state, action) => {
+      state.changeMenuLoading = false;
+      state.changeMenuDone = true;
+      state.menu = [...action.data];
+    },
+    CHANGE_MENU_MENU_MGNT_FAILURE: (state, action) => {
+      state.changeMenuLoading = false;
+      state.changeMenuError = action.error;
+    },
+    DELETE_MENU_MENU_MGNT_REQUEST: (state) => {
+      state.deleteMenuLoading = true;
+      state.deleteMenuDone = false;
+      state.deleteMenuError = null;
+    },
+    DELETE_MENU_MENU_MGNT_SUCCESS: (state, action) => {
+      state.deleteMenuLoading = false;
+      state.deleteMenuDone = true;
+      state.menu = [...action.data];
+    },
+    DELETE_MENU_MENU_MGNT_FAILURE: (state, action) => {
+      state.deleteMenuLoading = false;
+      state.deleteMenuError = action.error;
     },
   },
 });
+
+export const {
+  GET_MENU_MENU_MGNT_REQUEST,
+  GET_MENU_MENU_MGNT_SUCCESS,
+  GET_MENU_MENU_MGNT_FAILURE,
+  ADD_MENU_MENU_MGNT_REQUEST,
+  ADD_MENU_MENU_MGNT_SUCCESS,
+  ADD_MENU_MENU_MGNT_FAILURE,
+  EDIT_STOCK_MENU_MGNT_REQUEST,
+  EDIT_STOCK_MENU_MGNT_SUCCESS,
+  EDIT_STOCK_MENU_MGNT_FAILURE,
+  CHANGE_MENU_MENU_MGNT_REQUEST,
+  CHANGE_MENU_MENU_MGNT_SUCCESS,
+  CHANGE_MENU_MENU_MGNT_FAILURE,
+  DELETE_MENU_MENU_MGNT_REQUEST,
+  DELETE_MENU_MENU_MGNT_SUCCESS,
+  DELETE_MENU_MENU_MGNT_FAILURE,
+} = menuMgntSlice.actions;
 
 export default menuMgntSlice.reducer;

@@ -1,83 +1,139 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-
-export const getWish = createAsyncThunk('addWish', async (table) => {
-  const res = await axios.get(`/api/wishlist/${table}`);
-  const temp = {table: table, data: res.data};
-  return temp;
-});
-
-export const addWish = createAsyncThunk('addWish', async ({table, menuData}) => {
-  const menu_name = menuData.menu_name;
-  const menu_price = menuData.menu_price;
-  await axios.post(`/api/wishlist/${table}`, {menu_name, menu_price});
-  const res = await axios.get(`/api/wishlist/${table}`);
-  const temp = {table: table, data: res.data};
-  return temp;
-});
-
-export const delWish = createAsyncThunk('delWish', async ({table, wishData}) => {
-  const menu_name = wishData.menu_name;
-  await axios.delete(`/api/wishlist/${table}`, {data: {menu_name}});
-  const res = await axios.get(`/api/wishlist/${table}`);
-  const temp = {table: table, data: res.data};
-  return temp;
-});
-
-export const resetWish = createAsyncThunk('resetWish', async (table) => {
-  await axios.delete(`/api/wishlist/reset/${table}`);
-  const res = await axios.get(`/api/wishlist/${table}`);
-  const temp = {table: table, data: res.data};
-  return temp;
-});
-
-export const quanIncr = createAsyncThunk('quanIncr', async ({table, wishData}) => {
-  const menu_name = wishData.menu_name;
-  const wish_quantity = wishData.wish_quantity + 1;
-  await axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
-  const res = await axios.get(`/api/wishlist/${table}`);
-  const temp = {table: table, data: res.data};
-  return temp;
-});
-
-export const quanDecr = createAsyncThunk('quanDecr', async ({table, wishData}) => {
-  const menu_name = wishData.menu_name;
-  const wish_quantity = wishData.wish_quantity - 1;
-  await axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
-  const res = await axios.get(`/api/wishlist/${table}`);
-  const temp = {table: table, data: res.data};
-  return temp;
-});
+import {createSlice} from '@reduxjs/toolkit';
 
 const tableLength = Array.from(Array(100), () => new Array(0));
 
 const initialState = {
   wish: [...tableLength],
+  getWishLoading: false,
+  getWishDone: false,
+  getWishError: null,
+  addWishLoading: false,
+  addWishDone: false,
+  addWishError: null,
+  deleteWishLoading: false,
+  deleteWishDone: false,
+  deleteWishError: null,
+  resetWishLoading: false,
+  resetWishDone: false,
+  resetWishError: null,
+  quanIncrLoading: false,
+  quanIncrDone: false,
+  quanIncrError: null,
+  quanDecrLoading: false,
+  quanDecrDone: false,
+  quanDecrError: null,
 };
 
 const wishListSlice = createSlice({
   name: 'wishList',
   initialState,
-  extraReducers: {
-    [getWish.fulfilled]: (state, {payload}) => {
-      state.wish[payload.table - 1] = [...payload.data];
+  reducers: {
+    GET_WISH_WISH_LIST_REQUEST: (state) => {
+      state.getWishLoading = true;
+      state.getWishDone = false;
+      state.getWishError = null;
     },
-    [addWish.fulfilled]: (state, {payload}) => {
-      state.wish[payload.table - 1] = [...payload.data];
+    GET_WISH_WISH_LIST_SUCCESS: (state, action) => {
+      state.getWishLoading = false;
+      state.getWishDone = true;
+      state.wish[action.table - 1] = [...action.data];
     },
-    [delWish.fulfilled]: (state, {payload}) => {
-      state.wish[payload.table - 1] = [...payload.data];
+    GET_WISH_WISH_LIST_FAILURE: (state, action) => {
+      state.getWishLoading = false;
+      state.getWishError = action.error;
     },
-    [resetWish.fulfilled]: (state, {payload}) => {
-      state.wish[payload.table - 1] = [...payload.data];
+    ADD_WISH_WISH_LIST_REQUEST: (state) => {
+      state.addWishLoading = true;
+      state.addWishDone = false;
+      state.addWishError = null;
     },
-    [quanIncr.fulfilled]: (state, {payload}) => {
-      state.wish[payload.table - 1] = [...payload.data];
+    ADD_WISH_WISH_LIST_SUCCESS: (state, action) => {
+      state.addWishLoading = false;
+      state.addWishDone = true;
+      state.wish[action.table - 1] = [...action.data];
     },
-    [quanDecr.fulfilled]: (state, {payload}) => {
-      state.wish[payload.table - 1] = [...payload.data];
+    ADD_WISH_WISH_LIST_FAILURE: (state, action) => {
+      state.addWishLoading = false;
+      state.addWishError = action.error;
+    },
+    DELETE_WISH_WISH_LIST_REQUEST: (state) => {
+      state.deleteWishLoading = true;
+      state.deleteWishDone = false;
+      state.deleteWishError = null;
+    },
+    DELETE_WISH_WISH_LIST_SUCCESS: (state, action) => {
+      state.deleteWishLoading = false;
+      state.deleteWishDone = true;
+      state.wish[action.table - 1] = [...action.data];
+    },
+    DELETE_WISH_WISH_LIST_FAILURE: (state, action) => {
+      state.deleteWishLoading = false;
+      state.deleteWishError = action.error;
+    },
+    RESET_WISH_WISH_LIST_REQUEST: (state) => {
+      state.resetWishLoading = true;
+      state.resetWishDone = false;
+      state.resetWishError = null;
+    },
+    RESET_WISH_WISH_LIST_SUCCESS: (state, action) => {
+      state.resetWishLoading = false;
+      state.resetWishDone = true;
+      state.wish[action.table - 1] = [...action.data];
+    },
+    RESET_WISH_WISH_LIST_FAILURE: (state, action) => {
+      state.resetWishLoading = false;
+      state.resetWishError = action.error;
+    },
+    QUAN_INCR_WISH_LIST_REQUEST: (state) => {
+      state.quanIncrLoading = true;
+      state.quanIncrDone = false;
+      state.quanIncrError = null;
+    },
+    QUAN_INCR_WISH_LIST_SUCCESS: (state, action) => {
+      state.quanIncrLoading = false;
+      state.quanIncrDone = true;
+      state.wish[action.table - 1] = [...action.data];
+    },
+    QUAN_INCR_WISH_LIST_FAILURE: (state, action) => {
+      state.quanIncrLoading = false;
+      state.quanIncrError = action.error;
+    },
+    QUAN_DECR_WISH_LIST_REQUEST: (state) => {
+      state.quanDecrLoading = true;
+      state.quanDecrDone = false;
+      state.quanDecrError = null;
+    },
+    QUAN_DECR_WISH_LIST_SUCCESS: (state, action) => {
+      state.quanDecrLoading = false;
+      state.quanDecrDone = true;
+      state.wish[action.table - 1] = [...action.data];
+    },
+    QUAN_DECR_WISH_LIST_FAILURE: (state, action) => {
+      state.quanDecrLoading = false;
+      state.quanDecrError = action.error;
     },
   },
 });
+
+export const {
+  GET_WISH_WISH_LIST_REQUEST,
+  GET_WISH_WISH_LIST_SUCCESS,
+  GET_WISH_WISH_LIST_FAILURE,
+  ADD_WISH_WISH_LIST_REQUEST,
+  ADD_WISH_WISH_LIST_SUCCESS,
+  ADD_WISH_WISH_LIST_FAILURE,
+  DELETE_WISH_WISH_LIST_REQUEST,
+  DELETE_WISH_WISH_LIST_SUCCESS,
+  DELETE_WISH_WISH_LIST_FAILURE,
+  RESET_WISH_WISH_LIST_REQUEST,
+  RESET_WISH_WISH_LIST_SUCCESS,
+  RESET_WISH_WISH_LIST_FAILURE,
+  QUAN_INCR_WISH_LIST_REQUEST,
+  QUAN_INCR_WISH_LIST_SUCCESS,
+  QUAN_INCR_WISH_LIST_FAILURE,
+  QUAN_DECR_WISH_LIST_REQUEST,
+  QUAN_DECR_WISH_LIST_SUCCESS,
+  QUAN_DECR_WISH_LIST_FAILURE,
+} = wishListSlice.actions;
 
 export default wishListSlice.reducer;

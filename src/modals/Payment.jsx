@@ -7,9 +7,9 @@ import Modal from 'react-modal';
 import {withRouter} from 'react-router-dom';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {modalOpen} from '../reducers/modal';
-import {resetOrder} from '../reducers/orderSheet';
-import {addSales, quanIncrSales} from '../reducers/dailySales';
+import {RESET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
+import {ADD_SALES_DAILY_SALES_REQUEST, QUAN_INCR_DAILY_SALES_REQUEST} from '../reducers/dailySales';
+import {MODAL_OPEN} from '../reducers/modal';
 
 Modal.setAppElement('body');
 
@@ -18,27 +18,27 @@ const Payment = ({match, history}) => {
   const {table} = match.params;
   const open = useSelector((state) => [...state.modal.open]);
   const order = useSelector((state) => state.orderSheet.order[table - 1]);
-  const sales = useSelector((state) => state.dailySales.dailySales);
+  const sales = useSelector((state) => state.dailySales.sales);
   const dispatch = useDispatch();
 
   const close = () => {
-    dispatch(modalOpen({index: 3, open: false}));
+    dispatch(MODAL_OPEN({index: 3, open: false}));
   };
   const payCalc = () => {
     for (let i = 0; i < order.length; i++) {
       const index = sales.findIndex((sales) => sales.menu_name === order[i].menu_name);
       if (index === -1) {
         setTimeout(() => {
-          dispatch(addSales({orderData: order[i]}));
+          dispatch(ADD_SALES_DAILY_SALES_REQUEST({orderData: order[i]}));
         }, 500);
       } else {
         setTimeout(() => {
-          dispatch(quanIncrSales({orderData: order[i], salesData: sales[index]}));
+          dispatch(QUAN_INCR_DAILY_SALES_REQUEST({orderData: order[i], salesData: sales[index]}));
         }, 500);
       }
     }
-    dispatch(resetOrder(table));
-    dispatch(modalOpen({index: 3, open: false}));
+    dispatch(RESET_ORDER_ORDER_SHEET_REQUEST({table}));
+    dispatch(MODAL_OPEN({index: 3, open: false}));
     history.push('/');
   };
 

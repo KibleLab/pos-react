@@ -16,34 +16,34 @@ import {Link} from 'react-router-dom';
 import Deadline from '../modals/Deadline';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {modalOpen} from '../reducers/modal';
-import {getDailySales} from '../reducers/dailySales';
+import {GET_SALES_DAILY_SALES_REQUEST} from '../reducers/dailySales';
+import {MODAL_OPEN} from '../reducers/modal';
 
 const DailySales = () => {
   const classes = useStyles();
-  const dailySales = useSelector((state) => [...state.dailySales.dailySales]);
+  const sales = useSelector((state) => [...state.dailySales.sales]);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getDailySales());
+    dispatch(GET_SALES_DAILY_SALES_REQUEST());
   }, [dispatch]);
 
   const total = () => {
     let total = 0;
-    dailySales.forEach((element) => {
+    sales.forEach((element) => {
       total += element.total_price;
     });
     return total;
   };
 
   const deadline = () => {
-    if (Array.isArray(dailySales) && dailySales.length === 0) {
+    if (Array.isArray(sales) && sales.length === 0) {
       setMessage('정산할 내역이 없습니다.');
       setOpen(true);
     } else {
-      dispatch(modalOpen({index: 4, open: true}));
+      dispatch(MODAL_OPEN({index: 4, open: true}));
     }
   };
 
@@ -64,7 +64,7 @@ const DailySales = () => {
           className="ag-theme-alpine"
           style={{width: '100%', height: '100%', padding: 0, fontSize: 26}}
         >
-          <AgGridReact rowData={dailySales} suppressMovableColumns={true}>
+          <AgGridReact rowData={sales} suppressMovableColumns={true}>
             <AgGridColumn
               field={'menu_name'}
               headerName={'상품명'}

@@ -11,8 +11,8 @@ import Modal from 'react-modal';
 import {withRouter} from 'react-router-dom';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {modalOpen} from '../reducers/modal';
-import {resetSales} from '../reducers/dailySales';
+import {RESET_SALES_DAILY_SALES_REQUEST} from '../reducers/dailySales';
+import {MODAL_OPEN} from '../reducers/modal';
 
 const Deadline = ({history}) => {
   const classes = useStyles();
@@ -23,14 +23,14 @@ const Deadline = ({history}) => {
   const dispatch = useDispatch();
 
   const close = () => {
-    dispatch(modalOpen({index: 4, open: false}));
+    dispatch(MODAL_OPEN({index: 4, open: false}));
   };
 
-  const _resetSales = () => {
+  const resetSales = () => {
     for (let i = 0; i < order.length; i++) {
       if (order[i].length === 0 && i === order.length - 1) {
-        dispatch(resetSales());
-        dispatch(modalOpen({index: 4, open: false}));
+        dispatch(RESET_SALES_DAILY_SALES_REQUEST());
+        dispatch(MODAL_OPEN({index: 4, open: false}));
         history.push('/');
       } else if (order[i].length !== 0) {
         setMessage('결제가 안된 테이블이 있습니다.');
@@ -50,7 +50,7 @@ const Deadline = ({history}) => {
         Back
       </Button>
 
-      <Button className={classes.resetSalesB} onClick={_resetSales}>
+      <Button className={classes.resetSalesB} onClick={resetSales}>
         마감
       </Button>
 

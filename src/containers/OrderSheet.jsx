@@ -15,8 +15,8 @@ import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {Link} from 'react-router-dom';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {modalOpen} from '../reducers/modal';
-import {getOrder} from '../reducers/orderSheet';
+import {GET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
+import {MODAL_OPEN} from '../reducers/modal';
 
 const OrderSheet = ({match}) => {
   const classes = useStyles();
@@ -27,7 +27,7 @@ const OrderSheet = ({match}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrder(table));
+    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({table}));
   }, [dispatch, table]);
 
   const totalPrice = () => {
@@ -53,7 +53,7 @@ const OrderSheet = ({match}) => {
       setMessage('결제할 내역이 없습니다.');
       setOpen(true);
     } else {
-      dispatch(modalOpen({index: 3, open: true}));
+      dispatch(MODAL_OPEN({index: 3, open: true}));
     }
   };
 

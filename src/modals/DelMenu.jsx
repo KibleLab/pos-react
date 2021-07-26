@@ -6,9 +6,9 @@ import Button from '@material-ui/core/Button';
 import Modal from 'react-modal';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {modalOpen} from '../reducers/modal';
-import {delMenu} from '../reducers/menuMgnt';
-import {resetSelect} from '../reducers/select';
+import {DELETE_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
+import {MODAL_OPEN} from '../reducers/modal';
+import {RESET_SELECT} from '../reducers/select';
 
 const DelMenu = () => {
   const classes = useStyles();
@@ -17,13 +17,13 @@ const DelMenu = () => {
   const dispatch = useDispatch();
 
   const close = () => {
-    dispatch(modalOpen({index: 1, open: false}));
+    dispatch(MODAL_OPEN({index: 1, open: false}));
   };
 
-  const _delMenu = () => {
-    dispatch(delMenu({delData: select}));
-    dispatch(resetSelect());
-    dispatch(modalOpen({index: 1, open: false}));
+  const delMenu = () => {
+    dispatch(DELETE_MENU_MENU_MGNT_REQUEST({delData: select}));
+    dispatch(RESET_SELECT());
+    dispatch(MODAL_OPEN({index: 1, open: false}));
   };
 
   return (
@@ -37,7 +37,7 @@ const DelMenu = () => {
         Back
       </Button>
 
-      <Button className={classes.delB} onClick={_delMenu}>
+      <Button className={classes.delB} onClick={delMenu}>
         제거
       </Button>
     </Modal>

@@ -11,17 +11,17 @@ import {Link} from 'react-router-dom';
 import TableMgnt from '../modals/TableMgnt';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {getTable} from '../reducers/tableMgnt';
+import {GET_TABLE_TABLE_MGNT_REQUEST} from '../reducers/tableMgnt';
 
 const Main = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const table = useSelector((state) => [...state.tableMgnt.table]);
-  const load = useSelector((state) => state.tableMgnt.load);
+  const load = useSelector((state) => state.tableMgnt.getTableLoading);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    dispatch(getTable());
+    dispatch(GET_TABLE_TABLE_MGNT_REQUEST());
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         const diff = Math.random() * 10;
@@ -42,7 +42,7 @@ const Main = () => {
   const tableButtonList = table.map((data, index) => (
     <div key={index}>
       <Link to={'/ordersheet/' + data.table_no}>
-        <TableButton index={index} table_no={data.table_no} title={data.table_name} />
+        <TableButton index={index} table={data.table_no} title={data.table_name} />
       </Link>
     </div>
   ));

@@ -17,9 +17,9 @@ import DelMenu from '../modals/DelMenu';
 import EditStock from '../modals/EditStock';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {modalOpen} from '../reducers/modal';
-import {setSelect, resetSelect} from '../reducers/select';
-import {getMenu} from '../reducers/menuMgnt';
+import {GET_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
+import {MODAL_OPEN} from '../reducers/modal';
+import {SET_SELECT, RESET_SELECT} from '../reducers/select';
 
 const MenuMgnt = ({history}) => {
   const classes = useStyles();
@@ -30,11 +30,11 @@ const MenuMgnt = ({history}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMenu());
+    dispatch(GET_MENU_MENU_MGNT_REQUEST());
   }, [dispatch]);
 
   const goBack = () => {
-    dispatch(resetSelect());
+    dispatch(RESET_SELECT());
     history.goBack();
   };
 
@@ -43,12 +43,12 @@ const MenuMgnt = ({history}) => {
       setMessage('상품을 선택해주세요.');
       setOpen(true);
     } else {
-      dispatch(modalOpen({index: index, open: true}));
+      dispatch(MODAL_OPEN({index: index, open: true}));
     }
   };
 
   const onRowSelected = (selection) => {
-    dispatch(setSelect(selection.data));
+    dispatch(SET_SELECT(selection.data));
   };
 
   const formatNumber = (number) => {
@@ -100,7 +100,7 @@ const MenuMgnt = ({history}) => {
 
       <Button
         className={classes.addMenuB}
-        onClick={() => dispatch(modalOpen({index: 0, open: true}))}
+        onClick={() => dispatch(MODAL_OPEN({index: 0, open: true}))}
       >
         새 상품 추가
       </Button>

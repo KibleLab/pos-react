@@ -72,29 +72,21 @@ const MenuSlct = ({match, history}) => {
       setOpen(true);
     } else {
       for (let i = 0; i < menu.length; i++) {
-        setTimeout(() => {
-          dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({menuData: menu[i]}));
-        }, 500);
+        dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({menuData: menu[i]}));
       }
       if (order.length === 0) {
         for (let i = 0; i < wish.length; i++) {
-          setTimeout(() => {
-            dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({table, wishData: wish[i]}));
-          }, 500);
+          dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({table, wishData: wish[i]}));
         }
       } else if (order.length > 0) {
         for (let i = 0; i < wish.length; i++) {
           const index = order.findIndex((order) => order.menu_name === wish[i].menu_name);
           if (index === -1) {
-            setTimeout(() => {
-              dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({table, wishData: wish[i]}));
-            }, 500);
+            dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({table, wishData: wish[i]}));
           } else {
-            setTimeout(() => {
-              dispatch(
-                QUAN_INCR_ORDER_SHEET_REQUEST({table, wishData: wish[i], orderData: order[index]})
-              );
-            }, 500);
+            dispatch(
+              QUAN_INCR_ORDER_SHEET_REQUEST({table, wishData: wish[i], orderData: order[index]})
+            );
           }
         }
       }

@@ -28,13 +28,9 @@ const Payment = ({match, history}) => {
     for (let i = 0; i < order.length; i++) {
       const index = sales.findIndex((sales) => sales.menu_name === order[i].menu_name);
       if (index === -1) {
-        setTimeout(() => {
-          dispatch(ADD_SALES_DAILY_SALES_REQUEST({orderData: order[i]}));
-        }, 500);
+        dispatch(ADD_SALES_DAILY_SALES_REQUEST({orderData: order[i]}));
       } else {
-        setTimeout(() => {
-          dispatch(QUAN_INCR_DAILY_SALES_REQUEST({orderData: order[i], salesData: sales[index]}));
-        }, 500);
+        dispatch(QUAN_INCR_DAILY_SALES_REQUEST({orderData: order[i], salesData: sales[index]}));
       }
     }
     dispatch(RESET_ORDER_ORDER_SHEET_REQUEST({table}));

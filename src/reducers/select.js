@@ -8,15 +8,15 @@ const selectSlice = createSlice({
   name: 'select',
   initialState,
   reducers: {
-    setSelect: (state, action) => {
+    SET_SELECT: (state, action) => {
       state.select = action.payload;
     },
-    resetSelect: (state) => {
+    RESET_SELECT: (state) => {
       state.select = [];
     },
   },
 });
 
-export const {setSelect, resetSelect} = selectSlice.actions;
+export const {SET_SELECT, RESET_SELECT} = selectSlice.actions;
 
 export default selectSlice.reducer;

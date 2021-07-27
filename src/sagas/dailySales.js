@@ -1,4 +1,4 @@
-import {put, call, all, fork, takeLatest} from 'redux-saga/effects';
+import {put, call, all, fork, takeEvery, takeLatest} from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
@@ -115,11 +115,11 @@ function* watchGetSales() {
 }
 
 function* watchAddSales() {
-  yield takeLatest(ADD_SALES_DAILY_SALES_REQUEST, addSales);
+  yield takeEvery(ADD_SALES_DAILY_SALES_REQUEST, addSales);
 }
 
 function* watchQuanIncr() {
-  yield takeLatest(QUAN_INCR_DAILY_SALES_REQUEST, quanIncr);
+  yield takeEvery(QUAN_INCR_DAILY_SALES_REQUEST, quanIncr);
 }
 
 function* watchResetSales() {

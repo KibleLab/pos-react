@@ -1,4 +1,4 @@
-import {put, call, all, fork, takeLatest} from 'redux-saga/effects';
+import {put, call, all, fork, takeEvery} from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
@@ -167,27 +167,27 @@ function* quanDecr(action) {
 }
 
 function* watchGetWish() {
-  yield takeLatest(GET_WISH_WISH_LIST_REQUEST, getWish);
+  yield takeEvery(GET_WISH_WISH_LIST_REQUEST, getWish);
 }
 
 function* watchAddWish() {
-  yield takeLatest(ADD_WISH_WISH_LIST_REQUEST, addWish);
+  yield takeEvery(ADD_WISH_WISH_LIST_REQUEST, addWish);
 }
 
 function* watchDeleteWish() {
-  yield takeLatest(DELETE_WISH_WISH_LIST_REQUEST, deleteWish);
+  yield takeEvery(DELETE_WISH_WISH_LIST_REQUEST, deleteWish);
 }
 
 function* watchResetWish() {
-  yield takeLatest(RESET_WISH_WISH_LIST_REQUEST, resetWish);
+  yield takeEvery(RESET_WISH_WISH_LIST_REQUEST, resetWish);
 }
 
 function* watchQuanIncr() {
-  yield takeLatest(QUAN_INCR_WISH_LIST_REQUEST, quanIncr);
+  yield takeEvery(QUAN_INCR_WISH_LIST_REQUEST, quanIncr);
 }
 
 function* watchQuanDecr() {
-  yield takeLatest(QUAN_DECR_WISH_LIST_REQUEST, quanDecr);
+  yield takeEvery(QUAN_DECR_WISH_LIST_REQUEST, quanDecr);
 }
 
 export default function* wishList() {

@@ -1,4 +1,4 @@
-import {put, call, all, fork, takeLatest} from 'redux-saga/effects';
+import {put, call, all, fork, takeEvery} from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
@@ -105,19 +105,19 @@ function* stockRest(action) {
 }
 
 function* watchGetMenu() {
-  yield takeLatest(GET_MENU_MENU_SLCT_REQUEST, getMenu);
+  yield takeEvery(GET_MENU_MENU_SLCT_REQUEST, getMenu);
 }
 
 function* watchStockIncr() {
-  yield takeLatest(STOCK_INCR_MENU_SLCT_REQUEST, stockIncr);
+  yield takeEvery(STOCK_INCR_MENU_SLCT_REQUEST, stockIncr);
 }
 
 function* watchStockDecr() {
-  yield takeLatest(STOCK_DECR_MENU_SLCT_REQUEST, stockDecr);
+  yield takeEvery(STOCK_DECR_MENU_SLCT_REQUEST, stockDecr);
 }
 
 function* watchStockRest() {
-  yield takeLatest(STOCK_REST_MENU_SLCT_REQUEST, stockRest);
+  yield takeEvery(STOCK_REST_MENU_SLCT_REQUEST, stockRest);
 }
 
 export default function* menuSlct() {

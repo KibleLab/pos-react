@@ -1,4 +1,4 @@
-import {put, call, all, fork, takeLatest} from 'redux-saga/effects';
+import {put, call, all, fork, takeEvery, takeLatest} from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
@@ -143,7 +143,7 @@ function* watchEditStock() {
 }
 
 function* watchChangeMenu() {
-  yield takeLatest(CHANGE_MENU_MENU_MGNT_REQUEST, changeMenu);
+  yield takeEvery(CHANGE_MENU_MENU_MGNT_REQUEST, changeMenu);
 }
 
 function* watchDeleteMenu() {

@@ -33,7 +33,11 @@ const MenuSlct = ({match, history}) => {
   const classes = useStyles();
   const {table} = match.params;
   const menu = useSelector((state) => [...state.menuSlct.menu]);
+  const getMenuLoading = useSelector((state) => state.menuSlct.getMenuLoading);
+  const getMenuDone = useSelector((state) => state.menuSlct.getMenuDone);
   const wish = useSelector((state) => [...state.wishList.wish[table - 1]]);
+  const getWishLoading = useSelector((state) => state.wishList.getWishLoading);
+  const getWishDone = useSelector((state) => state.wishList.getWishDone);
   const order = useSelector((state) => [...state.orderSheet.order[table - 1]]);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -45,22 +49,17 @@ const MenuSlct = ({match, history}) => {
   }, [dispatch, table]);
 
   const addWish = (menuData) => {
-    if (wish.length <= 0) {
+    const index = wish.findIndex((wish) => wish.menu_name === menuData.menu_name);
+    if (index === -1) {
       dispatch(ADD_WISH_WISH_LIST_REQUEST({table, menuData}));
       dispatch(STOCK_DECR_MENU_SLCT_REQUEST({menuData}));
-    } else if (wish.length > 0) {
-      const index = wish.findIndex((wish) => wish.menu_name === menuData.menu_name);
-      if (index === -1) {
-        dispatch(ADD_WISH_WISH_LIST_REQUEST({table, menuData}));
-        dispatch(STOCK_DECR_MENU_SLCT_REQUEST({menuData}));
+    } else {
+      if (menuData.menu_stock < 1) {
+        setMessage('재고가 없습니다.');
+        setOpen(true);
       } else {
-        if (menuData.menu_stock < 1) {
-          setMessage('재고가 없습니다.');
-          setOpen(true);
-        } else {
-          dispatch(QUAN_INCR_WISH_LIST_REQUEST({table, wishData: wish[index]}));
-          dispatch(STOCK_DECR_MENU_SLCT_REQUEST({menuData}));
-        }
+        dispatch(QUAN_INCR_WISH_LIST_REQUEST({table, wishData: wish[index]}));
+        dispatch(STOCK_DECR_MENU_SLCT_REQUEST({menuData}));
       }
     }
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
@@ -152,41 +151,47 @@ const MenuSlct = ({match, history}) => {
     resetWish();
   };
 
-  const menuButtonList = menu.map((data, index) => (
-    <MenuButton
-      onClick={() => addWish(data)}
-      key={index}
-      index={index}
-      name={data.menu_name}
-      price={data.menu_price}
-      stock={data.menu_stock}
-    />
-  ));
+  const menuButtonList = () => {
+    if (menu && getMenuLoading === false && getMenuDone === true)
+      return menu.map((data, index) => (
+        <MenuButton
+          onClick={() => addWish(data)}
+          key={index}
+          index={index}
+          name={data.menu_name}
+          price={data.menu_price}
+          stock={data.menu_stock}
+        />
+      ));
+  };
 
-  const WishButtonList = wish.map((data, index) => (
-    <WishButton
-      key={index}
-      index={index}
-      name={data.menu_name}
-      price={data.menu_price}
-      quantity={data.wish_quantity}
-      delete={() => delWish(data)}
-      plus={() => plus(data, index)}
-      minus={() => minus(data, index)}
-    />
-  ));
+  const WishButtonList = () => {
+    if (wish && getWishLoading === false && getWishDone === true)
+      return wish.map((data, index) => (
+        <WishButton
+          key={index}
+          index={index}
+          name={data.menu_name}
+          price={data.menu_price}
+          quantity={data.wish_quantity}
+          delete={() => delWish(data)}
+          plus={() => plus(data, index)}
+          minus={() => minus(data, index)}
+        />
+      ));
+  };
 
   return (
     <Container className={classes.root} maxWidth={false}>
       <Container className={classes.menuC} maxWidth={false}>
         <Container className={classes.menuList} maxWidth={false}>
-          {menuButtonList}
+          {menuButtonList()}
         </Container>
       </Container>
 
       <Container className={classes.wishC} maxWidth={false}>
         <Container className={classes.wishList} maxWidth={false}>
-          {WishButtonList}
+          {WishButtonList()}
         </Container>
       </Container>
 

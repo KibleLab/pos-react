@@ -20,42 +20,12 @@ const getMenuAPI = () => {
   return axios.get('/api/menu-slct');
 };
 
-function* getMenu() {
-  try {
-    const result = yield call(getMenuAPI);
-    yield put({
-      type: GET_MENU_MENU_SLCT_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: GET_MENU_MENU_SLCT_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const stockIncrAPI = (menuData) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock + 1;
   axios.patch('/api/menu-slct', {menu_name, menu_stock});
   return axios.get('/api/menu-slct');
 };
-
-function* stockIncr(action) {
-  try {
-    const result = yield call(stockIncrAPI, action.payload.menuData);
-    yield put({
-      type: STOCK_INCR_MENU_SLCT_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: STOCK_INCR_MENU_SLCT_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
 
 const stockDecrAPI = (menuData) => {
   const menu_name = menuData.menu_name;
@@ -64,21 +34,6 @@ const stockDecrAPI = (menuData) => {
   return axios.get('/api/menu-slct');
 };
 
-function* stockDecr(action) {
-  try {
-    const result = yield call(stockDecrAPI, action.payload.menuData);
-    yield put({
-      type: STOCK_DECR_MENU_SLCT_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: STOCK_DECR_MENU_SLCT_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const stockRestAPI = ({menuData, wishData}) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock + wishData.wish_quantity;
@@ -86,21 +41,42 @@ const stockRestAPI = ({menuData, wishData}) => {
   return axios.get('/api/menu-slct');
 };
 
+function* getMenu() {
+  try {
+    const result = yield call(getMenuAPI);
+    yield put(GET_MENU_MENU_SLCT_SUCCESS({data: result.data}));
+  } catch (err) {
+    yield put(GET_MENU_MENU_SLCT_FAILURE({error: err.response.data}));
+  }
+}
+
+function* stockIncr(action) {
+  try {
+    const result = yield call(stockIncrAPI, action.payload.menuData);
+    yield put(STOCK_INCR_MENU_SLCT_SUCCESS({data: result.data}));
+  } catch (err) {
+    yield put(STOCK_INCR_MENU_SLCT_FAILURE({error: err.response.data}));
+  }
+}
+
+function* stockDecr(action) {
+  try {
+    const result = yield call(stockDecrAPI, action.payload.menuData);
+    yield put(STOCK_DECR_MENU_SLCT_SUCCESS({data: result.data}));
+  } catch (err) {
+    yield put(STOCK_DECR_MENU_SLCT_FAILURE({error: err.response.data}));
+  }
+}
+
 function* stockRest(action) {
   try {
     const result = yield call(stockRestAPI, {
       menuData: action.payload.menuData,
       wishData: action.payload.wishData,
     });
-    yield put({
-      type: STOCK_REST_MENU_SLCT_SUCCESS,
-      data: result.data,
-    });
+    yield put(STOCK_REST_MENU_SLCT_SUCCESS({data: result.data}));
   } catch (err) {
-    yield put({
-      type: STOCK_REST_MENU_SLCT_FAILURE,
-      error: err.response.data,
-    });
+    yield put(STOCK_REST_MENU_SLCT_FAILURE({error: err.response.data}));
   }
 }
 

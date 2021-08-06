@@ -23,21 +23,6 @@ const getMenuAPI = () => {
   return axios.get('/api/menu-mgnt');
 };
 
-function* getMenu() {
-  try {
-    const result = yield call(getMenuAPI);
-    yield put({
-      type: GET_MENU_MENU_MGNT_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: GET_MENU_MENU_MGNT_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const addMenuAPI = (addData) => {
   const menu_name = addData.menu_name;
   const menu_price = addData.menu_price;
@@ -47,21 +32,6 @@ const addMenuAPI = (addData) => {
   return axios.get(`/api/menu-mgnt`);
 };
 
-function* addMenu(action) {
-  try {
-    const result = yield call(addMenuAPI, action.payload.addData);
-    yield put({
-      type: ADD_MENU_MENU_MGNT_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: ADD_MENU_MENU_MGNT_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const editStockAPI = (editData) => {
   const menu_name = editData.menu_name;
   const menu_stock = editData.menu_stock;
@@ -69,21 +39,6 @@ const editStockAPI = (editData) => {
   axios.patch('/api/menu-slct', {menu_name, menu_stock});
   return axios.get('/api/menu-mgnt');
 };
-
-function* editStock(action) {
-  try {
-    const result = yield call(editStockAPI, action.payload.editData);
-    yield put({
-      type: EDIT_STOCK_MENU_MGNT_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: EDIT_STOCK_MENU_MGNT_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
 
 const changeMenuAPI = (menuData) => {
   const menu_name = menuData.menu_name;
@@ -93,21 +48,6 @@ const changeMenuAPI = (menuData) => {
   return axios.get('/api/menu-mgnt');
 };
 
-function* changeMenu(action) {
-  try {
-    const result = yield call(changeMenuAPI, action.payload.menuData);
-    yield put({
-      type: CHANGE_MENU_MENU_MGNT_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: CHANGE_MENU_MENU_MGNT_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const deleteMenuAPI = (delData) => {
   const menu_name = delData.menu_name;
   axios.delete('/api/menu-mgnt', {data: {menu_name}});
@@ -115,18 +55,48 @@ const deleteMenuAPI = (delData) => {
   return axios.get('/api/menu-mgnt');
 };
 
+function* getMenu() {
+  try {
+    const result = yield call(getMenuAPI);
+    yield put(GET_MENU_MENU_MGNT_SUCCESS({data: result.data}));
+  } catch (err) {
+    yield put(GET_MENU_MENU_MGNT_FAILURE({error: err.response.data}));
+  }
+}
+
+function* addMenu(action) {
+  try {
+    const result = yield call(addMenuAPI, action.payload.addData);
+    yield put(ADD_MENU_MENU_MGNT_SUCCESS({data: result.data}));
+  } catch (err) {
+    yield put(ADD_MENU_MENU_MGNT_FAILURE({error: err.response.data}));
+  }
+}
+
+function* editStock(action) {
+  try {
+    const result = yield call(editStockAPI, action.payload.editData);
+    yield put(EDIT_STOCK_MENU_MGNT_SUCCESS({data: result.data}));
+  } catch (err) {
+    yield put(EDIT_STOCK_MENU_MGNT_FAILURE({error: err.response.data}));
+  }
+}
+
+function* changeMenu(action) {
+  try {
+    const result = yield call(changeMenuAPI, action.payload.menuData);
+    yield put(CHANGE_MENU_MENU_MGNT_SUCCESS({data: result.data}));
+  } catch (err) {
+    yield put(CHANGE_MENU_MENU_MGNT_FAILURE({error: err.response.data}));
+  }
+}
+
 function* deleteMenu(action) {
   try {
     const result = yield call(deleteMenuAPI, action.payload.delData);
-    yield put({
-      type: DELETE_MENU_MENU_MGNT_SUCCESS,
-      data: result.data,
-    });
+    yield put(DELETE_MENU_MENU_MGNT_SUCCESS({data: result.data}));
   } catch (err) {
-    yield put({
-      type: DELETE_MENU_MENU_MGNT_FAILURE,
-      error: err.response.data,
-    });
+    yield put(DELETE_MENU_MENU_MGNT_FAILURE({error: err.response.data}));
   }
 }
 

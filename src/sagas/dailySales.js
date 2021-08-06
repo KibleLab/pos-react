@@ -20,21 +20,6 @@ const getSalesAPI = () => {
   return axios.get('/api/dailysales');
 };
 
-function* getSales() {
-  try {
-    const result = yield call(getSalesAPI);
-    yield put({
-      type: GET_SALES_DAILY_SALES_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: GET_SALES_DAILY_SALES_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const addSalesAPI = (orderData) => {
   const menu_name = orderData.menu_name;
   const sales_quantity = orderData.order_quantity;
@@ -49,21 +34,6 @@ const addSalesAPI = (orderData) => {
   return axios.get('/api/dailysales');
 };
 
-function* addSales(action) {
-  try {
-    const result = yield call(addSalesAPI, action.payload.orderData);
-    yield put({
-      type: ADD_SALES_DAILY_SALES_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: ADD_SALES_DAILY_SALES_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const quanIncrAPI = ({orderData, salesData}) => {
   const menu_name = salesData.menu_name;
   const sales_quantity = salesData.sales_quantity + orderData.order_quantity;
@@ -72,41 +42,47 @@ const quanIncrAPI = ({orderData, salesData}) => {
   return axios.get('/api/dailysales');
 };
 
+const resetSalesAPI = () => {
+  axios.delete('/api/dailysales');
+  return axios.get('/api/dailysales');
+};
+
+function* getSales() {
+  try {
+    const result = yield call(getSalesAPI);
+    yield put(GET_SALES_DAILY_SALES_SUCCESS({data: result.data}));
+  } catch (err) {
+    yield put(GET_SALES_DAILY_SALES_FAILURE({error: err.response.data}));
+  }
+}
+
+function* addSales(action) {
+  try {
+    const result = yield call(addSalesAPI, action.payload.orderData);
+    yield put(ADD_SALES_DAILY_SALES_SUCCESS({data: result.data}));
+  } catch (err) {
+    yield put(ADD_SALES_DAILY_SALES_FAILURE({error: err.response.data}));
+  }
+}
+
 function* quanIncr(action) {
   try {
     const result = yield call(quanIncrAPI, {
       orderData: action.payload.orderData,
       salesData: action.payload.salesData,
     });
-    yield put({
-      type: QUAN_INCR_DAILY_SALES_SUCCESS,
-      data: result.data,
-    });
+    yield put(QUAN_INCR_DAILY_SALES_SUCCESS({data: result.data}));
   } catch (err) {
-    yield put({
-      type: QUAN_INCR_DAILY_SALES_FAILURE,
-      error: err.response.data,
-    });
+    yield put(QUAN_INCR_DAILY_SALES_FAILURE({error: err.response.data}));
   }
 }
-
-const resetSalesAPI = () => {
-  axios.delete('/api/dailysales');
-  return axios.get('/api/dailysales');
-};
 
 function* resetSales() {
   try {
     const result = yield call(resetSalesAPI);
-    yield put({
-      type: RESET_SALES_DAILY_SALES_SUCCESS,
-      data: result.data,
-    });
+    yield put(RESET_SALES_DAILY_SALES_SUCCESS({data: result.data}));
   } catch (err) {
-    yield put({
-      type: RESET_SALES_DAILY_SALES_FAILURE,
-      error: err.response.data,
-    });
+    yield put(RESET_SALES_DAILY_SALES_FAILURE({error: err.response.data}));
   }
 }
 

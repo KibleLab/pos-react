@@ -1,22 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  menu: [],
-  getMenuLoading: false,
-  getMenuDone: false,
-  getMenuError: null,
-  addMenuLoading: false,
-  addMenuDone: false,
-  addMenuError: null,
-  editStockLoading: false,
-  editStockDone: false,
-  editStockError: null,
-  changeMenuLoading: false,
-  changeMenuDone: false,
-  changeMenuError: null,
-  deleteMenuLoading: false,
-  deleteMenuDone: false,
-  deleteMenuError: null,
+  data: [],
+  isLoading: false,
+  isDone: false,
+  error: null,
 };
 
 const menuMgntSlice = createSlice({
@@ -24,74 +12,74 @@ const menuMgntSlice = createSlice({
   initialState,
   reducers: {
     GET_MENU_MENU_MGNT_REQUEST: (state) => {
-      state.getMenuLoading = true;
-      state.getMenuDone = false;
-      state.getMenuError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     GET_MENU_MENU_MGNT_SUCCESS: (state, action) => {
-      state.getMenuLoading = false;
-      state.getMenuDone = true;
-      state.menu = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     GET_MENU_MENU_MGNT_FAILURE: (state, action) => {
-      state.getMenuLoading = false;
-      state.getMenuError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     ADD_MENU_MENU_MGNT_REQUEST: (state) => {
-      state.addMenuLoading = true;
-      state.addMenuDone = false;
-      state.addMenuError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     ADD_MENU_MENU_MGNT_SUCCESS: (state, action) => {
-      state.addMenuLoading = false;
-      state.addMenuDone = true;
-      state.menu = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     ADD_MENU_MENU_MGNT_FAILURE: (state, action) => {
-      state.addMenuLoading = false;
-      state.addMenuError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     EDIT_STOCK_MENU_MGNT_REQUEST: (state) => {
-      state.editStockLoading = true;
-      state.editStockDone = false;
-      state.editStockError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     EDIT_STOCK_MENU_MGNT_SUCCESS: (state, action) => {
-      state.editStockLoading = false;
-      state.editStockDone = true;
-      state.menu = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     EDIT_STOCK_MENU_MGNT_FAILURE: (state, action) => {
-      state.editStockLoading = false;
-      state.editStockError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     CHANGE_MENU_MENU_MGNT_REQUEST: (state) => {
-      state.changeMenuLoading = true;
-      state.changeMenuDone = false;
-      state.changeMenuError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     CHANGE_MENU_MENU_MGNT_SUCCESS: (state, action) => {
-      state.changeMenuLoading = false;
-      state.changeMenuDone = true;
-      state.menu = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     CHANGE_MENU_MENU_MGNT_FAILURE: (state, action) => {
-      state.changeMenuLoading = false;
-      state.changeMenuError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     DELETE_MENU_MENU_MGNT_REQUEST: (state) => {
-      state.deleteMenuLoading = true;
-      state.deleteMenuDone = false;
-      state.deleteMenuError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     DELETE_MENU_MENU_MGNT_SUCCESS: (state, action) => {
-      state.deleteMenuLoading = false;
-      state.deleteMenuDone = true;
-      state.menu = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     DELETE_MENU_MENU_MGNT_FAILURE: (state, action) => {
-      state.deleteMenuLoading = false;
-      state.deleteMenuError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
   },
 });

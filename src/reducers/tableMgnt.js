@@ -1,13 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  table: [],
-  getTableLoading: false,
-  getTableDone: false,
-  getTableError: null,
-  addTableLoading: false,
-  addTableDone: false,
-  addTableError: null,
+  data: [],
+  isLoading: false,
+  isDone: false,
+  error: null,
 };
 
 const tableMgntSlice = createSlice({
@@ -15,32 +12,32 @@ const tableMgntSlice = createSlice({
   initialState,
   reducers: {
     GET_TABLE_TABLE_MGNT_REQUEST: (state) => {
-      state.getTableLoading = true;
-      state.getTableDone = false;
-      state.getTableError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     GET_TABLE_TABLE_MGNT_SUCCESS: (state, action) => {
-      state.getTableLoading = false;
-      state.getTableDone = true;
-      state.table = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     GET_TABLE_TABLE_MGNT_FAILURE: (state, action) => {
-      state.getTableLoading = false;
-      state.getTableError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     ADD_TABLE_TABLE_MGNT_REQUEST: (state) => {
-      state.addTableLoading = true;
-      state.addTableDone = false;
-      state.addTableError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     ADD_TABLE_TABLE_MGNT_SUCCESS: (state, action) => {
-      state.addTableLoading = false;
-      state.addTableDone = true;
-      state.table = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     ADD_TABLE_TABLE_MGNT_FAILURE: (state, action) => {
-      state.addTableLoading = false;
-      state.addTableError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
   },
 });

@@ -1,19 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  sales: [],
-  getSalesLoading: false,
-  getSalesDone: false,
-  getSalesError: null,
-  addSalesLoading: false,
-  addSalesDone: false,
-  addSalesError: null,
-  quanIncrLoading: false,
-  quanIncrDone: false,
-  quanIncrError: null,
-  resetSalesLoading: false,
-  resetSalesDone: false,
-  resetSalesError: null,
+  data: [],
+  isLoading: false,
+  isDone: false,
+  error: null,
 };
 
 const dailySalesSlice = createSlice({
@@ -21,60 +12,60 @@ const dailySalesSlice = createSlice({
   initialState,
   reducers: {
     GET_SALES_DAILY_SALES_REQUEST: (state) => {
-      state.getSalesLoading = true;
-      state.getSalesDone = false;
-      state.getSalesError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     GET_SALES_DAILY_SALES_SUCCESS: (state, action) => {
-      state.getSalesLoading = false;
-      state.getSalesDone = true;
-      state.sales = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     GET_SALES_DAILY_SALES_FAILURE: (state, action) => {
-      state.getSalesLoading = false;
-      state.getSalesError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     ADD_SALES_DAILY_SALES_REQUEST: (state) => {
-      state.addSalesLoading = true;
-      state.addSalesDone = false;
-      state.addSalesError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     ADD_SALES_DAILY_SALES_SUCCESS: (state, action) => {
-      state.addSalesLoading = false;
-      state.addSalesDone = true;
-      state.sales = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     ADD_SALES_DAILY_SALES_FAILURE: (state, action) => {
-      state.addSalesLoading = false;
-      state.addSalesError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     QUAN_INCR_DAILY_SALES_REQUEST: (state) => {
-      state.quanIncrLoading = true;
-      state.quanIncrDone = false;
-      state.quanIncrError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     QUAN_INCR_DAILY_SALES_SUCCESS: (state, action) => {
-      state.quanIncrLoading = false;
-      state.quanIncrDone = true;
-      state.sales = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     QUAN_INCR_DAILY_SALES_FAILURE: (state, action) => {
-      state.quanIncrLoading = false;
-      state.quanIncrError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     RESET_SALES_DAILY_SALES_REQUEST: (state) => {
-      state.resetSalesLoading = true;
-      state.resetSalesDone = false;
-      state.resetSalesError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     RESET_SALES_DAILY_SALES_SUCCESS: (state, action) => {
-      state.resetSalesLoading = false;
-      state.resetSalesDone = true;
-      state.sales = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     RESET_SALES_DAILY_SALES_FAILURE: (state, action) => {
-      state.resetSalesLoading = false;
-      state.resetSalesError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
   },
 });

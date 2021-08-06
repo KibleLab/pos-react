@@ -26,22 +26,6 @@ const getWishAPI = (table) => {
   return axios.get(`/api/wishlist/${table}`);
 };
 
-function* getWish(action) {
-  try {
-    const result = yield call(getWishAPI, action.payload.table);
-    yield put({
-      type: GET_WISH_WISH_LIST_SUCCESS,
-      table: action.payload.table,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: GET_WISH_WISH_LIST_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const addWishAPI = ({table, menuData}) => {
   const menu_name = menuData.menu_name;
   const menu_price = menuData.menu_price;
@@ -49,70 +33,16 @@ const addWishAPI = ({table, menuData}) => {
   return axios.get(`/api/wishlist/${table}`);
 };
 
-function* addWish(action) {
-  try {
-    const result = yield call(addWishAPI, {
-      table: action.payload.table,
-      menuData: action.payload.menuData,
-    });
-    yield put({
-      type: ADD_WISH_WISH_LIST_SUCCESS,
-      table: action.payload.table,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: ADD_WISH_WISH_LIST_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const deleteWishAPI = ({table, wishData}) => {
   const menu_name = wishData.menu_name;
   axios.delete(`/api/wishlist/${table}`, {data: {menu_name}});
   return axios.get(`/api/wishlist/${table}`);
 };
 
-function* deleteWish(action) {
-  try {
-    const result = yield call(deleteWishAPI, {
-      table: action.payload.table,
-      wishData: action.payload.wishData,
-    });
-    yield put({
-      type: DELETE_WISH_WISH_LIST_SUCCESS,
-      table: action.payload.table,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: DELETE_WISH_WISH_LIST_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const resetWishAPI = (table) => {
   axios.delete(`/api/wishlist/reset/${table}`);
   return axios.get(`/api/wishlist/${table}`);
 };
-
-function* resetWish(action) {
-  try {
-    const result = yield call(resetWishAPI, action.payload.table);
-    yield put({
-      type: RESET_WISH_WISH_LIST_SUCCESS,
-      table: action.payload.table,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: RESET_WISH_WISH_LIST_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
 
 const quanIncrAPI = ({table, wishData}) => {
   const menu_name = wishData.menu_name;
@@ -121,25 +51,6 @@ const quanIncrAPI = ({table, wishData}) => {
   return axios.get(`/api/wishlist/${table}`);
 };
 
-function* quanIncr(action) {
-  try {
-    const result = yield call(quanIncrAPI, {
-      table: action.payload.table,
-      wishData: action.payload.wishData,
-    });
-    yield put({
-      type: QUAN_INCR_WISH_LIST_SUCCESS,
-      table: action.payload.table,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: QUAN_INCR_WISH_LIST_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 const quanDecrAPI = ({table, wishData}) => {
   const menu_name = wishData.menu_name;
   const wish_quantity = wishData.wish_quantity - 1;
@@ -147,22 +58,69 @@ const quanDecrAPI = ({table, wishData}) => {
   return axios.get(`/api/wishlist/${table}`);
 };
 
+function* getWish(action) {
+  try {
+    const result = yield call(getWishAPI, action.payload.table);
+    yield put(GET_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+  } catch (err) {
+    yield put(GET_WISH_WISH_LIST_FAILURE({error: err.response.data}));
+  }
+}
+
+function* addWish(action) {
+  try {
+    const result = yield call(addWishAPI, {
+      table: action.payload.table,
+      menuData: action.payload.menuData,
+    });
+    yield put(ADD_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+  } catch (err) {
+    yield put(ADD_WISH_WISH_LIST_FAILURE({error: err.response.data}));
+  }
+}
+
+function* deleteWish(action) {
+  try {
+    const result = yield call(deleteWishAPI, {
+      table: action.payload.table,
+      wishData: action.payload.wishData,
+    });
+    yield put(DELETE_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+  } catch (err) {
+    yield put(DELETE_WISH_WISH_LIST_FAILURE({error: err.response.data}));
+  }
+}
+
+function* resetWish(action) {
+  try {
+    const result = yield call(resetWishAPI, action.payload.table);
+    yield put(RESET_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+  } catch (err) {
+    yield put(RESET_WISH_WISH_LIST_FAILURE({error: err.response.data}));
+  }
+}
+
+function* quanIncr(action) {
+  try {
+    const result = yield call(quanIncrAPI, {
+      table: action.payload.table,
+      wishData: action.payload.wishData,
+    });
+    yield put(QUAN_INCR_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+  } catch (err) {
+    yield put(QUAN_INCR_WISH_LIST_FAILURE({error: err.response.data}));
+  }
+}
+
 function* quanDecr(action) {
   try {
     const result = yield call(quanDecrAPI, {
       table: action.payload.table,
       wishData: action.payload.wishData,
     });
-    yield put({
-      type: QUAN_DECR_WISH_LIST_SUCCESS,
-      table: action.payload.table,
-      data: result.data,
-    });
+    yield put(QUAN_DECR_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
   } catch (err) {
-    yield put({
-      type: QUAN_DECR_WISH_LIST_FAILURE,
-      error: err.response.data,
-    });
+    yield put(QUAN_DECR_WISH_LIST_FAILURE({error: err.response.data}));
   }
 }
 

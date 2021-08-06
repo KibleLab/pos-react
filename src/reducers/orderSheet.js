@@ -3,19 +3,10 @@ import {createSlice} from '@reduxjs/toolkit';
 const tableLength = Array.from(Array(100), () => new Array(0));
 
 const initialState = {
-  order: [...tableLength],
-  getOrderLoading: false,
-  getOrderDone: false,
-  getOrderError: null,
-  addOrderLoading: false,
-  addOrderDone: false,
-  addOrderError: null,
-  quanIncrLoading: false,
-  quanIncrDone: false,
-  quanIncrError: null,
-  resetOrderLoading: false,
-  resetOrderDone: false,
-  resetOrderError: null,
+  data: [...tableLength],
+  isLoading: false,
+  isDone: false,
+  error: null,
 };
 
 const orderSheetSlice = createSlice({
@@ -23,60 +14,60 @@ const orderSheetSlice = createSlice({
   initialState,
   reducers: {
     GET_ORDER_ORDER_SHEET_REQUEST: (state) => {
-      state.getOrderLoading = true;
-      state.getOrderDone = false;
-      state.getOrderError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     GET_ORDER_ORDER_SHEET_SUCCESS: (state, action) => {
-      state.getOrderLoading = false;
-      state.getOrderDone = true;
-      state.order[action.table - 1] = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data[action.payload.table - 1] = [...action.payload.data];
     },
     GET_ORDER_ORDER_SHEET_FAILURE: (state, action) => {
-      state.getOrderLoading = false;
-      state.getOrderError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     ADD_ORDER_ORDER_SHEET_REQUEST: (state) => {
-      state.addOrderLoading = true;
-      state.addOrderDone = false;
-      state.addOrderError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     ADD_ORDER_ORDER_SHEET_SUCCESS: (state, action) => {
-      state.addOrderLoading = false;
-      state.addOrderDone = true;
-      state.order[action.table - 1] = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data[action.payload.table - 1] = [...action.payload.data];
     },
     ADD_ORDER_ORDER_SHEET_FAILURE: (state, action) => {
-      state.addOrderLoading = false;
-      state.addOrderError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     QUAN_INCR_ORDER_SHEET_REQUEST: (state) => {
-      state.quanIncrLoading = true;
-      state.quanIncrDone = false;
-      state.quanIncrError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     QUAN_INCR_ORDER_SHEET_SUCCESS: (state, action) => {
-      state.quanIncrLoading = false;
-      state.quanIncrDone = true;
-      state.order[action.table - 1] = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data[action.payload.table - 1] = [...action.payload.data];
     },
     QUAN_INCR_ORDER_SHEET_FAILURE: (state, action) => {
-      state.quanIncrLoading = false;
-      state.quanIncrError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     RESET_ORDER_ORDER_SHEET_REQUEST: (state) => {
-      state.resetOrderLoading = true;
-      state.resetOrderDone = false;
-      state.resetOrderError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     RESET_ORDER_ORDER_SHEET_SUCCESS: (state, action) => {
-      state.resetOrderLoading = false;
-      state.resetOrderDone = true;
-      state.order[action.table - 1] = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data[action.payload.table - 1] = [...action.payload.data];
     },
     RESET_ORDER_ORDER_SHEET_FAILURE: (state, action) => {
-      state.resetOrderLoading = false;
-      state.resetOrderError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
   },
 });

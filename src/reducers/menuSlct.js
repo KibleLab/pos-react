@@ -1,19 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  menu: [],
-  getMenuLoading: false,
-  getMenuDone: false,
-  getMenuError: null,
-  stockIncrLoading: false,
-  stockIncrDone: false,
-  stockIncrError: null,
-  stockDecrLoading: false,
-  stockDecrDone: false,
-  stockDecrError: null,
-  stockRestLoading: false,
-  stockRestDone: false,
-  stockRestError: null,
+  data: [],
+  isLoading: false,
+  isDone: false,
+  error: null,
 };
 
 const menuSlctSlice = createSlice({
@@ -21,60 +12,60 @@ const menuSlctSlice = createSlice({
   initialState,
   reducers: {
     GET_MENU_MENU_SLCT_REQUEST: (state) => {
-      state.getMenuLoading = true;
-      state.getMenuDone = false;
-      state.getMenuError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     GET_MENU_MENU_SLCT_SUCCESS: (state, action) => {
-      state.getMenuLoading = false;
-      state.getMenuDone = true;
-      state.menu = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     GET_MENU_MENU_SLCT_FAILURE: (state, action) => {
-      state.getMenuLoading = false;
-      state.getMenuError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     STOCK_INCR_MENU_SLCT_REQUEST: (state) => {
-      state.stockIncrLoading = true;
-      state.stockIncrDone = false;
-      state.stockIncrError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     STOCK_INCR_MENU_SLCT_SUCCESS: (state, action) => {
-      state.stockIncrLoading = false;
-      state.stockIncrDone = true;
-      state.menu = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     STOCK_INCR_MENU_SLCT_FAILURE: (state, action) => {
-      state.stockIncrLoading = false;
-      state.stockIncrError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     STOCK_DECR_MENU_SLCT_REQUEST: (state) => {
-      state.stockDecrLoading = true;
-      state.stockDecrDone = false;
-      state.stockDecrError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     STOCK_DECR_MENU_SLCT_SUCCESS: (state, action) => {
-      state.stockDecrLoading = false;
-      state.stockDecrDone = true;
-      state.menu = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     STOCK_DECR_MENU_SLCT_FAILURE: (state, action) => {
-      state.stockDecrLoading = false;
-      state.stockDecrError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
     STOCK_REST_MENU_SLCT_REQUEST: (state) => {
-      state.stockRestLoading = true;
-      state.stockRestDone = false;
-      state.stockRestError = null;
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
     STOCK_REST_MENU_SLCT_SUCCESS: (state, action) => {
-      state.stockRestLoading = false;
-      state.stockRestDone = true;
-      state.menu = [...action.data];
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
     STOCK_REST_MENU_SLCT_FAILURE: (state, action) => {
-      state.stockRestLoading = false;
-      state.stockRestError = action.error;
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
   },
 });

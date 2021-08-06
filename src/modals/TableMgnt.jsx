@@ -12,12 +12,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {ADD_TABLE_TABLE_MGNT_REQUEST} from '../reducers/tableMgnt';
 
 const TableMgnt = (props) => {
   const classes = useStyles();
-  const table = useSelector((state) => [...state.tableMgnt.table]);
+  const {table} = useSelector((state) => ({table: [...state.tableMgnt.data]}), shallowEqual);
   const [input, setInput] = useState(1);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [message, setMessage] = useState('');

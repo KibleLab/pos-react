@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Modal from 'react-modal';
 import {withRouter} from 'react-router-dom';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {RESET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
 import {ADD_SALES_DAILY_SALES_REQUEST, QUAN_INCR_DAILY_SALES_REQUEST} from '../reducers/dailySales';
 import {MODAL_OPEN} from '../reducers/modal';
@@ -16,9 +16,14 @@ Modal.setAppElement('body');
 const Payment = ({match, history}) => {
   const classes = useStyles();
   const {table} = match.params;
-  const open = useSelector((state) => [...state.modal.open]);
-  const order = useSelector((state) => state.orderSheet.order[table - 1]);
-  const sales = useSelector((state) => state.dailySales.sales);
+  const {order, sales, open} = useSelector(
+    (state) => ({
+      order: [...state.orderSheet.data[table - 1]],
+      sales: [...state.dailySales.data],
+      open: [...state.modal.open],
+    }),
+    shallowEqual
+  );
   const dispatch = useDispatch();
 
   const close = () => {

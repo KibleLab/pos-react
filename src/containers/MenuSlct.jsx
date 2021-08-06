@@ -11,7 +11,7 @@ import MenuButton from '../components/MenuButton';
 import WishButton from '../components/WishButton';
 import {Link} from 'react-router-dom';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {CHANGE_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
 import {ADD_ORDER_ORDER_SHEET_REQUEST, QUAN_INCR_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
 import {
@@ -32,13 +32,14 @@ import {
 const MenuSlct = ({match, history}) => {
   const classes = useStyles();
   const {table} = match.params;
-  const menu = useSelector((state) => [...state.menuSlct.menu]);
-  const getMenuLoading = useSelector((state) => state.menuSlct.getMenuLoading);
-  const getMenuDone = useSelector((state) => state.menuSlct.getMenuDone);
-  const wish = useSelector((state) => [...state.wishList.wish[table - 1]]);
-  const getWishLoading = useSelector((state) => state.wishList.getWishLoading);
-  const getWishDone = useSelector((state) => state.wishList.getWishDone);
-  const order = useSelector((state) => [...state.orderSheet.order[table - 1]]);
+  const {menu, wish, order} = useSelector(
+    (state) => ({
+      menu: [...state.menuSlct.data],
+      wish: [...state.wishList.data[table - 1]],
+      order: [...state.orderSheet.data[table - 1]],
+    }),
+    shallowEqual
+  );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
@@ -62,7 +63,6 @@ const MenuSlct = ({match, history}) => {
         dispatch(STOCK_DECR_MENU_SLCT_REQUEST({menuData}));
       }
     }
-    dispatch(GET_MENU_MENU_SLCT_REQUEST());
   };
 
   const addOrder = () => {
@@ -152,33 +152,31 @@ const MenuSlct = ({match, history}) => {
   };
 
   const menuButtonList = () => {
-    if (menu && getMenuLoading === false && getMenuDone === true)
-      return menu.map((data, index) => (
-        <MenuButton
-          onClick={() => addWish(data)}
-          key={index}
-          index={index}
-          name={data.menu_name}
-          price={data.menu_price}
-          stock={data.menu_stock}
-        />
-      ));
+    return menu.map((data, index) => (
+      <MenuButton
+        onClick={() => addWish(data)}
+        key={index}
+        index={index}
+        name={data.menu_name}
+        price={data.menu_price}
+        stock={data.menu_stock}
+      />
+    ));
   };
 
   const WishButtonList = () => {
-    if (wish && getWishLoading === false && getWishDone === true)
-      return wish.map((data, index) => (
-        <WishButton
-          key={index}
-          index={index}
-          name={data.menu_name}
-          price={data.menu_price}
-          quantity={data.wish_quantity}
-          delete={() => delWish(data)}
-          plus={() => plus(data, index)}
-          minus={() => minus(data, index)}
-        />
-      ));
+    return wish.map((data, index) => (
+      <WishButton
+        key={index}
+        index={index}
+        name={data.menu_name}
+        price={data.menu_price}
+        quantity={data.wish_quantity}
+        delete={() => delWish(data)}
+        plus={() => plus(data, index)}
+        minus={() => minus(data, index)}
+      />
+    ));
   };
 
   return (

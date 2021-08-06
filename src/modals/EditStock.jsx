@@ -10,15 +10,17 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {EDIT_STOCK_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
 import {MODAL_OPEN} from '../reducers/modal';
 import {RESET_SELECT} from '../reducers/select';
 
 const EditStock = () => {
   const classes = useStyles();
-  const open = useSelector((state) => [...state.modal.open]);
-  const select = useSelector((state) => state.select.select);
+  const {select, open} = useSelector(
+    (state) => ({select: state.select.select, open: [...state.modal.open]}),
+    shallowEqual
+  );
   const [input, setInput] = useState(0);
 
   useEffect(() => {

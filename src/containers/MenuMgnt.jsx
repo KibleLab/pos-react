@@ -16,15 +16,20 @@ import AddMenu from '../modals/AddMenu';
 import DelMenu from '../modals/DelMenu';
 import EditStock from '../modals/EditStock';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {GET_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
 import {MODAL_OPEN} from '../reducers/modal';
 import {SET_SELECT, RESET_SELECT} from '../reducers/select';
 
 const MenuMgnt = ({history}) => {
   const classes = useStyles();
-  const select = useSelector((state) => state.select.select);
-  const rows = useSelector((state) => [...state.menuMgnt.menu]);
+  const {rows, select} = useSelector(
+    (state) => ({
+      rows: [...state.menuMgnt.data],
+      select: state.select.select,
+    }),
+    shallowEqual
+  );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();

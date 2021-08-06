@@ -10,14 +10,19 @@ import {Link} from 'react-router-dom';
 
 import TableMgnt from '../modals/TableMgnt';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {GET_TABLE_TABLE_MGNT_REQUEST} from '../reducers/tableMgnt';
 
 const Main = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const table = useSelector((state) => [...state.tableMgnt.table]);
-  const load = useSelector((state) => state.tableMgnt.getTableLoading);
+  const {table, isLoading} = useSelector(
+    (state) => ({
+      table: [...state.tableMgnt.data],
+      isLoading: state.tableMgnt.isLoading,
+    }),
+    shallowEqual
+  );
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -39,16 +44,19 @@ const Main = () => {
     return a[sortingField] - b[sortingField];
   });
 
-  const tableButtonList = table.map((data, index) => (
-    <div key={index}>
-      <Link to={'/ordersheet/' + data.table_no}>
-        <TableButton index={index} table={data.table_no} title={data.table_name} />
-      </Link>
-    </div>
-  ));
+  console.log(table.data);
+  const tableButtonList = () => {
+    return table.map((data, index) => (
+      <div key={index}>
+        <Link to={'/ordersheet/' + data.table_no}>
+          <TableButton index={index} table={data.table_no} title={data.table_name} />
+        </Link>
+      </div>
+    ));
+  };
 
   const initTable = () => {
-    if (load === false && table.length === 0) {
+    if (isLoading === false && table.length === 0) {
       return <TableMgnt isOpen={true} />;
     } else {
       return <TableMgnt isOpen={false} />;
@@ -56,7 +64,7 @@ const Main = () => {
   };
 
   const progressBar = () => {
-    if (load === true) {
+    if (isLoading === true) {
       return (
         <LinearProgress
           className={classes.progressBar}
@@ -84,7 +92,7 @@ const Main = () => {
 
       <Container className={classes.tableListC} maxWidth={false}>
         <Container className={classes.tableList} maxWidth={false}>
-          {tableButtonList}
+          {tableButtonList()}
         </Container>
       </Container>
 

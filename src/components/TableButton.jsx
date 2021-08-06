@@ -5,30 +5,33 @@ import Button from '@material-ui/core/Button';
 
 import {useEffect} from 'react';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {GET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
 
 const TableButton = (props) => {
   const classes = useStyles(props);
   const table = props.table;
-
-  const order = useSelector((state) => [...state.orderSheet.order[table - 1]]);
-
+  const {order} = useSelector(
+    (state) => ({order: [...state.orderSheet.data[table - 1]]}),
+    shallowEqual
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(GET_ORDER_ORDER_SHEET_REQUEST({table}));
   }, [dispatch, table]);
 
-  const orderList = order.map((data, index) => (
-    <Order key={index} index={index} name={data.menu_name} quantity={data.order_quantity} />
-  ));
+  const orderList = () => {
+    return order.map((data, index) => (
+      <Order key={index} index={index} name={data.menu_name} quantity={data.order_quantity} />
+    ));
+  };
 
   return (
     <Container className={classes.root} maxWidth={false} component={Button}>
       <Typography className={classes.tableTitle}>{props.title}</Typography>
       <Container className={classes.orderListC} maxWidth={false}>
-        {orderList}
+        {orderList()}
       </Container>
     </Container>
   );

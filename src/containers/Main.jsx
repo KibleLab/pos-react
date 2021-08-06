@@ -44,7 +44,6 @@ const Main = () => {
     return a[sortingField] - b[sortingField];
   });
 
-  console.log(table.data);
   const tableButtonList = () => {
     return table.map((data, index) => (
       <div key={index}>

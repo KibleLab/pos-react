@@ -10,14 +10,16 @@ import {useState} from 'react';
 import Modal from 'react-modal';
 import {withRouter} from 'react-router-dom';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {RESET_SALES_DAILY_SALES_REQUEST} from '../reducers/dailySales';
 import {MODAL_OPEN} from '../reducers/modal';
 
 const Deadline = ({history}) => {
   const classes = useStyles();
-  const open = useSelector((state) => [...state.modal.open]);
-  const order = useSelector((state) => state.orderSheet.order);
+  const {order, open} = useSelector(
+    (state) => ({open: [...state.modal.open], order: [...state.orderSheet.data]}),
+    shallowEqual
+  );
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();

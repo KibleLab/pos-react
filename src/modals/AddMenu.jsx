@@ -10,14 +10,14 @@ import CloseIcon from '@material-ui/icons/Close';
 import {useState} from 'react';
 import Modal from 'react-modal';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {ADD_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
 import {MODAL_OPEN} from '../reducers/modal';
 import {RESET_SELECT} from '../reducers/select';
 
 const AddMenu = () => {
   const classes = useStyles();
-  const open = useSelector((state) => [...state.modal.open]);
+  const {open} = useSelector((state) => ({open: [...state.modal.open]}), shallowEqual);
   const [inputs, setInputs] = useState({menu_name: '', menu_price: '', menu_stock: ''});
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [message, setMessage] = useState('');

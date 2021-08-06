@@ -14,14 +14,17 @@ import Payment from '../modals/Payment';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {Link} from 'react-router-dom';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {GET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
 import {MODAL_OPEN} from '../reducers/modal';
 
 const OrderSheet = ({match}) => {
   const classes = useStyles();
   const {table} = match.params;
-  const order = useSelector((state) => [...state.orderSheet.order[table - 1]]);
+  const {order} = useSelector(
+    (state) => ({order: [...state.orderSheet.data[table - 1]]}),
+    shallowEqual
+  );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();

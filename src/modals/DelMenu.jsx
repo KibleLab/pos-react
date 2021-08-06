@@ -5,15 +5,17 @@ import Button from '@material-ui/core/Button';
 
 import Modal from 'react-modal';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {DELETE_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
 import {MODAL_OPEN} from '../reducers/modal';
 import {RESET_SELECT} from '../reducers/select';
 
 const DelMenu = () => {
   const classes = useStyles();
-  const open = useSelector((state) => [...state.modal.open]);
-  const select = useSelector((state) => state.select.select);
+  const {select, open} = useSelector(
+    (state) => ({select: state.select.select, open: [...state.modal.open]}),
+    shallowEqual
+  );
   const dispatch = useDispatch();
 
   const close = () => {

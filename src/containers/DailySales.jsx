@@ -15,13 +15,13 @@ import {Link} from 'react-router-dom';
 
 import Deadline from '../modals/Deadline';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {GET_SALES_DAILY_SALES_REQUEST} from '../reducers/dailySales';
 import {MODAL_OPEN} from '../reducers/modal';
 
 const DailySales = () => {
   const classes = useStyles();
-  const sales = useSelector((state) => [...state.dailySales.sales]);
+  const {sales} = useSelector((state) => ({sales: [...state.dailySales.data]}), shallowEqual);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();

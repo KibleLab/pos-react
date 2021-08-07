@@ -3,12 +3,20 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import {useEffect} from 'react';
 import Modal from 'react-modal';
 import {withRouter} from 'react-router-dom';
 
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {RESET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
-import {ADD_SALES_DAILY_SALES_REQUEST, QUAN_INCR_DAILY_SALES_REQUEST} from '../reducers/dailySales';
+import {
+  GET_ORDER_ORDER_SHEET_REQUEST,
+  RESET_ORDER_ORDER_SHEET_REQUEST,
+} from '../reducers/orderSheet';
+import {
+  ADD_SALES_DAILY_SALES_REQUEST,
+  GET_SALES_DAILY_SALES_REQUEST,
+  QUAN_INCR_DAILY_SALES_REQUEST,
+} from '../reducers/dailySales';
 import {MODAL_OPEN} from '../reducers/modal';
 
 Modal.setAppElement('body');
@@ -16,31 +24,41 @@ Modal.setAppElement('body');
 const Payment = ({match, history}) => {
   const classes = useStyles();
   const {table} = match.params;
-  const {order, sales, open} = useSelector(
+  const {order, sales, open, isDone_order, isDone_sales} = useSelector(
     (state) => ({
       order: [...state.orderSheet.data[table - 1]],
       sales: [...state.dailySales.data],
       open: [...state.modal.open],
+      isDone_order: state.orderSheet.isDone,
+      isDone_sales: state.dailySales.isDone,
     }),
     shallowEqual
   );
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({table}));
+    dispatch(GET_SALES_DAILY_SALES_REQUEST());
+  }, [dispatch, table]);
+
   const close = () => {
     dispatch(MODAL_OPEN({index: 3, open: false}));
   };
+
   const payCalc = () => {
-    for (let i = 0; i < order.length; i++) {
-      const index = sales.findIndex((sales) => sales.menu_name === order[i].menu_name);
-      if (index === -1) {
-        dispatch(ADD_SALES_DAILY_SALES_REQUEST({orderData: order[i]}));
-      } else {
-        dispatch(QUAN_INCR_DAILY_SALES_REQUEST({orderData: order[i], salesData: sales[index]}));
+    if (isDone_order === true && isDone_sales === true) {
+      for (let i = 0; i < order.length; i++) {
+        const index = sales.findIndex((sales) => sales.menu_name === order[i].menu_name);
+        let orderData = order[i];
+        let salesData = sales[index];
+        index === -1
+          ? dispatch(ADD_SALES_DAILY_SALES_REQUEST({orderData}))
+          : dispatch(QUAN_INCR_DAILY_SALES_REQUEST({orderData, salesData}));
       }
+      dispatch(RESET_ORDER_ORDER_SHEET_REQUEST({table}));
+      dispatch(MODAL_OPEN({index: 3, open: false}));
+      history.push('/');
     }
-    dispatch(RESET_ORDER_ORDER_SHEET_REQUEST({table}));
-    dispatch(MODAL_OPEN({index: 3, open: false}));
-    history.push('/');
   };
 
   return (

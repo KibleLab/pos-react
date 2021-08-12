@@ -9,6 +9,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
+import {Helmet} from 'react-helmet';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {withRouter} from 'react-router-dom';
 
@@ -68,6 +69,9 @@ const MenuMgnt = ({history}) => {
 
   return (
     <Container className={classes.root} maxWidth={false}>
+      <Helmet>
+        <title>메뉴 관리 - Kible POS System</title>
+      </Helmet>
       <Container className={classes.gridC} maxWidth={false}>
         <div
           className="ag-theme-alpine"
@@ -102,7 +106,6 @@ const MenuMgnt = ({history}) => {
           </AgGridReact>
         </div>
       </Container>
-
       <Button
         className={classes.addMenuB}
         onClick={() => dispatch(MODAL_OPEN({index: 0, open: true}))}
@@ -110,21 +113,17 @@ const MenuMgnt = ({history}) => {
         새 상품 추가
       </Button>
       <AddMenu />
-
       <Button className={classes.delMenuB} onClick={() => onClick(1)}>
         기존 상품 제거
       </Button>
       <DelMenu />
-
       <Button className={classes.editStockB} onClick={() => onClick(2)}>
         재고 수정
       </Button>
       <EditStock />
-
       <Button className={classes.backB} onClick={goBack}>
         Back
       </Button>
-
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

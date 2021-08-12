@@ -74,7 +74,7 @@ const OrderSheet = ({match}) => {
   return (
     <Container className={classes.root} maxWidth={false}>
       <Helmet>
-        <title>{table}번 테이블 주문서 - Kible POS System</title>
+        <title>Table{table} 주문서 - Kible POS System</title>
       </Helmet>
       <Container className={classes.gridC} maxWidth={false}>
         <div

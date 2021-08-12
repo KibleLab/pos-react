@@ -10,6 +10,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
+import {Helmet} from 'react-helmet';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {Link} from 'react-router-dom';
 
@@ -59,6 +60,9 @@ const DailySales = () => {
 
   return (
     <Container className={classes.root} maxWidth={false}>
+      <Helmet>
+        <title>일 매출 조회 - Kible POS System</title>
+      </Helmet>
       <Container className={classes.gridC} maxWidth={false}>
         <div
           className="ag-theme-alpine"
@@ -95,20 +99,16 @@ const DailySales = () => {
           </AgGridReact>
         </div>
       </Container>
-
       <Container className={classes.salesC} maxWidth={false}>
         <Typography className={classes.salesTitle}>총 매출액</Typography>
         <Typography className={classes.salesTotal}>{Number(total()).toLocaleString()}원</Typography>
       </Container>
-
       <Button className={classes.homeB} component={Link} to={'/'}>
         Home
       </Button>
-
       <Button className={classes.businessDeadLineB} onClick={() => deadline()}>
         영업마감
       </Button>
-
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
@@ -129,7 +129,6 @@ const DailySales = () => {
           </IconButton>
         }
       />
-
       <Deadline />
     </Container>
   );

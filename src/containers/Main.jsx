@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import {useEffect, useState} from 'react';
+import {Helmet} from 'react-helmet';
 import Title from '../components/Title';
 import TableButton from '../components/TableButton';
 import {Link} from 'react-router-dom';
@@ -77,24 +78,22 @@ const Main = () => {
 
   return (
     <Container className={classes.root} maxWidth={false}>
+      <Helmet>
+        <title>Main - Kible POS System</title>
+      </Helmet>
       {progressBar()}
-
       <Title />
-
       <Button className={classes.menuManageB} component={Link} to={'/menu-mgnt'}>
         메뉴 관리
       </Button>
-
       <Button className={classes.calcB} component={Link} to={'/dailysales'}>
         정산
       </Button>
-
       <Container className={classes.tableListC} maxWidth={false}>
         <Container className={classes.tableList} maxWidth={false}>
           {tableButtonList()}
         </Container>
       </Container>
-
       {initTable()}
     </Container>
   );

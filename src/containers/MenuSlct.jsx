@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 import {useState, useEffect} from 'react';
+import {Helmet} from 'react-helmet';
 import MenuButton from '../components/MenuButton';
 import WishButton from '../components/WishButton';
 import {Link} from 'react-router-dom';
@@ -204,18 +205,19 @@ const MenuSlct = ({match, history}) => {
 
   return (
     <Container className={classes.root} maxWidth={false}>
+      <Helmet>
+        <title>메뉴 선택 - Kible POS System</title>
+      </Helmet>
       <Container className={classes.menuC} maxWidth={false}>
         <Container className={classes.menuList} maxWidth={false}>
           {menuButtonList()}
         </Container>
       </Container>
-
       <Container className={classes.wishC} maxWidth={false}>
         <Container className={classes.wishList} maxWidth={false}>
           {WishButtonList()}
         </Container>
       </Container>
-
       <Button
         className={classes.backB}
         onClick={() => resetWish()}
@@ -224,7 +226,6 @@ const MenuSlct = ({match, history}) => {
       >
         Back
       </Button>
-
       <Button
         className={classes.menuManageB}
         onClick={() => resetWish()}
@@ -233,15 +234,12 @@ const MenuSlct = ({match, history}) => {
       >
         메뉴 관리
       </Button>
-
       <Container className={classes.tableNameC} maxWidth={false}>
         <Typography className={classes.tableName}>{'Table' + table}</Typography>
       </Container>
-
       <Button className={classes.addOrderB} onClick={() => addOrder()}>
         주문서에 추가
       </Button>
-
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

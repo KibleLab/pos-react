@@ -10,6 +10,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import {useState, useEffect} from 'react';
+import {Helmet} from 'react-helmet';
 import Payment from '../modals/Payment';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {Link} from 'react-router-dom';
@@ -72,6 +73,9 @@ const OrderSheet = ({match}) => {
 
   return (
     <Container className={classes.root} maxWidth={false}>
+      <Helmet>
+        <title>{table}번 테이블 주문서 - Kible POS System</title>
+      </Helmet>
       <Container className={classes.gridC} maxWidth={false}>
         <div
           className="ag-theme-alpine"
@@ -101,7 +105,6 @@ const OrderSheet = ({match}) => {
           </AgGridReact>
         </div>
       </Container>
-
       <Container className={classes.payInfo} maxWidth={false}>
         <Container className={classes.payPriceC} maxWidth={false}>
           <Typography className={classes.payTitle}>결제 금액</Typography>
@@ -122,22 +125,18 @@ const OrderSheet = ({match}) => {
           </Typography>
         </Container>
       </Container>
-
       <Button className={classes.backB} component={Link} to={'/'}>
         Back
       </Button>
       <Button className={classes.addMenuB} component={Link} to={'/menu-slct/' + table}>
         메뉴 추가
       </Button>
-
       <Container className={classes.tableNameC} maxWidth={false}>
         <Typography className={classes.tableName}>{'Table' + table}</Typography>
       </Container>
-
       <Button className={classes.payment} onClick={() => payment()}>
         결제
       </Button>
-
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

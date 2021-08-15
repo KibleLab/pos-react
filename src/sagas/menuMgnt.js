@@ -1,4 +1,6 @@
-import {put, call, all, fork, takeEvery, takeLatest} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeEvery, takeLatest} from 'redux-saga/effects';
+import {eventChannel} from '@redux-saga/core';
+import {io} from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -19,8 +21,16 @@ import {
   DELETE_MENU_MENU_MGNT_FAILURE,
 } from '../reducers/menuMgnt';
 
+const socket = io('/api/menu-mgnt', {path: '/socket', transports: ['websocket']});
+
 const getMenuAPI = () => {
-  return axios.get('/api/menu-mgnt');
+  return eventChannel((emit) => {
+    const emitter = (result) => {
+      emit(result);
+    };
+    socket.emit('GET /api/menu-mgnt Request');
+    socket.on('GET /api/menu-mgnt Success', emitter);
+  });
 };
 
 const addMenuAPI = (addData) => {
@@ -58,7 +68,10 @@ const deleteMenuAPI = (delData) => {
 function* getMenu() {
   try {
     const result = yield call(getMenuAPI);
-    yield put(GET_MENU_MENU_MGNT_SUCCESS({data: result.data}));
+    while (true) {
+      const channel = yield take(result);
+      yield put(GET_MENU_MENU_MGNT_SUCCESS({data: channel}));
+    }
   } catch (err) {
     yield put(GET_MENU_MENU_MGNT_FAILURE({error: err.response.data}));
   }

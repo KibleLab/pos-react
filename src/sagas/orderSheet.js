@@ -55,7 +55,6 @@ function* getOrder(action) {
     const result = yield call(getOrderAPI, action.payload.table);
     while (true) {
       const channel = yield take(result);
-      console.log(channel);
       yield put(GET_ORDER_ORDER_SHEET_SUCCESS({table: channel.table, data: channel.data}));
     }
   } catch (err) {

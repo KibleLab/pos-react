@@ -1,4 +1,6 @@
-import {put, call, all, fork, takeEvery, takeLatest} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeEvery, takeLatest} from 'redux-saga/effects';
+import {eventChannel} from '@redux-saga/core';
+import {io} from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -16,8 +18,16 @@ import {
   RESET_SALES_DAILY_SALES_FAILURE,
 } from '../reducers/dailySales';
 
+const socket = io('/api/dailysales', {path: '/socket', transports: ['websocket']});
+
 const getSalesAPI = () => {
-  return axios.get('/api/dailysales');
+  return eventChannel((emit) => {
+    const emitter = (result) => {
+      emit(result);
+    };
+    socket.emit('GET /api/dailysales Request');
+    socket.on('GET /api/dailysales Success', emitter);
+  });
 };
 
 const addSalesAPI = (orderData) => {
@@ -50,7 +60,10 @@ const resetSalesAPI = () => {
 function* getSales() {
   try {
     const result = yield call(getSalesAPI);
-    yield put(GET_SALES_DAILY_SALES_SUCCESS({data: result.data}));
+    while (true) {
+      const channel = yield take(result);
+      yield put(GET_SALES_DAILY_SALES_SUCCESS({data: channel}));
+    }
   } catch (err) {
     yield put(GET_SALES_DAILY_SALES_FAILURE({error: err.response.data}));
   }

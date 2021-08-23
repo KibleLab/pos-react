@@ -1,4 +1,4 @@
-import {put, call, all, fork, take, takeEvery, takeLatest} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeLatest} from 'redux-saga/effects';
 import {eventChannel} from '@redux-saga/core';
 import {io} from 'socket.io-client';
 import axios from 'axios';
@@ -101,15 +101,15 @@ function* watchGetOrder() {
 }
 
 function* watchAddOrder() {
-  yield takeEvery(ADD_ORDER_ORDER_SHEET_REQUEST, addOrder);
+  yield takeLatest(ADD_ORDER_ORDER_SHEET_REQUEST, addOrder);
 }
 
 function* watchQuanIncr() {
-  yield takeEvery(QUAN_INCR_ORDER_SHEET_REQUEST, quanIncr);
+  yield takeLatest(QUAN_INCR_ORDER_SHEET_REQUEST, quanIncr);
 }
 
 function* watchResetOrder() {
-  yield takeEvery(RESET_ORDER_ORDER_SHEET_REQUEST, resetOrder);
+  yield takeLatest(RESET_ORDER_ORDER_SHEET_REQUEST, resetOrder);
 }
 
 export default function* orderSheet() {

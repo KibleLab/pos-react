@@ -1,4 +1,4 @@
-import {put, call, all, fork, takeEvery, takeLatest} from 'redux-saga/effects';
+import {put, call, all, fork, takeLatest} from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
@@ -44,7 +44,7 @@ function* watchGetTable() {
 }
 
 function* watchAddTable() {
-  yield takeEvery(ADD_TABLE_TABLE_MGNT_REQUEST, addTable);
+  yield takeLatest(ADD_TABLE_TABLE_MGNT_REQUEST, addTable);
 }
 
 export default function* tableMgnt() {

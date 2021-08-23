@@ -111,7 +111,7 @@ const MenuSlct = ({match, history}) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
-      if (!menuData) menuData = {menu_name: wishData.menu_name, menu_stock: 0};
+      if (menuData.menu_stock === 0) menuData = {menu_name: wishData.menu_name, menu_stock: 0};
       dispatch(STOCK_REST_MENU_SLCT_REQUEST({menuData, wishData}));
       dispatch(DELETE_WISH_WISH_LIST_REQUEST({table, wishData}));
       setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
@@ -127,7 +127,7 @@ const MenuSlct = ({match, history}) => {
         const index = menu.findIndex((menu) => menu.menu_name === wish[i].menu_name);
         let menuData = menu[index];
         let wishData = wish[i];
-        if (!menuData) menuData = {menu_name: wish[i].menu_name, menu_stock: 0};
+        if (menuData.menu_stock === 0) menuData = {menu_name: wish[i].menu_name, menu_stock: 0};
         dispatch(STOCK_REST_MENU_SLCT_REQUEST({menuData, wishData}));
       }
       dispatch(RESET_WISH_WISH_LIST_REQUEST({table}));
@@ -138,7 +138,7 @@ const MenuSlct = ({match, history}) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
-      if (!menuData) {
+      if (menuData.menu_stock === 0) {
         setMessage('재고가 없습니다.');
         setOpen(true);
       } else {
@@ -155,7 +155,7 @@ const MenuSlct = ({match, history}) => {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
       if (wishData.wish_quantity > 1) {
-        if (!menuData) menuData = {menu_name: wishData.menu_name, menu_stock: 0};
+        if (menuData.menu_stock === 0) menuData = {menu_name: wishData.menu_name, menu_stock: 0};
         dispatch(QUAN_DECR_WISH_LIST_REQUEST({table, wishData}));
         dispatch(STOCK_INCR_MENU_SLCT_REQUEST({menuData}));
       } else {

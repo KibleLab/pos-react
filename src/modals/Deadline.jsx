@@ -47,15 +47,12 @@ const Deadline = ({ history }) => {
       <Container className={classes.contents} maxWidth={false}>
         <Typography className={classes.title}>영업을 마감하시겠습니까?</Typography>
       </Container>
-
       <Button className={classes.backB} onClick={close}>
         Back
       </Button>
-
       <Button className={classes.resetSalesB} onClick={resetSales}>
         마감
       </Button>
-
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

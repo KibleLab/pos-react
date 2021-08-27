@@ -38,7 +38,6 @@ const DelMenu = () => {
       <Button className={classes.backB} onClick={close}>
         Back
       </Button>
-
       <Button className={classes.delB} onClick={delMenu}>
         제거
       </Button>

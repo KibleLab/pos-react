@@ -60,7 +60,6 @@ const AddMenu = () => {
     <Modal className={classes.root} isOpen={open[0]}>
       <Container className={classes.contents} maxWidth={false}>
         <Typography className={classes.title}>등록할 상품 정보 입력</Typography>
-
         <TextField
           className={classes.name}
           label={'상품명 입력'}
@@ -71,7 +70,6 @@ const AddMenu = () => {
           variant={'filled'}
           onChange={onChange}
         />
-
         <TextField
           className={classes.price}
           label={'단가 입력'}
@@ -82,7 +80,6 @@ const AddMenu = () => {
           variant={'filled'}
           onChange={onChange}
         />
-
         <TextField
           className={classes.stock}
           label={'재고 입력'}
@@ -94,15 +91,12 @@ const AddMenu = () => {
           onChange={onChange}
         />
       </Container>
-
       <Button className={classes.backB} onClick={close}>
         Back
       </Button>
-
       <Button className={classes.enrollB} onClick={addMenu}>
         등록
       </Button>
-
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

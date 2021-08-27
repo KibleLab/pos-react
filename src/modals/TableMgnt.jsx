@@ -70,27 +70,22 @@ const TableMgnt = (props) => {
     <Modal className={classes.root} isOpen={props.isOpen}>
       <Container className={classes.contents} maxWidth={false}>
         <Typography className={classes.title}>테이블 초기 설정</Typography>
-
         <TextField
           className={classes.count}
           variant={'outlined'}
           value={input}
           onChange={onChange}
         />
-
         <IconButton aria-label='plus' className={classes.plus} onClick={plus}>
           <AddIcon />
         </IconButton>
-
         <IconButton aria-label='minus' className={classes.minus} onClick={minus}>
           <RemoveIcon />
         </IconButton>
       </Container>
-
       <Button className={classes.editB} onClick={tableEdit}>
         수정
       </Button>
-
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

@@ -62,27 +62,22 @@ const EditStock = () => {
     <Modal className={classes.root} isOpen={open[2]}>
       <Container className={classes.contents} maxWidth={false}>
         <Typography className={classes.title}>재고수정 - {select.menu_name}</Typography>
-
         <TextField
           className={classes.stock}
           variant={'outlined'}
           value={input}
           onChange={onChange}
         />
-
         <IconButton aria-label='plus' className={classes.plus} onClick={plus}>
           <AddIcon />
         </IconButton>
-
         <IconButton aria-label='minus' className={classes.minus} onClick={minus}>
           <RemoveIcon />
         </IconButton>
       </Container>
-
       <Button className={classes.backB} onClick={close}>
         Back
       </Button>
-
       <Button className={classes.editB} onClick={editStock}>
         수정
       </Button>

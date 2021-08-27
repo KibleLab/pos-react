@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -7,19 +7,19 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {EDIT_STOCK_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
-import {MODAL_OPEN} from '../reducers/modal';
-import {RESET_SELECT} from '../reducers/select';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { EDIT_STOCK_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
+import { MODAL_OPEN } from '../reducers/modal';
+import { RESET_SELECT } from '../reducers/select';
 
 const EditStock = () => {
   const classes = useStyles();
-  const {select, open} = useSelector(
-    (state) => ({select: state.select.select, open: [...state.modal.open]}),
-    shallowEqual
+  const { select, open } = useSelector(
+    (state) => ({ select: state.select.select, open: [...state.modal.open] }),
+    shallowEqual,
   );
   const [input, setInput] = useState(0);
 
@@ -48,14 +48,14 @@ const EditStock = () => {
 
   const close = (e) => {
     setInput(select.menu_stock);
-    dispatch(MODAL_OPEN({index: 2, open: false}));
+    dispatch(MODAL_OPEN({ index: 2, open: false }));
   };
 
   const editStock = () => {
-    const editData = {menu_name: select.menu_name, menu_stock: input};
-    dispatch(EDIT_STOCK_MENU_MGNT_REQUEST({editData}));
+    const editData = { menu_name: select.menu_name, menu_stock: input };
+    dispatch(EDIT_STOCK_MENU_MGNT_REQUEST({ editData }));
     dispatch(RESET_SELECT());
-    dispatch(MODAL_OPEN({index: 2, open: false}));
+    dispatch(MODAL_OPEN({ index: 2, open: false }));
   };
 
   return (
@@ -70,11 +70,11 @@ const EditStock = () => {
           onChange={onChange}
         />
 
-        <IconButton aria-label="plus" className={classes.plus} onClick={plus}>
+        <IconButton aria-label='plus' className={classes.plus} onClick={plus}>
           <AddIcon />
         </IconButton>
 
-        <IconButton aria-label="minus" className={classes.minus} onClick={minus}>
+        <IconButton aria-label='minus' className={classes.minus} onClick={minus}>
           <RemoveIcon />
         </IconButton>
       </Container>
@@ -139,7 +139,7 @@ const useStyles = makeStyles({
     fontSize: 36,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#68DBFF'},
+    '&:hover': { backgroundColor: '#68DBFF' },
   },
   minus: {
     position: 'absolute',
@@ -153,7 +153,7 @@ const useStyles = makeStyles({
     fontSize: 36,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#68DBFF'},
+    '&:hover': { backgroundColor: '#68DBFF' },
   },
   backB: {
     position: 'absolute',
@@ -166,7 +166,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#adff00'},
+    '&:hover': { backgroundColor: '#adff00' },
   },
   editB: {
     position: 'absolute',

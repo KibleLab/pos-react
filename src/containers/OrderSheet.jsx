@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -9,29 +9,29 @@ import CloseIcon from '@material-ui/icons/Close';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-import {useState, useEffect} from 'react';
-import {Helmet} from 'react-helmet';
+import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import Payment from '../modals/Payment';
-import {AgGridColumn, AgGridReact} from 'ag-grid-react';
-import {Link} from 'react-router-dom';
+import { AgGridColumn, AgGridReact } from 'ag-grid-react';
+import { Link } from 'react-router-dom';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {GET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
-import {MODAL_OPEN} from '../reducers/modal';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { GET_ORDER_ORDER_SHEET_REQUEST } from '../reducers/orderSheet';
+import { MODAL_OPEN } from '../reducers/modal';
 
-const OrderSheet = ({match}) => {
+const OrderSheet = ({ match }) => {
   const classes = useStyles();
-  const {table} = match.params;
-  const {order} = useSelector(
-    (state) => ({order: [...state.orderSheet.data[table - 1]]}),
-    shallowEqual
+  const { table } = match.params;
+  const { order } = useSelector(
+    (state) => ({ order: [...state.orderSheet.data[table - 1]] }),
+    shallowEqual,
   );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({table}));
+    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
   }, [dispatch, table]);
 
   const totalPrice = () => {
@@ -57,7 +57,7 @@ const OrderSheet = ({match}) => {
       setMessage('결제할 내역이 없습니다.');
       setOpen(true);
     } else {
-      dispatch(MODAL_OPEN({index: 3, open: true}));
+      dispatch(MODAL_OPEN({ index: 3, open: true }));
     }
   };
 
@@ -78,27 +78,26 @@ const OrderSheet = ({match}) => {
       </Helmet>
       <Container className={classes.gridC} maxWidth={false}>
         <div
-          className="ag-theme-alpine"
-          style={{width: '100%', height: '100%', padding: 0, fontSize: 26}}
-        >
+          className='ag-theme-alpine'
+          style={{ width: '100%', height: '100%', padding: 0, fontSize: 26 }}>
           <AgGridReact rowData={order} suppressMovableColumns={true}>
             <AgGridColumn
               field={'menu_name'}
               headerName={'상품명'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               flex={2}
             />
             <AgGridColumn
               field={'menu_price'}
               headerName={'단가'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               valueFormatter={currencyFormatter}
               flex={1}
             />
             <AgGridColumn
               field={'order_quantity'}
               headerName={'수량'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               valueFormatter={currencyFormatter}
               flex={1}
             />
@@ -148,11 +147,10 @@ const OrderSheet = ({match}) => {
         message={message}
         action={
           <IconButton
-            aria-label="close"
-            style={{color: 'yellow'}}
+            aria-label='close'
+            style={{ color: 'yellow' }}
             className={classes.close}
-            onClick={() => setOpen(false)}
-          >
+            onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }
@@ -274,7 +272,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#adff00'},
+    '&:hover': { backgroundColor: '#adff00' },
   },
   addMenuB: {
     position: 'absolute',
@@ -287,7 +285,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ebff00'},
+    '&:hover': { backgroundColor: '#ebff00' },
   },
   tableNameC: {
     position: 'absolute',

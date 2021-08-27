@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -8,28 +8,28 @@ import CloseIcon from '@material-ui/icons/Close';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-import {useState, useEffect} from 'react';
-import {Helmet} from 'react-helmet';
-import {AgGridColumn, AgGridReact} from 'ag-grid-react';
-import {withRouter} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import { AgGridColumn, AgGridReact } from 'ag-grid-react';
+import { withRouter } from 'react-router-dom';
 
 import AddMenu from '../modals/AddMenu';
 import DelMenu from '../modals/DelMenu';
 import EditStock from '../modals/EditStock';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {GET_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
-import {MODAL_OPEN} from '../reducers/modal';
-import {SET_SELECT, RESET_SELECT} from '../reducers/select';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { GET_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
+import { MODAL_OPEN } from '../reducers/modal';
+import { SET_SELECT, RESET_SELECT } from '../reducers/select';
 
-const MenuMgnt = ({history}) => {
+const MenuMgnt = ({ history }) => {
   const classes = useStyles();
-  const {rows, select} = useSelector(
+  const { rows, select } = useSelector(
     (state) => ({
       rows: [...state.menuMgnt.data],
       select: state.select.select,
     }),
-    shallowEqual
+    shallowEqual,
   );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -49,7 +49,7 @@ const MenuMgnt = ({history}) => {
       setMessage('상품을 선택해주세요.');
       setOpen(true);
     } else {
-      dispatch(MODAL_OPEN({index: index, open: true}));
+      dispatch(MODAL_OPEN({ index: index, open: true }));
     }
   };
 
@@ -74,32 +74,30 @@ const MenuMgnt = ({history}) => {
       </Helmet>
       <Container className={classes.gridC} maxWidth={false}>
         <div
-          className="ag-theme-alpine"
-          style={{width: '100%', height: '100%', padding: 0, fontSize: 26}}
-        >
+          className='ag-theme-alpine'
+          style={{ width: '100%', height: '100%', padding: 0, fontSize: 26 }}>
           <AgGridReact
             rowData={rows}
             rowSelection={'single'}
             onRowClicked={onRowSelected}
-            suppressMovableColumns={true}
-          >
+            suppressMovableColumns={true}>
             <AgGridColumn
               field={'menu_name'}
               headerName={'상품명'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               flex={2}
             />
             <AgGridColumn
               field={'menu_price'}
               headerName={'단가'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               valueFormatter={currencyFormatter}
               flex={1}
             />
             <AgGridColumn
               field={'menu_stock'}
               headerName={'재고'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               valueFormatter={currencyFormatter}
               flex={1}
             />
@@ -108,8 +106,7 @@ const MenuMgnt = ({history}) => {
       </Container>
       <Button
         className={classes.addMenuB}
-        onClick={() => dispatch(MODAL_OPEN({index: 0, open: true}))}
-      >
+        onClick={() => dispatch(MODAL_OPEN({ index: 0, open: true }))}>
         새 상품 추가
       </Button>
       <AddMenu />
@@ -135,11 +132,10 @@ const MenuMgnt = ({history}) => {
         message={message}
         action={
           <IconButton
-            aria-label="close"
-            style={{color: 'yellow'}}
+            aria-label='close'
+            style={{ color: 'yellow' }}
             className={classes.close}
-            onClick={() => setOpen(false)}
-          >
+            onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }
@@ -179,7 +175,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ebff00'},
+    '&:hover': { backgroundColor: '#ebff00' },
   },
   delMenuB: {
     position: 'absolute',
@@ -192,7 +188,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ebff00'},
+    '&:hover': { backgroundColor: '#ebff00' },
   },
   editStockB: {
     position: 'absolute',
@@ -205,7 +201,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ebff00'},
+    '&:hover': { backgroundColor: '#ebff00' },
   },
   backB: {
     position: 'absolute',
@@ -218,7 +214,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#adff00'},
+    '&:hover': { backgroundColor: '#adff00' },
   },
 });
 

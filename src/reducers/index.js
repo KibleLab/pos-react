@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import menuMgnt from './menuMgnt';
 import menuSlct from './menuSlct';
 import wishList from './wishList';

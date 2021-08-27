@@ -1,28 +1,28 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import {useEffect, useState} from 'react';
-import {Helmet} from 'react-helmet';
+import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import Title from '../components/Title';
 import TableButton from '../components/TableButton';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import TableMgnt from '../modals/TableMgnt';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {GET_TABLE_TABLE_MGNT_REQUEST} from '../reducers/tableMgnt';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { GET_TABLE_TABLE_MGNT_REQUEST } from '../reducers/tableMgnt';
 
 const Main = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const {table, isLoading} = useSelector(
+  const { table, isLoading } = useSelector(
     (state) => ({
       table: [...state.tableMgnt.data],
       isLoading: state.tableMgnt.isLoading,
     }),
-    shallowEqual
+    shallowEqual,
   );
   const [progress, setProgress] = useState(0);
 
@@ -68,8 +68,8 @@ const Main = () => {
       return (
         <LinearProgress
           className={classes.progressBar}
-          color="secondary"
-          variant="determinate"
+          color='secondary'
+          variant='determinate'
           value={progress}
         />
       );
@@ -125,7 +125,7 @@ const useStyles = makeStyles({
     left: 40,
     top: 40,
     overflowY: 'auto',
-    '&::-webkit-scrollbar': {width: 5},
+    '&::-webkit-scrollbar': { width: 5 },
     '&::-webkit-scrollbar-thumb': {
       background: '#c7c7c7',
       borderRadius: 10,
@@ -142,7 +142,7 @@ const useStyles = makeStyles({
     fontSize: 38,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ebff00'},
+    '&:hover': { backgroundColor: '#ebff00' },
   },
   tableManageB: {
     position: 'absolute',
@@ -155,7 +155,7 @@ const useStyles = makeStyles({
     fontSize: 38,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ebff00'},
+    '&:hover': { backgroundColor: '#ebff00' },
   },
   calcB: {
     position: 'absolute',
@@ -168,7 +168,7 @@ const useStyles = makeStyles({
     fontSize: 38,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ebff00'},
+    '&:hover': { backgroundColor: '#ebff00' },
   },
   progressBar: {
     position: 'absolute',

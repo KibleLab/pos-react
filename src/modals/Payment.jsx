@@ -78,11 +78,9 @@ const Payment = ({ match, history }) => {
           결제 버튼을 눌러주십시오.
         </Typography>
       </Container>
-
       <Button className={classes.backB} onClick={close}>
         Back
       </Button>
-
       <Button className={classes.payB} onClick={payCalc}>
         결제
       </Button>

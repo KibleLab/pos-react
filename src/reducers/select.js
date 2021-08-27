@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   select: {},
@@ -17,6 +17,6 @@ const selectSlice = createSlice({
   },
 });
 
-export const {SET_SELECT, RESET_SELECT} = selectSlice.actions;
+export const { SET_SELECT, RESET_SELECT } = selectSlice.actions;
 
 export default selectSlice.reducer;

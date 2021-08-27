@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -6,14 +6,14 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-import {useState, useEffect} from 'react';
-import {Helmet} from 'react-helmet';
+import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import MenuButton from '../components/MenuButton';
 import WishButton from '../components/WishButton';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {CHANGE_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { CHANGE_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
 import {
   GET_MENU_MENU_SLCT_REQUEST,
   STOCK_DECR_MENU_SLCT_REQUEST,
@@ -34,10 +34,10 @@ import {
   QUAN_INCR_ORDER_SHEET_REQUEST,
 } from '../reducers/orderSheet';
 
-const MenuSlct = ({match, history}) => {
+const MenuSlct = ({ match, history }) => {
   const classes = useStyles();
-  const {table} = match.params;
-  const {menu, wish, order, isDone_menu, isDone_wish, isDone_order} = useSelector(
+  const { table } = match.params;
+  const { menu, wish, order, isDone_menu, isDone_wish, isDone_order } = useSelector(
     (state) => ({
       menu: [...state.menuSlct.data],
       wish: [...state.wishList.data[table - 1]],
@@ -46,7 +46,7 @@ const MenuSlct = ({match, history}) => {
       isDone_wish: state.wishList.isDone,
       isDone_order: state.orderSheet.isDone,
     }),
-    shallowEqual
+    shallowEqual,
   );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -54,20 +54,20 @@ const MenuSlct = ({match, history}) => {
 
   useEffect(() => {
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
-    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
+    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
   }, [dispatch, table]);
 
   const addWish = (menuData) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = wish.findIndex((wish) => wish.menu_name === menuData.menu_name);
       if (index === -1) {
-        dispatch(ADD_WISH_WISH_LIST_REQUEST({table, menuData}));
-        dispatch(STOCK_DECR_MENU_SLCT_REQUEST({menuData}));
+        dispatch(ADD_WISH_WISH_LIST_REQUEST({ table, menuData }));
+        dispatch(STOCK_DECR_MENU_SLCT_REQUEST({ menuData }));
       } else {
         if (menuData.menu_stock > 0) {
-          dispatch(QUAN_INCR_WISH_LIST_REQUEST({table, wishData: wish[index]}));
-          dispatch(STOCK_DECR_MENU_SLCT_REQUEST({menuData}));
+          dispatch(QUAN_INCR_WISH_LIST_REQUEST({ table, wishData: wish[index] }));
+          dispatch(STOCK_DECR_MENU_SLCT_REQUEST({ menuData }));
         } else {
           setMessage('재고가 없습니다.');
           setOpen(true);
@@ -75,7 +75,7 @@ const MenuSlct = ({match, history}) => {
       }
     }
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const addOrder = () => {
@@ -87,18 +87,18 @@ const MenuSlct = ({match, history}) => {
             let wishData = wish[i];
             let orderData = order[index];
             index === -1
-              ? dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({table, wishData}))
-              : dispatch(QUAN_INCR_ORDER_SHEET_REQUEST({table, wishData, orderData}));
+              ? dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({ table, wishData }))
+              : dispatch(QUAN_INCR_ORDER_SHEET_REQUEST({ table, wishData, orderData }));
           }
         } else {
           for (let i = 0; i < wish.length; i++) {
-            dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({table, wishData: wish[i]}));
+            dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({ table, wishData: wish[i] }));
           }
         }
         for (let i = 0; i < menu.length; i++) {
-          dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({menuData: menu[i]}));
+          dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({ menuData: menu[i] }));
         }
-        dispatch(RESET_WISH_WISH_LIST_REQUEST({table}));
+        dispatch(RESET_WISH_WISH_LIST_REQUEST({ table }));
         history.push('/ordersheet/' + table);
       } else {
         setMessage('주문할 상품이 없습니다.');
@@ -111,14 +111,14 @@ const MenuSlct = ({match, history}) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
-      if (menuData.menu_stock === 0) menuData = {menu_name: wishData.menu_name, menu_stock: 0};
-      dispatch(STOCK_REST_MENU_SLCT_REQUEST({menuData, wishData}));
-      dispatch(DELETE_WISH_WISH_LIST_REQUEST({table, wishData}));
+      if (menuData.menu_stock === 0) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
+      dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
+      dispatch(DELETE_WISH_WISH_LIST_REQUEST({ table, wishData }));
       setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
       setOpen(true);
     }
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const resetWish = () => {
@@ -127,10 +127,10 @@ const MenuSlct = ({match, history}) => {
         const index = menu.findIndex((menu) => menu.menu_name === wish[i].menu_name);
         let menuData = menu[index];
         let wishData = wish[i];
-        if (menuData.menu_stock === 0) menuData = {menu_name: wish[i].menu_name, menu_stock: 0};
-        dispatch(STOCK_REST_MENU_SLCT_REQUEST({menuData, wishData}));
+        if (menuData.menu_stock === 0) menuData = { menu_name: wish[i].menu_name, menu_stock: 0 };
+        dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
       }
-      dispatch(RESET_WISH_WISH_LIST_REQUEST({table}));
+      dispatch(RESET_WISH_WISH_LIST_REQUEST({ table }));
     }
   };
 
@@ -142,12 +142,12 @@ const MenuSlct = ({match, history}) => {
         setMessage('재고가 없습니다.');
         setOpen(true);
       } else {
-        dispatch(QUAN_INCR_WISH_LIST_REQUEST({table, wishData}));
-        dispatch(STOCK_DECR_MENU_SLCT_REQUEST({menuData}));
+        dispatch(QUAN_INCR_WISH_LIST_REQUEST({ table, wishData }));
+        dispatch(STOCK_DECR_MENU_SLCT_REQUEST({ menuData }));
       }
     }
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const minus = (wishData) => {
@@ -155,18 +155,18 @@ const MenuSlct = ({match, history}) => {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
       if (wishData.wish_quantity > 1) {
-        if (menuData.menu_stock === 0) menuData = {menu_name: wishData.menu_name, menu_stock: 0};
-        dispatch(QUAN_DECR_WISH_LIST_REQUEST({table, wishData}));
-        dispatch(STOCK_INCR_MENU_SLCT_REQUEST({menuData}));
+        if (menuData.menu_stock === 0) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
+        dispatch(QUAN_DECR_WISH_LIST_REQUEST({ table, wishData }));
+        dispatch(STOCK_INCR_MENU_SLCT_REQUEST({ menuData }));
       } else {
-        dispatch(STOCK_REST_MENU_SLCT_REQUEST({menuData, wishData}));
-        dispatch(DELETE_WISH_WISH_LIST_REQUEST({table, wishData}));
+        dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
+        dispatch(DELETE_WISH_WISH_LIST_REQUEST({ table, wishData }));
         setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
         setOpen(true);
       }
     }
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   window.onpopstate = () => {
@@ -222,16 +222,14 @@ const MenuSlct = ({match, history}) => {
         className={classes.backB}
         onClick={() => resetWish()}
         component={Link}
-        to={'/ordersheet/' + table}
-      >
+        to={'/ordersheet/' + table}>
         Back
       </Button>
       <Button
         className={classes.menuManageB}
         onClick={() => resetWish()}
         component={Link}
-        to={'/menu-mgnt'}
-      >
+        to={'/menu-mgnt'}>
         메뉴 관리
       </Button>
       <Container className={classes.tableNameC} maxWidth={false}>
@@ -251,11 +249,10 @@ const MenuSlct = ({match, history}) => {
         message={message}
         action={
           <IconButton
-            aria-label="close"
-            style={{color: 'yellow'}}
+            aria-label='close'
+            style={{ color: 'yellow' }}
             className={classes.close}
-            onClick={() => setOpen(false)}
-          >
+            onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }
@@ -292,7 +289,7 @@ const useStyles = makeStyles({
     top: 16,
     padding: 0,
     overflowY: 'auto',
-    '&::-webkit-scrollbar': {width: 5},
+    '&::-webkit-scrollbar': { width: 5 },
     '&::-webkit-scrollbar-thumb': {
       background: '#c7c7c7',
       borderRadius: 10,
@@ -317,7 +314,7 @@ const useStyles = makeStyles({
     top: 16,
     padding: 0,
     overflowY: 'auto',
-    '&::-webkit-scrollbar': {width: 5},
+    '&::-webkit-scrollbar': { width: 5 },
     '&::-webkit-scrollbar-thumb': {
       background: '#c7c7c7',
       borderRadius: 10,
@@ -334,7 +331,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#adff00'},
+    '&:hover': { backgroundColor: '#adff00' },
   },
   menuManageB: {
     position: 'absolute',
@@ -347,7 +344,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ebff00'},
+    '&:hover': { backgroundColor: '#ebff00' },
   },
   tableNameC: {
     position: 'absolute',

@@ -1,6 +1,6 @@
-import {put, call, all, fork, take, takeLatest} from 'redux-saga/effects';
-import {eventChannel} from '@redux-saga/core';
-import {io} from 'socket.io-client';
+import { put, call, all, fork, take, takeLatest } from 'redux-saga/effects';
+import { eventChannel } from '@redux-saga/core';
+import { io } from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -18,7 +18,7 @@ import {
   RESET_SALES_DAILY_SALES_FAILURE,
 } from '../reducers/dailySales';
 
-const socket = io('/api/dailysales', {path: '/socket', transports: ['websocket']});
+const socket = io('/api/dailysales', { path: '/socket', transports: ['websocket'] });
 
 const getSalesAPI = () => {
   return eventChannel((emit) => {
@@ -44,11 +44,11 @@ const addSalesAPI = (orderData) => {
   return axios.get('/api/dailysales');
 };
 
-const quanIncrAPI = ({orderData, salesData}) => {
+const quanIncrAPI = ({ orderData, salesData }) => {
   const menu_name = salesData.menu_name;
   const sales_quantity = salesData.sales_quantity + orderData.order_quantity;
   const total_price = salesData.menu_price * sales_quantity;
-  axios.patch('/api/dailysales', {menu_name, sales_quantity, total_price});
+  axios.patch('/api/dailysales', { menu_name, sales_quantity, total_price });
   return axios.get('/api/dailysales');
 };
 
@@ -62,19 +62,19 @@ function* getSales() {
     const result = yield call(getSalesAPI);
     while (true) {
       const channel = yield take(result);
-      yield put(GET_SALES_DAILY_SALES_SUCCESS({data: channel}));
+      yield put(GET_SALES_DAILY_SALES_SUCCESS({ data: channel }));
     }
   } catch (err) {
-    yield put(GET_SALES_DAILY_SALES_FAILURE({error: err.response.data}));
+    yield put(GET_SALES_DAILY_SALES_FAILURE({ error: err.response.data }));
   }
 }
 
 function* addSales(action) {
   try {
     const result = yield call(addSalesAPI, action.payload.orderData);
-    yield put(ADD_SALES_DAILY_SALES_SUCCESS({data: result.data}));
+    yield put(ADD_SALES_DAILY_SALES_SUCCESS({ data: result.data }));
   } catch (err) {
-    yield put(ADD_SALES_DAILY_SALES_FAILURE({error: err.response.data}));
+    yield put(ADD_SALES_DAILY_SALES_FAILURE({ error: err.response.data }));
   }
 }
 
@@ -84,18 +84,18 @@ function* quanIncr(action) {
       orderData: action.payload.orderData,
       salesData: action.payload.salesData,
     });
-    yield put(QUAN_INCR_DAILY_SALES_SUCCESS({data: result.data}));
+    yield put(QUAN_INCR_DAILY_SALES_SUCCESS({ data: result.data }));
   } catch (err) {
-    yield put(QUAN_INCR_DAILY_SALES_FAILURE({error: err.response.data}));
+    yield put(QUAN_INCR_DAILY_SALES_FAILURE({ error: err.response.data }));
   }
 }
 
 function* resetSales() {
   try {
     const result = yield call(resetSalesAPI);
-    yield put(RESET_SALES_DAILY_SALES_SUCCESS({data: result.data}));
+    yield put(RESET_SALES_DAILY_SALES_SUCCESS({ data: result.data }));
   } catch (err) {
-    yield put(RESET_SALES_DAILY_SALES_FAILURE({error: err.response.data}));
+    yield put(RESET_SALES_DAILY_SALES_FAILURE({ error: err.response.data }));
   }
 }
 

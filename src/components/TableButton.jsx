@@ -1,24 +1,24 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {GET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { GET_ORDER_ORDER_SHEET_REQUEST } from '../reducers/orderSheet';
 
 const TableButton = (props) => {
   const classes = useStyles(props);
   const table = props.table;
-  const {order} = useSelector(
-    (state) => ({order: [...state.orderSheet.data[table - 1]]}),
-    shallowEqual
+  const { order } = useSelector(
+    (state) => ({ order: [...state.orderSheet.data[table - 1]] }),
+    shallowEqual,
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({table}));
+    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
   }, [dispatch, table]);
 
   const orderList = () => {
@@ -57,7 +57,7 @@ const useStyles = makeStyles({
     top: Math.floor(props.index / 4) * 380 + Math.floor(props.index / 4) * 40,
     borderRadius: 0,
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ffd1d1'},
+    '&:hover': { backgroundColor: '#ffd1d1' },
   }),
   tableTitle: {
     position: 'absolute',
@@ -72,7 +72,7 @@ const useStyles = makeStyles({
     left: 0,
     bottom: 16,
     overflowY: 'auto',
-    '&::-webkit-scrollbar': {width: 5},
+    '&::-webkit-scrollbar': { width: 5 },
     '&::-webkit-scrollbar-thumb': {
       background: '#c7c7c7',
       borderRadius: 10,

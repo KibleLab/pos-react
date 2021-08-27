@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -9,15 +9,15 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {ADD_TABLE_TABLE_MGNT_REQUEST} from '../reducers/tableMgnt';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { ADD_TABLE_TABLE_MGNT_REQUEST } from '../reducers/tableMgnt';
 
 const TableMgnt = (props) => {
   const classes = useStyles();
-  const {table} = useSelector((state) => ({table: [...state.tableMgnt.data]}), shallowEqual);
+  const { table } = useSelector((state) => ({ table: [...state.tableMgnt.data] }), shallowEqual);
   const [input, setInput] = useState(1);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [message, setMessage] = useState('');
@@ -59,8 +59,8 @@ const TableMgnt = (props) => {
     } else {
       for (let j = 1; j < input + 1; j++) {
         setTimeout(() => {
-          const addData = {table_no: j, table_name: 'Table' + j};
-          dispatch(ADD_TABLE_TABLE_MGNT_REQUEST({addData}));
+          const addData = { table_no: j, table_name: 'Table' + j };
+          dispatch(ADD_TABLE_TABLE_MGNT_REQUEST({ addData }));
         }, 1000);
       }
     }
@@ -78,11 +78,11 @@ const TableMgnt = (props) => {
           onChange={onChange}
         />
 
-        <IconButton aria-label="plus" className={classes.plus} onClick={plus}>
+        <IconButton aria-label='plus' className={classes.plus} onClick={plus}>
           <AddIcon />
         </IconButton>
 
-        <IconButton aria-label="minus" className={classes.minus} onClick={minus}>
+        <IconButton aria-label='minus' className={classes.minus} onClick={minus}>
           <RemoveIcon />
         </IconButton>
       </Container>
@@ -102,11 +102,10 @@ const TableMgnt = (props) => {
         message={message}
         action={
           <IconButton
-            aria-label="close"
-            style={{color: 'yellow'}}
+            aria-label='close'
+            style={{ color: 'yellow' }}
             className={classes.close}
-            onClick={() => setOpenSnackBar(false)}
-          >
+            onClick={() => setOpenSnackBar(false)}>
             <CloseIcon />
           </IconButton>
         }
@@ -164,7 +163,7 @@ const useStyles = makeStyles({
     fontSize: 36,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#68DBFF'},
+    '&:hover': { backgroundColor: '#68DBFF' },
   },
   minus: {
     position: 'absolute',
@@ -178,7 +177,7 @@ const useStyles = makeStyles({
     fontSize: 36,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#68DBFF'},
+    '&:hover': { backgroundColor: '#68DBFF' },
   },
   editB: {
     position: 'absolute',

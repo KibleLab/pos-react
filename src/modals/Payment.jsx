@@ -1,13 +1,13 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import Modal from 'react-modal';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import {
   GET_ORDER_ORDER_SHEET_REQUEST,
   RESET_ORDER_ORDER_SHEET_REQUEST,
@@ -17,14 +17,14 @@ import {
   GET_SALES_DAILY_SALES_REQUEST,
   QUAN_INCR_DAILY_SALES_REQUEST,
 } from '../reducers/dailySales';
-import {MODAL_OPEN} from '../reducers/modal';
+import { MODAL_OPEN } from '../reducers/modal';
 
 Modal.setAppElement('body');
 
-const Payment = ({match, history}) => {
+const Payment = ({ match, history }) => {
   const classes = useStyles();
-  const {table} = match.params;
-  const {order, sales, open, isDone_order, isDone_sales} = useSelector(
+  const { table } = match.params;
+  const { order, sales, open, isDone_order, isDone_sales } = useSelector(
     (state) => ({
       order: [...state.orderSheet.data[table - 1]],
       sales: [...state.dailySales.data],
@@ -32,17 +32,17 @@ const Payment = ({match, history}) => {
       isDone_order: state.orderSheet.isDone,
       isDone_sales: state.dailySales.isDone,
     }),
-    shallowEqual
+    shallowEqual,
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({table}));
+    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
     dispatch(GET_SALES_DAILY_SALES_REQUEST());
   }, [dispatch, table]);
 
   const close = () => {
-    dispatch(MODAL_OPEN({index: 3, open: false}));
+    dispatch(MODAL_OPEN({ index: 3, open: false }));
   };
 
   const payCalc = () => {
@@ -52,11 +52,11 @@ const Payment = ({match, history}) => {
         let orderData = order[i];
         let salesData = sales[index];
         index === -1
-          ? dispatch(ADD_SALES_DAILY_SALES_REQUEST({orderData}))
-          : dispatch(QUAN_INCR_DAILY_SALES_REQUEST({orderData, salesData}));
+          ? dispatch(ADD_SALES_DAILY_SALES_REQUEST({ orderData }))
+          : dispatch(QUAN_INCR_DAILY_SALES_REQUEST({ orderData, salesData }));
       }
-      dispatch(RESET_ORDER_ORDER_SHEET_REQUEST({table}));
-      dispatch(MODAL_OPEN({index: 3, open: false}));
+      dispatch(RESET_ORDER_ORDER_SHEET_REQUEST({ table }));
+      dispatch(MODAL_OPEN({ index: 3, open: false }));
       history.push('/');
     }
   };
@@ -130,7 +130,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#adff00'},
+    '&:hover': { backgroundColor: '#adff00' },
   },
   payB: {
     position: 'absolute',

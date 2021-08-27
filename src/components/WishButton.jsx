@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,14 +12,14 @@ const WishButton = (props) => {
   return (
     <Container className={classes.root} maxWidth={false}>
       <Typography className={classes.name}>{props.name}</Typography>
-      <IconButton aria-label="delete" className={classes.delete} onClick={props.delete}>
+      <IconButton aria-label='delete' className={classes.delete} onClick={props.delete}>
         <DeleteForeverOutlinedIcon />
       </IconButton>
-      <IconButton aria-label="minus" className={classes.minus} onClick={props.minus}>
+      <IconButton aria-label='minus' className={classes.minus} onClick={props.minus}>
         <RemoveIcon />
       </IconButton>
       <Typography className={classes.quantity}>{props.quantity}</Typography>
-      <IconButton aria-label="plus" className={classes.plus} onClick={props.plus}>
+      <IconButton aria-label='plus' className={classes.plus} onClick={props.plus}>
         <AddIcon />
       </IconButton>
       <Typography className={classes.price}>
@@ -82,7 +82,7 @@ const useStyles = makeStyles({
     bottom: 16,
     color: 'black',
     borderRadius: 25,
-    '&:hover': {backgroundColor: '#68DBFF'},
+    '&:hover': { backgroundColor: '#68DBFF' },
   },
   minus: {
     position: 'absolute',
@@ -93,7 +93,7 @@ const useStyles = makeStyles({
     bottom: 16,
     color: 'black',
     borderRadius: 25,
-    '&:hover': {backgroundColor: '#68DBFF'},
+    '&:hover': { backgroundColor: '#68DBFF' },
   },
 });
 

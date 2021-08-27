@@ -1,31 +1,31 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import Modal from 'react-modal';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {DELETE_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
-import {MODAL_OPEN} from '../reducers/modal';
-import {RESET_SELECT} from '../reducers/select';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { DELETE_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
+import { MODAL_OPEN } from '../reducers/modal';
+import { RESET_SELECT } from '../reducers/select';
 
 const DelMenu = () => {
   const classes = useStyles();
-  const {select, open} = useSelector(
-    (state) => ({select: state.select.select, open: [...state.modal.open]}),
-    shallowEqual
+  const { select, open } = useSelector(
+    (state) => ({ select: state.select.select, open: [...state.modal.open] }),
+    shallowEqual,
   );
   const dispatch = useDispatch();
 
   const close = () => {
-    dispatch(MODAL_OPEN({index: 1, open: false}));
+    dispatch(MODAL_OPEN({ index: 1, open: false }));
   };
 
   const delMenu = () => {
-    dispatch(DELETE_MENU_MENU_MGNT_REQUEST({delData: select}));
+    dispatch(DELETE_MENU_MENU_MGNT_REQUEST({ delData: select }));
     dispatch(RESET_SELECT());
-    dispatch(MODAL_OPEN({index: 1, open: false}));
+    dispatch(MODAL_OPEN({ index: 1, open: false }));
   };
 
   return (
@@ -86,7 +86,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#adff00'},
+    '&:hover': { backgroundColor: '#adff00' },
   },
   delB: {
     position: 'absolute',

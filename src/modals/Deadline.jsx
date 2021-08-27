@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -6,33 +6,33 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-import {useState} from 'react';
+import { useState } from 'react';
 import Modal from 'react-modal';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {RESET_SALES_DAILY_SALES_REQUEST} from '../reducers/dailySales';
-import {MODAL_OPEN} from '../reducers/modal';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { RESET_SALES_DAILY_SALES_REQUEST } from '../reducers/dailySales';
+import { MODAL_OPEN } from '../reducers/modal';
 
-const Deadline = ({history}) => {
+const Deadline = ({ history }) => {
   const classes = useStyles();
-  const {order, open} = useSelector(
-    (state) => ({open: [...state.modal.open], order: [...state.orderSheet.data]}),
-    shallowEqual
+  const { order, open } = useSelector(
+    (state) => ({ open: [...state.modal.open], order: [...state.orderSheet.data] }),
+    shallowEqual,
   );
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   const close = () => {
-    dispatch(MODAL_OPEN({index: 4, open: false}));
+    dispatch(MODAL_OPEN({ index: 4, open: false }));
   };
 
   const resetSales = () => {
     for (let i = 0; i < order.length; i++) {
       if (order[i].length === 0 && i === order.length - 1) {
         dispatch(RESET_SALES_DAILY_SALES_REQUEST());
-        dispatch(MODAL_OPEN({index: 4, open: false}));
+        dispatch(MODAL_OPEN({ index: 4, open: false }));
         history.push('/');
       } else if (order[i].length !== 0) {
         setMessage('결제가 안된 테이블이 있습니다.');
@@ -67,11 +67,10 @@ const Deadline = ({history}) => {
         message={message}
         action={
           <IconButton
-            aria-label="close"
-            style={{color: 'yellow'}}
+            aria-label='close'
+            style={{ color: 'yellow' }}
             className={classes.close}
-            onClick={() => setOpenSnackBar(false)}
-          >
+            onClick={() => setOpenSnackBar(false)}>
             <CloseIcon />
           </IconButton>
         }
@@ -120,7 +119,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#adff00'},
+    '&:hover': { backgroundColor: '#adff00' },
   },
   resetSalesB: {
     position: 'absolute',

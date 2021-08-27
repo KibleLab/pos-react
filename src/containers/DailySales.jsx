@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -9,20 +9,20 @@ import CloseIcon from '@material-ui/icons/Close';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-import {useState, useEffect} from 'react';
-import {Helmet} from 'react-helmet';
-import {AgGridColumn, AgGridReact} from 'ag-grid-react';
-import {Link} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import { AgGridColumn, AgGridReact } from 'ag-grid-react';
+import { Link } from 'react-router-dom';
 
 import Deadline from '../modals/Deadline';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {GET_SALES_DAILY_SALES_REQUEST} from '../reducers/dailySales';
-import {MODAL_OPEN} from '../reducers/modal';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { GET_SALES_DAILY_SALES_REQUEST } from '../reducers/dailySales';
+import { MODAL_OPEN } from '../reducers/modal';
 
 const DailySales = () => {
   const classes = useStyles();
-  const {sales} = useSelector((state) => ({sales: [...state.dailySales.data]}), shallowEqual);
+  const { sales } = useSelector((state) => ({ sales: [...state.dailySales.data] }), shallowEqual);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const DailySales = () => {
       setMessage('정산할 내역이 없습니다.');
       setOpen(true);
     } else {
-      dispatch(MODAL_OPEN({index: 4, open: true}));
+      dispatch(MODAL_OPEN({ index: 4, open: true }));
     }
   };
 
@@ -65,34 +65,33 @@ const DailySales = () => {
       </Helmet>
       <Container className={classes.gridC} maxWidth={false}>
         <div
-          className="ag-theme-alpine"
-          style={{width: '100%', height: '100%', padding: 0, fontSize: 26}}
-        >
+          className='ag-theme-alpine'
+          style={{ width: '100%', height: '100%', padding: 0, fontSize: 26 }}>
           <AgGridReact rowData={sales} suppressMovableColumns={true}>
             <AgGridColumn
               field={'menu_name'}
               headerName={'상품명'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               flex={2}
             />
             <AgGridColumn
               field={'sales_quantity'}
               headerName={'판매수량'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               valueFormatter={currencyFormatter}
               flex={1}
             />
             <AgGridColumn
               field={'menu_price'}
               headerName={'단가'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               valueFormatter={currencyFormatter}
               flex={1}
             />
             <AgGridColumn
               field={'total_price'}
               headerName={'합계'}
-              cellStyle={{'font-size': '24px'}}
+              cellStyle={{ 'font-size': '24px' }}
               valueFormatter={currencyFormatter}
               flex={1}
             />
@@ -120,11 +119,10 @@ const DailySales = () => {
         message={message}
         action={
           <IconButton
-            aria-label="close"
-            style={{color: 'yellow'}}
+            aria-label='close'
+            style={{ color: 'yellow' }}
             className={classes.close}
-            onClick={() => setOpen(false)}
-          >
+            onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }
@@ -191,7 +189,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#ebff00'},
+    '&:hover': { backgroundColor: '#ebff00' },
   },
   businessDeadLineB: {
     position: 'absolute',

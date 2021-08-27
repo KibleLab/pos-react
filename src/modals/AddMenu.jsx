@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -7,41 +7,41 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-import {useState} from 'react';
+import { useState } from 'react';
 import Modal from 'react-modal';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {ADD_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
-import {MODAL_OPEN} from '../reducers/modal';
-import {RESET_SELECT} from '../reducers/select';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { ADD_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
+import { MODAL_OPEN } from '../reducers/modal';
+import { RESET_SELECT } from '../reducers/select';
 
 const AddMenu = () => {
   const classes = useStyles();
-  const {open} = useSelector((state) => ({open: [...state.modal.open]}), shallowEqual);
-  const [inputs, setInputs] = useState({menu_name: '', menu_price: '', menu_stock: ''});
+  const { open } = useSelector((state) => ({ open: [...state.modal.open] }), shallowEqual);
+  const [inputs, setInputs] = useState({ menu_name: '', menu_price: '', menu_stock: '' });
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [message, setMessage] = useState('');
-  const {menu_name, menu_price, menu_stock} = inputs;
+  const { menu_name, menu_price, menu_stock } = inputs;
   const regex = /^[0-9]*$/;
 
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     if (name === 'menu_name') {
-      setInputs({...inputs, [name]: value});
+      setInputs({ ...inputs, [name]: value });
     }
     if (name === 'menu_price' && regex.test(value)) {
-      setInputs({...inputs, [name]: value});
+      setInputs({ ...inputs, [name]: value });
     }
     if (name === 'menu_stock' && regex.test(value)) {
-      setInputs({...inputs, [name]: value});
+      setInputs({ ...inputs, [name]: value });
     }
   };
 
   const close = () => {
-    setInputs({menu_name: '', menu_price: '', menu_stock: ''});
-    dispatch(MODAL_OPEN({index: 0, open: false}));
+    setInputs({ menu_name: '', menu_price: '', menu_stock: '' });
+    dispatch(MODAL_OPEN({ index: 0, open: false }));
   };
 
   const addMenu = () => {
@@ -49,10 +49,10 @@ const AddMenu = () => {
       setMessage('정보를 입력해주세요');
       setOpenSnackBar(true);
     } else {
-      dispatch(ADD_MENU_MENU_MGNT_REQUEST({addData: inputs}));
+      dispatch(ADD_MENU_MENU_MGNT_REQUEST({ addData: inputs }));
       dispatch(RESET_SELECT());
-      setInputs({menu_name: '', menu_price: '', menu_stock: ''});
-      dispatch(MODAL_OPEN({index: 0, open: false}));
+      setInputs({ menu_name: '', menu_price: '', menu_stock: '' });
+      dispatch(MODAL_OPEN({ index: 0, open: false }));
     }
   };
 
@@ -114,11 +114,10 @@ const AddMenu = () => {
         message={message}
         action={
           <IconButton
-            aria-label="close"
-            style={{color: 'yellow'}}
+            aria-label='close'
+            style={{ color: 'yellow' }}
             className={classes.close}
-            onClick={() => setOpenSnackBar(false)}
-          >
+            onClick={() => setOpenSnackBar(false)}>
             <CloseIcon />
           </IconButton>
         }
@@ -193,7 +192,7 @@ const useStyles = makeStyles({
     fontSize: 30,
     fontWeight: 'bold',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#adff00'},
+    '&:hover': { backgroundColor: '#adff00' },
   },
   enrollB: {
     position: 'absolute',

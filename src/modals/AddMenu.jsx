@@ -12,7 +12,7 @@ import Modal from 'react-modal';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { ADD_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
-import { MODAL_OPEN } from '../reducers/modal';
+import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 import { RESET_SELECT } from '../reducers/select';
 
 const AddMenu = () => {
@@ -41,7 +41,7 @@ const AddMenu = () => {
 
   const close = () => {
     setInputs({ menu_name: '', menu_price: '', menu_stock: '' });
-    dispatch(MODAL_OPEN({ index: 0, open: false }));
+    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 0, open: false }));
   };
 
   const addMenu = () => {
@@ -52,7 +52,7 @@ const AddMenu = () => {
       dispatch(ADD_MENU_MENU_MGNT_REQUEST({ addData: inputs }));
       dispatch(RESET_SELECT());
       setInputs({ menu_name: '', menu_price: '', menu_stock: '' });
-      dispatch(MODAL_OPEN({ index: 0, open: false }));
+      dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 0, open: false }));
     }
   };
 

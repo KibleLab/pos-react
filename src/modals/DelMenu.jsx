@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { DELETE_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
-import { MODAL_OPEN } from '../reducers/modal';
+import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 import { RESET_SELECT } from '../reducers/select';
 
 const DelMenu = () => {
@@ -19,13 +19,13 @@ const DelMenu = () => {
   const dispatch = useDispatch();
 
   const close = () => {
-    dispatch(MODAL_OPEN({ index: 1, open: false }));
+    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 1, open: false }));
   };
 
   const delMenu = () => {
     dispatch(DELETE_MENU_MENU_MGNT_REQUEST({ delData: select }));
     dispatch(RESET_SELECT());
-    dispatch(MODAL_OPEN({ index: 1, open: false }));
+    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 1, open: false }));
   };
 
   return (

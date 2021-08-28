@@ -19,7 +19,7 @@ import EditStock from '../modals/EditStock';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { GET_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
-import { MODAL_OPEN } from '../reducers/modal';
+import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 import { SET_SELECT, RESET_SELECT } from '../reducers/select';
 
 const MenuMgnt = ({ history }) => {
@@ -49,7 +49,7 @@ const MenuMgnt = ({ history }) => {
       setMessage('상품을 선택해주세요.');
       setOpen(true);
     } else {
-      dispatch(MODAL_OPEN({ index: index, open: true }));
+      dispatch(MODAL_OPEN_MODAL_REQUEST({ index: index, open: true }));
     }
   };
 
@@ -106,7 +106,7 @@ const MenuMgnt = ({ history }) => {
       </Container>
       <Button
         className={classes.addMenuB}
-        onClick={() => dispatch(MODAL_OPEN({ index: 0, open: true }))}>
+        onClick={() => dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 0, open: true }))}>
         새 상품 추가
       </Button>
       <AddMenu />

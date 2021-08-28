@@ -18,7 +18,7 @@ import Deadline from '../modals/Deadline';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { GET_SALES_DAILY_SALES_REQUEST } from '../reducers/dailySales';
-import { MODAL_OPEN } from '../reducers/modal';
+import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 
 const DailySales = () => {
   const classes = useStyles();
@@ -44,7 +44,7 @@ const DailySales = () => {
       setMessage('정산할 내역이 없습니다.');
       setOpen(true);
     } else {
-      dispatch(MODAL_OPEN({ index: 4, open: true }));
+      dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 4, open: true }));
     }
   };
 

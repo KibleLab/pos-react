@@ -13,7 +13,7 @@ import Modal from 'react-modal';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { ADD_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
 import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
-import { RESET_SELECT } from '../reducers/select';
+import { RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
 
 const AddMenu = () => {
   const classes = useStyles();
@@ -50,7 +50,7 @@ const AddMenu = () => {
       setOpenSnackBar(true);
     } else {
       dispatch(ADD_MENU_MENU_MGNT_REQUEST({ addData: inputs }));
-      dispatch(RESET_SELECT());
+      dispatch(RESET_SELECT_SELECT_REQUEST());
       setInputs({ menu_name: '', menu_price: '', menu_stock: '' });
       dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 0, open: false }));
     }

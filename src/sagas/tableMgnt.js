@@ -14,7 +14,7 @@ const getTableAPI = () => {
   return axios.get('/api/table-mgnt');
 };
 
-const addTableAPI = (addData) => {
+const addTableAPI = ({ addData }) => {
   const table_no = addData.table_no;
   const table_name = addData.table_name;
   axios.post('/api/table-mgnt', { table_no, table_name });
@@ -32,7 +32,7 @@ function* getTable() {
 
 function* addTable(action) {
   try {
-    const result = yield call(addTableAPI, action.payload.addData);
+    const result = yield call(addTableAPI, { addData: action.payload.addData });
     yield put(ADD_TABLE_TABLE_MGNT_SUCCESS({ data: result.data }));
   } catch (err) {
     yield put(ADD_TABLE_TABLE_MGNT_FAILURE({ error: err.response.data }));

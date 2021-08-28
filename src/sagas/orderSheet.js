@@ -20,7 +20,7 @@ import {
 
 const socket = io('/api/ordersheet', { path: '/socket', transports: ['websocket'] });
 
-const getOrderAPI = (table) => {
+const getOrderAPI = ({ table }) => {
   return eventChannel((emit) => {
     const emitter = (result) => {
       emit(result);
@@ -45,14 +45,14 @@ const quanIncrAPI = ({ table, wishData, orderData }) => {
   return axios.get(`/api/ordersheet/${table}`);
 };
 
-const resetOrderAPI = (table) => {
+const resetOrderAPI = ({ table }) => {
   axios.delete(`/api/ordersheet/${table}`);
   return axios.get(`/api/ordersheet/${table}`);
 };
 
 function* getOrder(action) {
   try {
-    const result = yield call(getOrderAPI, action.payload.table);
+    const result = yield call(getOrderAPI, { table: action.payload.table });
     while (true) {
       const channel = yield take(result);
       yield put(GET_ORDER_ORDER_SHEET_SUCCESS({ table: channel.table, data: channel.data }));
@@ -89,7 +89,7 @@ function* quanIncr(action) {
 
 function* resetOrder(action) {
   try {
-    const result = yield call(resetOrderAPI, action.payload.table);
+    const result = yield call(resetOrderAPI, { table: action.payload.table });
     yield put(RESET_ORDER_ORDER_SHEET_SUCCESS({ table: action.payload.table, data: result.data }));
   } catch (err) {
     yield put(RESET_ORDER_ORDER_SHEET_FAILURE({ error: err.response.data }));

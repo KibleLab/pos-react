@@ -33,7 +33,7 @@ const getMenuAPI = () => {
   });
 };
 
-const addMenuAPI = (addData) => {
+const addMenuAPI = ({ addData }) => {
   const menu_name = addData.menu_name;
   const menu_price = addData.menu_price;
   const menu_stock = addData.menu_stock;
@@ -42,7 +42,7 @@ const addMenuAPI = (addData) => {
   return axios.get(`/api/menu-mgnt`);
 };
 
-const editStockAPI = (editData) => {
+const editStockAPI = ({ editData }) => {
   const menu_name = editData.menu_name;
   const menu_stock = editData.menu_stock;
   axios.patch('/api/menu-mgnt', { menu_name, menu_stock });
@@ -50,7 +50,7 @@ const editStockAPI = (editData) => {
   return axios.get('/api/menu-mgnt');
 };
 
-const changeMenuAPI = (menuData) => {
+const changeMenuAPI = ({ menuData }) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock;
   axios.patch('/api/menu-mgnt', { menu_name, menu_stock });
@@ -58,7 +58,7 @@ const changeMenuAPI = (menuData) => {
   return axios.get('/api/menu-mgnt');
 };
 
-const deleteMenuAPI = (delData) => {
+const deleteMenuAPI = ({ delData }) => {
   const menu_name = delData.menu_name;
   axios.delete('/api/menu-mgnt', { data: { menu_name } });
   axios.delete('/api/menu-slct', { data: { menu_name } });
@@ -79,7 +79,7 @@ function* getMenu() {
 
 function* addMenu(action) {
   try {
-    const result = yield call(addMenuAPI, action.payload.addData);
+    const result = yield call(addMenuAPI, { addData: action.payload.addData });
     yield put(ADD_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
   } catch (err) {
     yield put(ADD_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
@@ -88,7 +88,7 @@ function* addMenu(action) {
 
 function* editStock(action) {
   try {
-    const result = yield call(editStockAPI, action.payload.editData);
+    const result = yield call(editStockAPI, { editData: action.payload.editData });
     yield put(EDIT_STOCK_MENU_MGNT_SUCCESS({ data: result.data }));
   } catch (err) {
     yield put(EDIT_STOCK_MENU_MGNT_FAILURE({ error: err.response.data }));
@@ -97,7 +97,7 @@ function* editStock(action) {
 
 function* changeMenu(action) {
   try {
-    const result = yield call(changeMenuAPI, action.payload.menuData);
+    const result = yield call(changeMenuAPI, { menuData: action.payload.menuData });
     yield put(CHANGE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
   } catch (err) {
     yield put(CHANGE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
@@ -106,7 +106,7 @@ function* changeMenu(action) {
 
 function* deleteMenu(action) {
   try {
-    const result = yield call(deleteMenuAPI, action.payload.delData);
+    const result = yield call(deleteMenuAPI, { delData: action.payload.delData });
     yield put(DELETE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
   } catch (err) {
     yield put(DELETE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));

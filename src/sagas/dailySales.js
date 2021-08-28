@@ -30,7 +30,7 @@ const getSalesAPI = () => {
   });
 };
 
-const addSalesAPI = (orderData) => {
+const addSalesAPI = ({ orderData }) => {
   const menu_name = orderData.menu_name;
   const sales_quantity = orderData.order_quantity;
   const menu_price = orderData.menu_price;
@@ -71,7 +71,7 @@ function* getSales() {
 
 function* addSales(action) {
   try {
-    const result = yield call(addSalesAPI, action.payload.orderData);
+    const result = yield call(addSalesAPI, { orderData: action.payload.orderData });
     yield put(ADD_SALES_DAILY_SALES_SUCCESS({ data: result.data }));
   } catch (err) {
     yield put(ADD_SALES_DAILY_SALES_FAILURE({ error: err.response.data }));

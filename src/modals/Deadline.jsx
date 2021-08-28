@@ -12,7 +12,7 @@ import { withRouter } from 'react-router-dom';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { RESET_SALES_DAILY_SALES_REQUEST } from '../reducers/dailySales';
-import { MODAL_OPEN } from '../reducers/modal';
+import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 
 const Deadline = ({ history }) => {
   const classes = useStyles();
@@ -25,14 +25,14 @@ const Deadline = ({ history }) => {
   const dispatch = useDispatch();
 
   const close = () => {
-    dispatch(MODAL_OPEN({ index: 4, open: false }));
+    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 4, open: false }));
   };
 
   const resetSales = () => {
     for (let i = 0; i < order.length; i++) {
       if (order[i].length === 0 && i === order.length - 1) {
         dispatch(RESET_SALES_DAILY_SALES_REQUEST());
-        dispatch(MODAL_OPEN({ index: 4, open: false }));
+        dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 4, open: false }));
         history.push('/');
       } else if (order[i].length !== 0) {
         setMessage('결제가 안된 테이블이 있습니다.');

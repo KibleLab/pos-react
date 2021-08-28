@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { GET_ORDER_ORDER_SHEET_REQUEST } from '../reducers/orderSheet';
-import { MODAL_OPEN } from '../reducers/modal';
+import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 
 const OrderSheet = ({ match }) => {
   const classes = useStyles();
@@ -57,7 +57,7 @@ const OrderSheet = ({ match }) => {
       setMessage('결제할 내역이 없습니다.');
       setOpen(true);
     } else {
-      dispatch(MODAL_OPEN({ index: 3, open: true }));
+      dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 3, open: true }));
     }
   };
 

@@ -17,7 +17,7 @@ import {
   GET_SALES_DAILY_SALES_REQUEST,
   QUAN_INCR_DAILY_SALES_REQUEST,
 } from '../reducers/dailySales';
-import { MODAL_OPEN } from '../reducers/modal';
+import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 
 Modal.setAppElement('body');
 
@@ -42,7 +42,7 @@ const Payment = ({ match, history }) => {
   }, [dispatch, table]);
 
   const close = () => {
-    dispatch(MODAL_OPEN({ index: 3, open: false }));
+    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 3, open: false }));
   };
 
   const payCalc = () => {
@@ -56,7 +56,7 @@ const Payment = ({ match, history }) => {
           : dispatch(QUAN_INCR_DAILY_SALES_REQUEST({ orderData, salesData }));
       }
       dispatch(RESET_ORDER_ORDER_SHEET_REQUEST({ table }));
-      dispatch(MODAL_OPEN({ index: 3, open: false }));
+      dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 3, open: false }));
       history.push('/');
     }
   };

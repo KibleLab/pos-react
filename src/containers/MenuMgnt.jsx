@@ -20,7 +20,7 @@ import EditStock from '../modals/EditStock';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { GET_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
 import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
-import { SET_SELECT, RESET_SELECT } from '../reducers/select';
+import { SET_SELECT_SELECT_REQUEST, RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
 
 const MenuMgnt = ({ history }) => {
   const classes = useStyles();
@@ -40,7 +40,7 @@ const MenuMgnt = ({ history }) => {
   }, [dispatch]);
 
   const goBack = () => {
-    dispatch(RESET_SELECT());
+    dispatch(RESET_SELECT_SELECT_REQUEST());
     history.goBack();
   };
 
@@ -53,8 +53,8 @@ const MenuMgnt = ({ history }) => {
     }
   };
 
-  const onRowSelected = (selection) => {
-    dispatch(SET_SELECT(selection.data));
+  const onRowClicked = (select) => {
+    dispatch(SET_SELECT_SELECT_REQUEST({ select: select.data }));
   };
 
   const formatNumber = (number) => {
@@ -63,7 +63,7 @@ const MenuMgnt = ({ history }) => {
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   };
 
-  const currencyFormatter = (params) => {
+  const valueFormatter = (params) => {
     return formatNumber(params.value);
   };
 
@@ -79,7 +79,7 @@ const MenuMgnt = ({ history }) => {
           <AgGridReact
             rowData={rows}
             rowSelection={'single'}
-            onRowClicked={onRowSelected}
+            onRowClicked={onRowClicked}
             suppressMovableColumns={true}>
             <AgGridColumn
               field={'menu_name'}
@@ -91,14 +91,14 @@ const MenuMgnt = ({ history }) => {
               field={'menu_price'}
               headerName={'단가'}
               cellStyle={{ 'font-size': '24px' }}
-              valueFormatter={currencyFormatter}
+              valueFormatter={valueFormatter}
               flex={1}
             />
             <AgGridColumn
               field={'menu_stock'}
               headerName={'재고'}
               cellStyle={{ 'font-size': '24px' }}
-              valueFormatter={currencyFormatter}
+              valueFormatter={valueFormatter}
               flex={1}
             />
           </AgGridReact>

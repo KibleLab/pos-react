@@ -7,6 +7,7 @@ import orderSheet from './orderSheet';
 import dailySales from './dailySales';
 import tableMgnt from './tableMgnt';
 import modal from './modal';
+import select from './select';
 
 export default function* rootSaga() {
   yield all([
@@ -17,5 +18,6 @@ export default function* rootSaga() {
     fork(dailySales),
     fork(tableMgnt),
     fork(modal),
+    fork(select),
   ]);
 }

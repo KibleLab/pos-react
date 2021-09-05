@@ -30,24 +30,23 @@ const getOrderAPI = ({ table }) => {
   });
 };
 
-const addOrderAPI = ({ table, wishData }) => {
+const addOrderAPI = async ({ table, wishData }) => {
   const menu_name = wishData.menu_name;
-  const menu_price = wishData.menu_price;
   const order_quantity = wishData.wish_quantity;
-  axios.post(`/api/ordersheet/${table}`, { menu_name, menu_price, order_quantity });
-  return axios.get(`/api/ordersheet/${table}`);
+  await axios.post(`/api/ordersheet/${table}`, { menu_name, order_quantity });
+  return await axios.get(`/api/ordersheet/${table}`);
 };
 
-const quanIncrAPI = ({ table, wishData, orderData }) => {
+const quanIncrAPI = async ({ table, wishData, orderData }) => {
   const menu_name = orderData.menu_name;
   const order_quantity = orderData.order_quantity + wishData.wish_quantity;
-  axios.patch(`/api/ordersheet/${table}`, { menu_name, order_quantity });
-  return axios.get(`/api/ordersheet/${table}`);
+  await axios.patch(`/api/ordersheet/${table}`, { menu_name, order_quantity });
+  return await axios.get(`/api/ordersheet/${table}`);
 };
 
-const resetOrderAPI = ({ table }) => {
-  axios.delete(`/api/ordersheet/${table}`);
-  return axios.get(`/api/ordersheet/${table}`);
+const resetOrderAPI = async ({ table }) => {
+  await axios.delete(`/api/ordersheet/${table}`);
+  return await axios.get(`/api/ordersheet/${table}`);
 };
 
 function* getOrder(action) {

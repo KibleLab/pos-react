@@ -10,15 +10,15 @@ import {
   ADD_TABLE_TABLE_MGNT_FAILURE,
 } from '../reducers/tableMgnt';
 
-const getTableAPI = () => {
-  return axios.get('/api/table-mgnt');
+const getTableAPI = async () => {
+  return await axios.get('/api/table-mgnt');
 };
 
-const addTableAPI = ({ addData }) => {
+const addTableAPI = async ({ addData }) => {
   const table_no = addData.table_no;
   const table_name = addData.table_name;
-  axios.post('/api/table-mgnt', { table_no, table_name });
-  return axios.get('/api/table-mgnt');
+  await axios.post('/api/table-mgnt', { table_no, table_name });
+  return await axios.get('/api/table-mgnt');
 };
 
 function* getTable() {

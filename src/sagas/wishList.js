@@ -38,14 +38,13 @@ const getWishAPI = ({ table }) => {
 
 const addWishAPI = async ({ table, menuData }) => {
   const menu_name = menuData.menu_name;
-  const menu_price = menuData.menu_price;
-  await axios.post(`/api/wishlist/${table}`, { menu_name, menu_price });
+  await axios.post(`/api/wishlist/${table}`, { menu_name });
   return await axios.get(`/api/wishlist/${table}`);
 };
 
 const deleteWishAPI = async ({ table, wishData }) => {
   const menu_name = wishData.menu_name;
-  await axios.delete(`/api/wishlist/${table}`, { data: { menu_name } });
+  await axios.delete(`/api/wishlist/${table}`, { menu_name });
   return await axios.get(`/api/wishlist/${table}`);
 };
 

@@ -30,31 +30,26 @@ const getSalesAPI = () => {
   });
 };
 
-const addSalesAPI = ({ orderData }) => {
+const addSalesAPI = async ({ orderData }) => {
   const menu_name = orderData.menu_name;
   const sales_quantity = orderData.order_quantity;
-  const menu_price = orderData.menu_price;
-  const total_price = orderData.menu_price * orderData.order_quantity;
-  axios.post('/api/dailysales', {
+  await axios.post('/api/dailysales', {
     menu_name,
     sales_quantity,
-    menu_price,
-    total_price,
   });
-  return axios.get('/api/dailysales');
+  return await axios.get('/api/dailysales');
 };
 
-const quanIncrAPI = ({ orderData, salesData }) => {
+const quanIncrAPI = async ({ orderData, salesData }) => {
   const menu_name = salesData.menu_name;
   const sales_quantity = salesData.sales_quantity + orderData.order_quantity;
-  const total_price = salesData.menu_price * sales_quantity;
-  axios.patch('/api/dailysales', { menu_name, sales_quantity, total_price });
+  await axios.patch('/api/dailysales', { menu_name, sales_quantity });
   return axios.get('/api/dailysales');
 };
 
-const resetSalesAPI = () => {
-  axios.delete('/api/dailysales');
-  return axios.get('/api/dailysales');
+const resetSalesAPI = async () => {
+  await axios.delete('/api/dailysales');
+  return await axios.get('/api/dailysales');
 };
 
 function* getSales() {

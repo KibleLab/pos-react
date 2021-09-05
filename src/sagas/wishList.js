@@ -44,7 +44,7 @@ const addWishAPI = async ({ table, menuData }) => {
 
 const deleteWishAPI = async ({ table, wishData }) => {
   const menu_name = wishData.menu_name;
-  await axios.delete(`/api/wishlist/${table}`, { menu_name });
+  await axios.delete(`/api/wishlist/${table}`, { data: { menu_name } });
   return await axios.get(`/api/wishlist/${table}`);
 };
 

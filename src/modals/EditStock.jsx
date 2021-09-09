@@ -24,7 +24,7 @@ const EditStock = () => {
   const [input, setInput] = useState(0);
 
   useEffect(() => {
-    setInput(select.menu_stock);
+    setInput(parseInt(select.menu_stock));
   }, [select.menu_stock]);
   const regex = /^[0-9]*$/;
 

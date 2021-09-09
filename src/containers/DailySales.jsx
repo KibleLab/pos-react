@@ -34,7 +34,7 @@ const DailySales = () => {
   const total = () => {
     let total = 0;
     sales.forEach((element) => {
-      total += element.total_price;
+      total += parseInt(element.total_price);
     });
     return total;
   };

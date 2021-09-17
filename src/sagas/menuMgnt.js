@@ -37,28 +37,28 @@ const addMenuAPI = async ({ addData }) => {
   const menu_name = addData.menu_name;
   const menu_price = addData.menu_price;
   const menu_stock = addData.menu_stock;
-  await axios.post('/api/menu-mgnt', { menu_name, menu_price, menu_stock });
-  return await axios.get(`/api/menu-mgnt`);
+  await axios.post('/api/menu-slct', { menu_name, menu_price, menu_stock });
+  return await axios.get(`/api/menu-slct`);
 };
 
 const editStockAPI = async ({ editData }) => {
   const menu_name = editData.menu_name;
   const menu_stock = editData.menu_stock;
-  await axios.patch('/api/menu-mgnt', { menu_name, menu_stock });
-  return await axios.get('/api/menu-mgnt');
+  await axios.patch('/api/menu-slct', { menu_name, menu_stock });
+  return await axios.get('/api/menu-slct');
 };
 
 const changeMenuAPI = async ({ menuData }) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock;
-  await axios.patch('/api/menu-mgnt', { menu_name, menu_stock });
-  return await axios.get('/api/menu-mgnt');
+  await axios.patch('/api/menu-slct', { menu_name, menu_stock });
+  return await axios.get('/api/menu-slct');
 };
 
 const deleteMenuAPI = async ({ delData }) => {
   const menu_name = delData.menu_name;
-  await axios.delete('/api/menu-mgnt', { data: { menu_name } });
-  return await axios.get('/api/menu-mgnt');
+  await axios.delete('/api/menu-slct', { data: { menu_name } });
+  return await axios.get('/api/menu-slct');
 };
 
 function* getMenu() {

@@ -1,7 +1,7 @@
 {
   "name": "pos",
   "description": "Kible-POS System",
-  "version": "5.6.0",
+  "version": "5.7.0",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",

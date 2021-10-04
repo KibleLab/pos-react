@@ -1,3 +1,11 @@
+import { FC, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { RootDispatch, RootState } from '..';
+import { ContainerProps, MenuData, WishData } from '../types/containers';
+import MenuButton from '../components/MenuButton';
+import WishButton from '../components/WishButton';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -5,12 +13,6 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
-import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import MenuButton from '../components/MenuButton';
-import WishButton from '../components/WishButton';
-import { Link } from 'react-router-dom';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { CHANGE_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
@@ -34,14 +36,14 @@ import {
   QUAN_INCR_ORDER_SHEET_REQUEST,
 } from '../reducers/orderSheet';
 
-const MenuSlct = ({ match, history }) => {
+const MenuSlct: FC<ContainerProps> = ({ match }) => {
   const classes = useStyles();
   const { table } = match.params;
   const { menu, wish, order, isDone_menu, isDone_wish, isDone_order } = useSelector(
-    (state) => ({
+    (state: RootState) => ({
       menu: [...state.menuSlct.data],
-      wish: [...state.wishList.data[table - 1]],
-      order: [...state.orderSheet.data[table - 1]],
+      wish: [...state.wishList.data[Number(table)]],
+      order: [...state.orderSheet.data[Number(table)]],
       isDone_menu: state.menuSlct.isDone,
       isDone_wish: state.wishList.isDone,
       isDone_order: state.orderSheet.isDone,
@@ -50,7 +52,7 @@ const MenuSlct = ({ match, history }) => {
   );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
@@ -58,7 +60,7 @@ const MenuSlct = ({ match, history }) => {
     dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
   }, [dispatch, table]);
 
-  const addWish = (menuData) => {
+  const addWish = (menuData: MenuData) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = wish.findIndex((wish) => wish.menu_name === menuData.menu_name);
       if (index === -1) {
@@ -99,7 +101,6 @@ const MenuSlct = ({ match, history }) => {
           dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({ menuData: menu[i] }));
         }
         dispatch(RESET_WISH_WISH_LIST_REQUEST({ table }));
-        history.push('/ordersheet/' + table);
       } else {
         setMessage('주문할 상품이 없습니다.');
         setOpen(true);
@@ -107,7 +108,7 @@ const MenuSlct = ({ match, history }) => {
     }
   };
 
-  const delWish = (wishData) => {
+  const delWish = (wishData: WishData) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
@@ -134,7 +135,7 @@ const MenuSlct = ({ match, history }) => {
     }
   };
 
-  const plus = (wishData) => {
+  const plus = (wishData: WishData) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
@@ -150,7 +151,7 @@ const MenuSlct = ({ match, history }) => {
     dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
-  const minus = (wishData) => {
+  const minus = (wishData: WishData) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
@@ -173,7 +174,7 @@ const MenuSlct = ({ match, history }) => {
     resetWish();
   };
 
-  const menuButtonList = () => {
+  const menuButtonList = (): any => {
     if (isDone_menu === true && isDone_wish === true)
       return menu.map((data, index) => (
         <MenuButton
@@ -187,7 +188,7 @@ const MenuSlct = ({ match, history }) => {
       ));
   };
 
-  const WishButtonList = () => {
+  const WishButtonList = (): any => {
     if (isDone_menu === true && isDone_wish === true)
       return wish.map((data, index) => (
         <WishButton
@@ -197,8 +198,8 @@ const MenuSlct = ({ match, history }) => {
           price={data.menu_price}
           quantity={data.wish_quantity}
           delete={() => delWish(data)}
-          plus={() => plus(data, index)}
-          minus={() => minus(data, index)}
+          plus={() => plus(data)}
+          minus={() => minus(data)}
         />
       ));
   };
@@ -235,7 +236,11 @@ const MenuSlct = ({ match, history }) => {
       <Container className={classes.tableNameC} maxWidth={false}>
         <Typography className={classes.tableName}>{'Table' + table}</Typography>
       </Container>
-      <Button className={classes.addOrderB} onClick={() => addOrder()}>
+      <Button
+        className={classes.addOrderB}
+        onClick={() => addOrder()}
+        component={Link}
+        to={'/ordersheet/' + table}>
         주문서에 추가
       </Button>
       <Snackbar
@@ -248,11 +253,7 @@ const MenuSlct = ({ match, history }) => {
         onClose={() => setOpen(false)}
         message={message}
         action={
-          <IconButton
-            aria-label='close'
-            style={{ color: 'yellow' }}
-            className={classes.close}
-            onClick={() => setOpen(false)}>
+          <IconButton aria-label='close' style={{ color: 'yellow' }} onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }

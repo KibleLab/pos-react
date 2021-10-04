@@ -1,3 +1,9 @@
+import { FC, useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { RootDispatch, RootState } from '..';
+import { ContainerProps, MenuData } from '../types/containers';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -5,13 +11,9 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
+import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-
-import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import { AgGridColumn, AgGridReact } from 'ag-grid-react';
-import { withRouter } from 'react-router-dom';
 
 import AddMenu from '../modals/AddMenu';
 import DelMenu from '../modals/DelMenu';
@@ -22,10 +24,10 @@ import { GET_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
 import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 import { SET_SELECT_SELECT_REQUEST, RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
 
-const MenuMgnt = ({ history }) => {
+const MenuMgnt: FC<ContainerProps> = ({ history }) => {
   const classes = useStyles();
   const { rows, select } = useSelector(
-    (state) => ({
+    (state: RootState) => ({
       rows: [...state.menuMgnt.data],
       select: state.select.select,
     }),
@@ -33,7 +35,7 @@ const MenuMgnt = ({ history }) => {
   );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     dispatch(GET_MENU_MENU_MGNT_REQUEST());
@@ -44,7 +46,7 @@ const MenuMgnt = ({ history }) => {
     history.goBack();
   };
 
-  const onClick = (index) => {
+  const onClick = (index: number) => {
     if (Object.keys(select).length === 0) {
       setMessage('상품을 선택해주세요.');
       setOpen(true);
@@ -53,17 +55,17 @@ const MenuMgnt = ({ history }) => {
     }
   };
 
-  const onRowClicked = (select) => {
+  const onRowClicked = (select: { data: MenuData }) => {
     dispatch(SET_SELECT_SELECT_REQUEST({ select: select.data }));
   };
 
-  const formatNumber = (number) => {
+  const formatNumber = (number: number) => {
     return Math.floor(number)
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   };
 
-  const valueFormatter = (params) => {
+  const valueFormatter = (params: { value: number }) => {
     return formatNumber(params.value);
   };
 
@@ -131,11 +133,7 @@ const MenuMgnt = ({ history }) => {
         onClose={() => setOpen(false)}
         message={message}
         action={
-          <IconButton
-            aria-label='close'
-            style={{ color: 'yellow' }}
-            className={classes.close}
-            onClick={() => setOpen(false)}>
+          <IconButton aria-label='close' style={{ color: 'yellow' }} onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }

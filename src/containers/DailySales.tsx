@@ -1,3 +1,8 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { RootDispatch, RootState } from '..';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -6,13 +11,9 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
+import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-
-import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import { AgGridColumn, AgGridReact } from 'ag-grid-react';
-import { Link } from 'react-router-dom';
 
 import Deadline from '../modals/Deadline';
 
@@ -22,10 +23,13 @@ import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 
 const DailySales = () => {
   const classes = useStyles();
-  const { sales } = useSelector((state) => ({ sales: [...state.dailySales.data] }), shallowEqual);
+  const { sales } = useSelector(
+    (state: RootState) => ({ sales: [...state.dailySales.data] }),
+    shallowEqual,
+  );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     dispatch(GET_SALES_DAILY_SALES_REQUEST());
@@ -48,13 +52,13 @@ const DailySales = () => {
     }
   };
 
-  const formatNumber = (number) => {
+  const formatNumber = (number: number) => {
     return Math.floor(number)
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   };
 
-  const currencyFormatter = (params) => {
+  const currencyFormatter = (params: { value: number }) => {
     return formatNumber(params.value);
   };
 
@@ -118,11 +122,7 @@ const DailySales = () => {
         onClose={() => setOpen(false)}
         message={message}
         action={
-          <IconButton
-            aria-label='close'
-            style={{ color: 'yellow' }}
-            className={classes.close}
-            onClick={() => setOpen(false)}>
+          <IconButton aria-label='close' style={{ color: 'yellow' }} onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }

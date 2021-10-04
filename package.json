@@ -1,7 +1,7 @@
 {
   "name": "pos",
   "description": "Kible-POS System",
-  "version": "5.7.0",
+  "version": "6.0.0",
   "scripts": {
     "build": "react-scripts build",
     "test": "react-scripts test",

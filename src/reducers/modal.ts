@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialState_Open } from '../types/reducers';
 
-const initialState = {
+const initialState: InitialState_Open = {
   open: [],
   isLoading: false,
   isDone: false,
@@ -11,7 +12,8 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    MODAL_OPEN_MODAL_REQUEST: (state) => {
+    // MODAL_OPEN_MODAL
+    MODAL_OPEN_MODAL_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;

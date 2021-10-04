@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialState_Data } from '../types/reducers';
 
-const initialState = {
+const initialState: InitialState_Data = {
   data: [],
   isLoading: false,
   isDone: false,
@@ -11,6 +12,7 @@ const dailySalesSlice = createSlice({
   name: 'dailySales',
   initialState,
   reducers: {
+    // GET_SALES_DAILY_SALES
     GET_SALES_DAILY_SALES_REQUEST: (state) => {
       state.isLoading = true;
       state.isDone = false;
@@ -25,7 +27,9 @@ const dailySalesSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    ADD_SALES_DAILY_SALES_REQUEST: (state) => {
+
+    // ADD_SALES_DAILY_SALES
+    ADD_SALES_DAILY_SALES_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -39,7 +43,9 @@ const dailySalesSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    QUAN_INCR_DAILY_SALES_REQUEST: (state) => {
+
+    // QUAN_INCR_DAILY_SALES
+    QUAN_INCR_DAILY_SALES_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -53,6 +59,8 @@ const dailySalesSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
+
+    // RESET_SALES_DAILY_SALES
     RESET_SALES_DAILY_SALES_REQUEST: (state) => {
       state.isLoading = true;
       state.isDone = false;

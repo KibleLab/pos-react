@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialState_Data } from '../types/reducers';
 
-const initialState = {
+const initialState: InitialState_Data = {
   data: [],
   isLoading: false,
   isDone: false,
@@ -11,6 +12,7 @@ const menuMgntSlice = createSlice({
   name: 'menuMgnt',
   initialState,
   reducers: {
+    // GET_MENU_MENU_MGNT
     GET_MENU_MENU_MGNT_REQUEST: (state) => {
       state.isLoading = true;
       state.isDone = false;
@@ -25,7 +27,9 @@ const menuMgntSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    ADD_MENU_MENU_MGNT_REQUEST: (state) => {
+
+    // ADD_MENU_MENU_MGNT
+    ADD_MENU_MENU_MGNT_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -39,7 +43,9 @@ const menuMgntSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    EDIT_STOCK_MENU_MGNT_REQUEST: (state) => {
+
+    // EDIT_STOCK_MENU_MGNT
+    EDIT_STOCK_MENU_MGNT_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -53,7 +59,9 @@ const menuMgntSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    CHANGE_MENU_MENU_MGNT_REQUEST: (state) => {
+
+    // CHANGE_MENU_MENU_MGNT
+    CHANGE_MENU_MENU_MGNT_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -67,7 +75,9 @@ const menuMgntSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    DELETE_MENU_MENU_MGNT_REQUEST: (state) => {
+
+    // DELETE_MENU_MENU_MGNT
+    DELETE_MENU_MENU_MGNT_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;

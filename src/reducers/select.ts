@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialState_Select } from '../types/reducers';
 
-const initialState = {
+const initialState: InitialState_Select = {
   select: {},
   isLoading: false,
   isDone: false,
@@ -11,7 +12,8 @@ const selectSlice = createSlice({
   name: 'select',
   initialState,
   reducers: {
-    SET_SELECT_SELECT_REQUEST: (state) => {
+    // SET_SELECT_SELECT
+    SET_SELECT_SELECT_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -25,12 +27,14 @@ const selectSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
+
+    // RESET_SELECT_SELECT
     RESET_SELECT_SELECT_REQUEST: (state) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    RESET_SELECT_SELECT_SUCCESS: (state, action) => {
+    RESET_SELECT_SELECT_SUCCESS: (state) => {
       state.isLoading = false;
       state.isDone = true;
       state.select = {};

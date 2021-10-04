@@ -6,10 +6,10 @@ import {
   MODAL_OPEN_MODAL_FAILURE,
 } from '../reducers/modal';
 
-function* modalOpen(action) {
+function* modalOpen(action: { payload: { index: number; open: boolean } }) {
   try {
     yield put(MODAL_OPEN_MODAL_SUCCESS({ index: action.payload.index, open: action.payload.open }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(MODAL_OPEN_MODAL_FAILURE({ error: err.response.data }));
   }
 }

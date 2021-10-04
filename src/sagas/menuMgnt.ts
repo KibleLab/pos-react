@@ -1,7 +1,8 @@
 import { put, call, all, fork, take, takeLeading, takeLatest } from 'redux-saga/effects';
 import { eventChannel } from '@redux-saga/core';
 import { io } from 'socket.io-client';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { MenuData } from '../types/sagas';
 
 import {
   GET_MENU_MENU_MGNT_REQUEST,
@@ -27,81 +28,85 @@ const getMenuAPI = () => {
   return eventChannel((emitter) => {
     socket.emit('GET /api/menu-mgnt Request');
     socket.on('GET /api/menu-mgnt Success', emitter);
+    return () => {
+      socket.off('GET /api/menu-mgnt Success', emitter);
+    };
   });
 };
 
-const addMenuAPI = async ({ addData }) => {
-  const menu_name = addData.menu_name;
-  const menu_price = addData.menu_price;
-  const menu_stock = addData.menu_stock;
+const addMenuAPI = async (payload: { addData: MenuData }) => {
+  const menu_name = payload.addData.menu_name;
+  const menu_price = payload.addData.menu_price;
+  const menu_stock = payload.addData.menu_stock;
   await axios.post('/api/menu-slct', { menu_name, menu_price, menu_stock });
   return await axios.get(`/api/menu-slct`);
 };
 
-const editStockAPI = async ({ editData }) => {
-  const menu_name = editData.menu_name;
-  const menu_stock = editData.menu_stock;
+const editStockAPI = async (payload: { editData: MenuData }) => {
+  const menu_name = payload.editData.menu_name;
+  const menu_stock = payload.editData.menu_stock;
   await axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return await axios.get('/api/menu-slct');
 };
 
-const changeMenuAPI = async ({ menuData }) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock;
+const changeMenuAPI = async (payload: { menuData: MenuData }) => {
+  const menu_name = payload.menuData.menu_name;
+  const menu_stock = payload.menuData.menu_stock;
   await axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return await axios.get('/api/menu-slct');
 };
 
-const deleteMenuAPI = async ({ delData }) => {
-  const menu_name = delData.menu_name;
+const deleteMenuAPI = async (payload: { delData: MenuData }) => {
+  const menu_name = payload.delData.menu_name;
   await axios.delete('/api/menu-slct', { data: { menu_name } });
   return await axios.get('/api/menu-slct');
 };
 
 function* getMenu() {
-  try {
-    const result = yield call(getMenuAPI);
-    while (true) {
-      const channel = yield take(result);
-      yield put(GET_MENU_MENU_MGNT_SUCCESS({ data: channel }));
+  const channel: ReturnType<typeof getMenuAPI> = yield call(getMenuAPI);
+  while (true) {
+    try {
+      const payload: {} = yield take(channel);
+      yield put(GET_MENU_MENU_MGNT_SUCCESS({ data: payload }));
+    } catch (err: any) {
+      yield put(GET_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
+      channel.close();
     }
-  } catch (err) {
-    yield put(GET_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
   }
 }
 
-function* addMenu(action) {
+function* addMenu(action: { payload: { addData: MenuData } }) {
   try {
-    const result = yield call(addMenuAPI, { addData: action.payload.addData });
+    const result: AxiosResponse<Array<MenuData>> = yield call(addMenuAPI, action.payload);
     yield put(ADD_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(ADD_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
   }
 }
 
-function* editStock(action) {
+function* editStock(action: { payload: { editData: MenuData } }) {
   try {
-    const result = yield call(editStockAPI, { editData: action.payload.editData });
+    const result: AxiosResponse<Array<MenuData>> = yield call(editStockAPI, action.payload);
     yield put(EDIT_STOCK_MENU_MGNT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(EDIT_STOCK_MENU_MGNT_FAILURE({ error: err.response.data }));
   }
 }
 
-function* changeMenu(action) {
+function* changeMenu(action: { payload: { menuData: MenuData } }) {
   try {
-    const result = yield call(changeMenuAPI, { menuData: action.payload.menuData });
+    const result: AxiosResponse<Array<MenuData>> = yield call(changeMenuAPI, action.payload);
     yield put(CHANGE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(CHANGE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
   }
 }
 
-function* deleteMenu(action) {
+function* deleteMenu(action: { payload: { delData: MenuData } }) {
   try {
-    const result = yield call(deleteMenuAPI, { delData: action.payload.delData });
+    const result: AxiosResponse<Array<MenuData>> = yield call(deleteMenuAPI, action.payload);
     yield put(DELETE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(DELETE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
   }
 }

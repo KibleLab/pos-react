@@ -1,5 +1,6 @@
 import { put, call, all, fork, takeLatest } from 'redux-saga/effects';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { TableData } from '../types/sagas';
 
 import {
   GET_TABLE_TABLE_MGNT_REQUEST,
@@ -14,27 +15,27 @@ const getTableAPI = async () => {
   return await axios.get('/api/table-mgnt');
 };
 
-const addTableAPI = async ({ addData }) => {
-  const table_no = addData.table_no;
-  const table_name = addData.table_name;
+const addTableAPI = async (payload: { addData: TableData }) => {
+  const table_no = payload.addData.table_no;
+  const table_name = payload.addData.table_name;
   await axios.post('/api/table-mgnt', { table_no, table_name });
   return await axios.get('/api/table-mgnt');
 };
 
 function* getTable() {
   try {
-    const result = yield call(getTableAPI);
+    const result: AxiosResponse<Array<TableData>> = yield call(getTableAPI);
     yield put(GET_TABLE_TABLE_MGNT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(GET_TABLE_TABLE_MGNT_FAILURE({ error: err.response.data }));
   }
 }
 
-function* addTable(action) {
+function* addTable(action: { payload: { addData: TableData } }) {
   try {
-    const result = yield call(addTableAPI, { addData: action.payload.addData });
+    const result: AxiosResponse<Array<TableData>> = yield call(addTableAPI, action.payload);
     yield put(ADD_TABLE_TABLE_MGNT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(ADD_TABLE_TABLE_MGNT_FAILURE({ error: err.response.data }));
   }
 }

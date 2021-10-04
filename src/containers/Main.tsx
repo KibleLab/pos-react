@@ -1,13 +1,14 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { RootDispatch, RootState } from '..';
+import Title from '../components/Title';
+import TableButton from '../components/TableButton';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import Title from '../components/Title';
-import TableButton from '../components/TableButton';
-import { Link } from 'react-router-dom';
 
 import TableMgnt from '../modals/TableMgnt';
 
@@ -16,15 +17,15 @@ import { GET_TABLE_TABLE_MGNT_REQUEST } from '../reducers/tableMgnt';
 
 const Main = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { table, isLoading } = useSelector(
-    (state) => ({
+    (state: RootState) => ({
       table: [...state.tableMgnt.data],
       isLoading: state.tableMgnt.isLoading,
     }),
     shallowEqual,
   );
   const [progress, setProgress] = useState(0);
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     dispatch(GET_TABLE_TABLE_MGNT_REQUEST());
@@ -45,16 +46,6 @@ const Main = () => {
     return a[sortingField] - b[sortingField];
   });
 
-  const tableButtonList = () => {
-    return table.map((data, index) => (
-      <div key={index}>
-        <Link to={'/ordersheet/' + data.table_no}>
-          <TableButton index={index} table={data.table_no} title={data.table_name} />
-        </Link>
-      </div>
-    ));
-  };
-
   const initTable = () => {
     if (isLoading === false && table.length === 0) {
       return <TableMgnt isOpen={true} />;
@@ -74,6 +65,16 @@ const Main = () => {
         />
       );
     }
+  };
+
+  const tableButtonList = (): any => {
+    return table.map((data, index) => (
+      <div key={index}>
+        <Link to={'/ordersheet/' + data.table_no}>
+          <TableButton index={index} table={data.table_no} title={data.table_name} />
+        </Link>
+      </div>
+    ));
   };
 
   return (

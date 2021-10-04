@@ -1,8 +1,8 @@
+import { Helmet } from 'react-helmet';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-
-import { Helmet } from 'react-helmet';
 
 const ErrorPage = () => {
   const classes = useStyles();

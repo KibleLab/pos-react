@@ -9,10 +9,10 @@ import {
   RESET_SELECT_SELECT_FAILURE,
 } from '../reducers/select';
 
-function* setSelect(action) {
+function* setSelect(action: { payload: { select: {} } }) {
   try {
     yield put(SET_SELECT_SELECT_SUCCESS({ select: action.payload.select }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(SET_SELECT_SELECT_FAILURE({ error: err.response.data }));
   }
 }
@@ -20,7 +20,7 @@ function* setSelect(action) {
 function* resetSelect() {
   try {
     yield put(RESET_SELECT_SELECT_SUCCESS());
-  } catch (err) {
+  } catch (err: any) {
     yield put(RESET_SELECT_SELECT_FAILURE({ error: err.response.data }));
   }
 }

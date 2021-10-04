@@ -1,21 +1,23 @@
+import { FC, useEffect } from 'react';
+import { RootDispatch, RootState } from '..';
+import { TableButtonProps, OrderProps } from '../types/components';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import { useEffect } from 'react';
-
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { GET_ORDER_ORDER_SHEET_REQUEST } from '../reducers/orderSheet';
 
-const TableButton = (props) => {
+const TableButton: FC<TableButtonProps> = (props) => {
   const classes = useStyles(props);
   const table = props.table;
   const { order } = useSelector(
-    (state) => ({ order: [...state.orderSheet.data[table - 1]] }),
+    (state: RootState) => ({ order: [...state.orderSheet.data[Number(table)]] }),
     shallowEqual,
   );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
@@ -37,8 +39,8 @@ const TableButton = (props) => {
   );
 };
 
-const Order = (props) => {
-  const classes = useStyles(props);
+const Order: FC<OrderProps> = (props) => {
+  const classes = useStyles_order(props);
   return (
     <Container className={classes.order} maxWidth={false}>
       <Typography className={classes.name}>{props.name}</Typography>
@@ -48,7 +50,7 @@ const Order = (props) => {
 };
 
 const useStyles = makeStyles({
-  root: (props) => ({
+  root: (props: TableButtonProps) => ({
     position: 'absolute',
     background: '#ffd1d1',
     width: 410,
@@ -78,7 +80,10 @@ const useStyles = makeStyles({
       borderRadius: 10,
     },
   },
-  order: (props) => ({
+});
+
+const useStyles_order = makeStyles({
+  order: (props: OrderProps) => ({
     position: 'absolute',
     left: 0,
     top: props.index * 20 + props.index * 16,

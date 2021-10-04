@@ -1,9 +1,10 @@
+import { RootDispatch, RootState } from '..';
+import Modal from 'react-modal';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
-import Modal from 'react-modal';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { DELETE_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
@@ -13,12 +14,13 @@ import { RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
 const DelMenu = () => {
   const classes = useStyles();
   const { select, open } = useSelector(
-    (state) => ({ select: state.select.select, open: [...state.modal.open] }),
+    (state: RootState) => ({ select: state.select.select, open: [...state.modal.open] }),
     shallowEqual,
   );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   const close = () => {
+    dispatch(RESET_SELECT_SELECT_REQUEST());
     dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 1, open: false }));
   };
 

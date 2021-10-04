@@ -1,3 +1,8 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { RootDispatch, RootState } from '..';
+import Modal from 'react-modal';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -6,23 +11,19 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { useState } from 'react';
-import Modal from 'react-modal';
-import { withRouter } from 'react-router-dom';
-
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { RESET_SALES_DAILY_SALES_REQUEST } from '../reducers/dailySales';
 import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 
-const Deadline = ({ history }) => {
+const Deadline = () => {
   const classes = useStyles();
   const { order, open } = useSelector(
-    (state) => ({ open: [...state.modal.open], order: [...state.orderSheet.data] }),
+    (state: RootState) => ({ open: [...state.modal.open], order: [...state.orderSheet.data] }),
     shallowEqual,
   );
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [message, setMessage] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   const close = () => {
     dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 4, open: false }));
@@ -33,7 +34,6 @@ const Deadline = ({ history }) => {
       if (order[i].length === 0 && i === order.length - 1) {
         dispatch(RESET_SALES_DAILY_SALES_REQUEST());
         dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 4, open: false }));
-        history.push('/');
       } else if (order[i].length !== 0) {
         setMessage('결제가 안된 테이블이 있습니다.');
         setOpenSnackBar(true);
@@ -50,7 +50,7 @@ const Deadline = ({ history }) => {
       <Button className={classes.backB} onClick={close}>
         Back
       </Button>
-      <Button className={classes.resetSalesB} onClick={resetSales}>
+      <Button className={classes.resetSalesB} onClick={resetSales} component={Link} to={'/'}>
         마감
       </Button>
       <Snackbar
@@ -66,7 +66,6 @@ const Deadline = ({ history }) => {
           <IconButton
             aria-label='close'
             style={{ color: 'yellow' }}
-            className={classes.close}
             onClick={() => setOpenSnackBar(false)}>
             <CloseIcon />
           </IconButton>
@@ -136,4 +135,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default withRouter(Deadline);
+export default Deadline;

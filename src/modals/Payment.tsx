@@ -1,11 +1,13 @@
+import { FC, useEffect } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { RootDispatch, RootState } from '..';
+import { PaymentProps } from '../types/modals';
+import Modal from 'react-modal';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
-import { useEffect } from 'react';
-import Modal from 'react-modal';
-import { withRouter } from 'react-router-dom';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import {
@@ -21,12 +23,12 @@ import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
 
 Modal.setAppElement('body');
 
-const Payment = ({ match, history }) => {
+const Payment: FC<PaymentProps> = ({ match }) => {
   const classes = useStyles();
   const { table } = match.params;
   const { order, sales, open, isDone_order, isDone_sales } = useSelector(
-    (state) => ({
-      order: [...state.orderSheet.data[table - 1]],
+    (state: RootState) => ({
+      order: [...state.orderSheet.data[Number(table)]],
       sales: [...state.dailySales.data],
       open: [...state.modal.open],
       isDone_order: state.orderSheet.isDone,
@@ -34,7 +36,7 @@ const Payment = ({ match, history }) => {
     }),
     shallowEqual,
   );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
@@ -57,7 +59,6 @@ const Payment = ({ match, history }) => {
       }
       dispatch(RESET_ORDER_ORDER_SHEET_REQUEST({ table }));
       dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 3, open: false }));
-      history.push('/');
     }
   };
 
@@ -81,7 +82,7 @@ const Payment = ({ match, history }) => {
       <Button className={classes.backB} onClick={close}>
         Back
       </Button>
-      <Button className={classes.payB} onClick={payCalc}>
+      <Button className={classes.payB} onClick={payCalc} component={Link} to={'/'}>
         결제
       </Button>
     </Modal>

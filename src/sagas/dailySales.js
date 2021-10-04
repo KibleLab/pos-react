@@ -21,10 +21,7 @@ import {
 const socket = io('/api/dailysales', { path: '/socket', transports: ['websocket'] });
 
 const getSalesAPI = () => {
-  return eventChannel((emit) => {
-    const emitter = (result) => {
-      emit(result);
-    };
+  return eventChannel((emitter) => {
     socket.emit('GET /api/dailysales Request');
     socket.on('GET /api/dailysales Success', emitter);
   });

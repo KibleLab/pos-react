@@ -1,3 +1,7 @@
+import { useState, useEffect } from 'react';
+import { RootDispatch, RootState } from '..';
+import Modal from 'react-modal';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -7,9 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
-import { useState, useEffect } from 'react';
-import Modal from 'react-modal';
-
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { EDIT_STOCK_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
 import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
@@ -18,19 +19,19 @@ import { RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
 const EditStock = () => {
   const classes = useStyles();
   const { select, open } = useSelector(
-    (state) => ({ select: state.select.select, open: [...state.modal.open] }),
+    (state: RootState) => ({ select: state.select.select, open: [...state.modal.open] }),
     shallowEqual,
   );
   const [input, setInput] = useState(0);
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
-    setInput(parseInt(select.menu_stock));
+    setInput(Number(select.menu_stock));
   }, [select.menu_stock]);
+
   const regex = /^[0-9]*$/;
 
-  const dispatch = useDispatch();
-
-  const onChange = (e) => {
+  const onChange = (e: { target: { value: string } }) => {
     if (regex.test(e.target.value)) {
       setInput(Number(e.target.value));
     }
@@ -46,8 +47,9 @@ const EditStock = () => {
     }
   };
 
-  const close = (e) => {
-    setInput(select.menu_stock);
+  const close = () => {
+    setInput(Number(select.menu_stock));
+    dispatch(RESET_SELECT_SELECT_REQUEST());
     dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 2, open: false }));
   };
 

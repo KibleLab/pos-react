@@ -1,3 +1,8 @@
+import { FC, useState, useEffect } from 'react';
+import { RootDispatch, RootState } from '..';
+import { TableMgntProps } from '../types/modals';
+import Modal from 'react-modal';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -9,27 +14,27 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { useState, useEffect } from 'react';
-import Modal from 'react-modal';
-
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { ADD_TABLE_TABLE_MGNT_REQUEST } from '../reducers/tableMgnt';
 
-const TableMgnt = (props) => {
+const TableMgnt: FC<TableMgntProps> = (props) => {
   const classes = useStyles();
-  const { table } = useSelector((state) => ({ table: [...state.tableMgnt.data] }), shallowEqual);
+  const { table } = useSelector(
+    (state: RootState) => ({ table: [...state.tableMgnt.data] }),
+    shallowEqual,
+  );
   const [input, setInput] = useState(1);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [message, setMessage] = useState('');
-  const regex = /^[0-9]*$/;
-
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     setInput(table.length);
   }, [table.length]);
 
-  const onChange = (e) => {
+  const regex = /^[0-9]*$/;
+
+  const onChange = (e: { target: { value: string } }) => {
     if (regex.test(e.target.value)) {
       setInput(Number(e.target.value));
     }
@@ -99,7 +104,6 @@ const TableMgnt = (props) => {
           <IconButton
             aria-label='close'
             style={{ color: 'yellow' }}
-            className={classes.close}
             onClick={() => setOpenSnackBar(false)}>
             <CloseIcon />
           </IconButton>

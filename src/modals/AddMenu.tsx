@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { RootState } from '..';
+import Modal from 'react-modal';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -7,9 +11,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { useState } from 'react';
-import Modal from 'react-modal';
-
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { ADD_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
 import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
@@ -17,7 +18,10 @@ import { RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
 
 const AddMenu = () => {
   const classes = useStyles();
-  const { open } = useSelector((state) => ({ open: [...state.modal.open] }), shallowEqual);
+  const { open } = useSelector(
+    (state: RootState) => ({ open: [...state.modal.open] }),
+    shallowEqual,
+  );
   const [inputs, setInputs] = useState({ menu_name: '', menu_price: '', menu_stock: '' });
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [message, setMessage] = useState('');
@@ -26,7 +30,7 @@ const AddMenu = () => {
 
   const dispatch = useDispatch();
 
-  const onChange = (e) => {
+  const onChange = (e: { target: { name: string; value: string } }) => {
     const { name, value } = e.target;
     if (name === 'menu_name') {
       setInputs({ ...inputs, [name]: value });
@@ -41,6 +45,7 @@ const AddMenu = () => {
 
   const close = () => {
     setInputs({ menu_name: '', menu_price: '', menu_stock: '' });
+    dispatch(RESET_SELECT_SELECT_REQUEST());
     dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 0, open: false }));
   };
 
@@ -110,7 +115,6 @@ const AddMenu = () => {
           <IconButton
             aria-label='close'
             style={{ color: 'yellow' }}
-            className={classes.close}
             onClick={() => setOpenSnackBar(false)}>
             <CloseIcon />
           </IconButton>

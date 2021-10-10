@@ -22,7 +22,7 @@ import {
   DELETE_MENU_MENU_MGNT_FAILURE,
 } from '../reducers/menuMgnt';
 
-const socket = io('/api/menu-mgnt', { path: '/socket', transports: ['websocket'] });
+const socket = io('/api/menu-slct', { path: '/socket', transports: ['websocket'] });
 
 const getMenuAPI = () => {
   return eventChannel((emitter) => {
@@ -39,27 +39,27 @@ const addMenuAPI = async (payload: { addData: MenuData }) => {
   const menu_price = payload.addData.menu_price;
   const menu_stock = payload.addData.menu_stock;
   await axios.post('/api/menu-slct', { menu_name, menu_price, menu_stock });
-  return await axios.get(`/api/menu-slct`);
+  return await axios.get(`/api/menu-mgnt`);
 };
 
 const editStockAPI = async (payload: { editData: MenuData }) => {
   const menu_name = payload.editData.menu_name;
   const menu_stock = payload.editData.menu_stock;
   await axios.patch('/api/menu-slct', { menu_name, menu_stock });
-  return await axios.get('/api/menu-slct');
+  return await axios.get('/api/menu-mgnt');
 };
 
 const changeMenuAPI = async (payload: { menuData: MenuData }) => {
   const menu_name = payload.menuData.menu_name;
   const menu_stock = payload.menuData.menu_stock;
   await axios.patch('/api/menu-slct', { menu_name, menu_stock });
-  return await axios.get('/api/menu-slct');
+  return await axios.get('/api/menu-mgnt');
 };
 
 const deleteMenuAPI = async (payload: { delData: MenuData }) => {
   const menu_name = payload.delData.menu_name;
   await axios.delete('/api/menu-slct', { data: { menu_name } });
-  return await axios.get('/api/menu-slct');
+  return await axios.get('/api/menu-mgnt');
 };
 
 function* getMenu() {

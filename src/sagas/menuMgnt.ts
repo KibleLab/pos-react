@@ -39,6 +39,7 @@ const addMenuAPI = async (payload: { addData: MenuData }) => {
   const menu_price = payload.addData.menu_price;
   const menu_stock = payload.addData.menu_stock;
   await axios.post('/api/menu-slct', { menu_name, menu_price, menu_stock });
+  socket.emit('GET /api/menu-slct Request');
   return await axios.get(`/api/menu-mgnt`);
 };
 
@@ -59,6 +60,7 @@ const changeMenuAPI = async (payload: { menuData: MenuData }) => {
 const deleteMenuAPI = async (payload: { delData: MenuData }) => {
   const menu_name = payload.delData.menu_name;
   await axios.delete('/api/menu-slct', { data: { menu_name } });
+  socket.emit('GET /api/menu-slct Request');
   return await axios.get('/api/menu-mgnt');
 };
 

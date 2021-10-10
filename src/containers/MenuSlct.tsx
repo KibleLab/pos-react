@@ -39,14 +39,11 @@ import {
 const MenuSlct: FC<ContainerProps> = ({ match }) => {
   const classes = useStyles();
   const { table } = match.params;
-  const { menu, wish, order, isDone_menu, isDone_wish, isDone_order } = useSelector(
+  const { menu, wish, order } = useSelector(
     (state: RootState) => ({
       menu: [...state.menuSlct.data],
       wish: [...state.wishList.data[Number(table)]],
       order: [...state.orderSheet.data[Number(table)]],
-      isDone_menu: state.menuSlct.isDone,
-      isDone_wish: state.wishList.isDone,
-      isDone_order: state.orderSheet.isDone,
     }),
     shallowEqual,
   );
@@ -61,111 +58,102 @@ const MenuSlct: FC<ContainerProps> = ({ match }) => {
   }, [dispatch, table]);
 
   const addWish = (menuData: MenuData) => {
-    if (isDone_menu === true && isDone_wish === true) {
-      const index = wish.findIndex((wish) => wish.menu_name === menuData.menu_name);
-      if (index === -1) {
-        dispatch(ADD_WISH_WISH_LIST_REQUEST({ table, menuData }));
+    const index = wish.findIndex((wish) => wish.menu_name === menuData.menu_name);
+    if (index === -1) {
+      dispatch(ADD_WISH_WISH_LIST_REQUEST({ table, menuData }));
+      dispatch(STOCK_DECR_MENU_SLCT_REQUEST({ menuData }));
+    } else {
+      if (menuData.menu_stock > 0) {
+        dispatch(QUAN_INCR_WISH_LIST_REQUEST({ table, wishData: wish[index] }));
         dispatch(STOCK_DECR_MENU_SLCT_REQUEST({ menuData }));
       } else {
-        if (menuData.menu_stock > 0) {
-          dispatch(QUAN_INCR_WISH_LIST_REQUEST({ table, wishData: wish[index] }));
-          dispatch(STOCK_DECR_MENU_SLCT_REQUEST({ menuData }));
-        } else {
-          setMessage('재고가 없습니다.');
-          setOpen(true);
-        }
+        setMessage('재고가 없습니다.');
+        setOpen(true);
       }
     }
+
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
     dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const addOrder = () => {
-    if (isDone_menu === true && isDone_wish === true && isDone_order === true) {
-      if (wish.length > 0) {
-        if (order.length > 0) {
-          for (let i = 0; i < wish.length; i++) {
-            const index = order.findIndex((order) => order.menu_name === wish[i].menu_name);
-            let wishData = wish[i];
-            let orderData = order[index];
-            index === -1
-              ? dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({ table, wishData }))
-              : dispatch(QUAN_INCR_ORDER_SHEET_REQUEST({ table, wishData, orderData }));
-          }
-        } else {
-          for (let i = 0; i < wish.length; i++) {
-            dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({ table, wishData: wish[i] }));
-          }
+    if (wish.length > 0) {
+      if (order.length > 0) {
+        for (let i = 0; i < wish.length; i++) {
+          const index = order.findIndex((order) => order.menu_name === wish[i].menu_name);
+          let wishData = wish[i];
+          let orderData = order[index];
+          index === -1
+            ? dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({ table, wishData }))
+            : dispatch(QUAN_INCR_ORDER_SHEET_REQUEST({ table, wishData, orderData }));
         }
-        for (let i = 0; i < menu.length; i++) {
-          dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({ menuData: menu[i] }));
-        }
-        dispatch(RESET_WISH_WISH_LIST_REQUEST({ table }));
       } else {
-        setMessage('주문할 상품이 없습니다.');
-        setOpen(true);
+        for (let i = 0; i < wish.length; i++) {
+          dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({ table, wishData: wish[i] }));
+        }
       }
+      for (let i = 0; i < menu.length; i++) {
+        dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({ menuData: menu[i] }));
+      }
+      dispatch(RESET_WISH_WISH_LIST_REQUEST({ table }));
+    } else {
+      setMessage('주문할 상품이 없습니다.');
+      setOpen(true);
     }
   };
 
   const delWish = (wishData: WishData) => {
-    if (isDone_menu === true && isDone_wish === true) {
-      const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
-      let menuData = menu[index];
-      if (menuData.menu_stock === 0) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
-      dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
-      dispatch(DELETE_WISH_WISH_LIST_REQUEST({ table, wishData }));
-      setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
-      setOpen(true);
-    }
+    const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
+    let menuData = menu[index];
+    if (menuData.menu_stock === 0) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
+    dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
+    dispatch(DELETE_WISH_WISH_LIST_REQUEST({ table, wishData }));
+    setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
+    setOpen(true);
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
     dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const resetWish = () => {
-    if (isDone_menu === true && isDone_wish === true) {
-      for (let i = 0; i < wish.length; i++) {
-        const index = menu.findIndex((menu) => menu.menu_name === wish[i].menu_name);
-        let menuData = menu[index];
-        let wishData = wish[i];
-        if (menuData.menu_stock === 0) menuData = { menu_name: wish[i].menu_name, menu_stock: 0 };
-        dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
-      }
-      dispatch(RESET_WISH_WISH_LIST_REQUEST({ table }));
+    for (let i = 0; i < wish.length; i++) {
+      const index = menu.findIndex((menu) => menu.menu_name === wish[i].menu_name);
+      let menuData = menu[index];
+      let wishData = wish[i];
+      if (menuData.menu_stock === 0) menuData = { menu_name: wish[i].menu_name, menu_stock: 0 };
+      dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
     }
+    dispatch(RESET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const plus = (wishData: WishData) => {
-    if (isDone_menu === true && isDone_wish === true) {
-      const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
-      let menuData = menu[index];
-      if (menuData.menu_stock === 0) {
-        setMessage('재고가 없습니다.');
-        setOpen(true);
-      } else {
-        dispatch(QUAN_INCR_WISH_LIST_REQUEST({ table, wishData }));
-        dispatch(STOCK_DECR_MENU_SLCT_REQUEST({ menuData }));
-      }
+    const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
+    let menuData = menu[index];
+    if (menuData.menu_stock === 0) {
+      setMessage('재고가 없습니다.');
+      setOpen(true);
+    } else {
+      dispatch(QUAN_INCR_WISH_LIST_REQUEST({ table, wishData }));
+      dispatch(STOCK_DECR_MENU_SLCT_REQUEST({ menuData }));
     }
+
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
     dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const minus = (wishData: WishData) => {
-    if (isDone_menu === true && isDone_wish === true) {
-      const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
-      let menuData = menu[index];
-      if (wishData.wish_quantity > 1) {
-        if (menuData.menu_stock === 0) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
-        dispatch(QUAN_DECR_WISH_LIST_REQUEST({ table, wishData }));
-        dispatch(STOCK_INCR_MENU_SLCT_REQUEST({ menuData }));
-      } else {
-        dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
-        dispatch(DELETE_WISH_WISH_LIST_REQUEST({ table, wishData }));
-        setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
-        setOpen(true);
-      }
+    const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
+    let menuData = menu[index];
+    if (wishData.wish_quantity > 1) {
+      if (menuData.menu_stock === 0) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
+      dispatch(QUAN_DECR_WISH_LIST_REQUEST({ table, wishData }));
+      dispatch(STOCK_INCR_MENU_SLCT_REQUEST({ menuData }));
+    } else {
+      dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
+      dispatch(DELETE_WISH_WISH_LIST_REQUEST({ table, wishData }));
+      setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
+      setOpen(true);
     }
+
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
     dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
@@ -175,7 +163,6 @@ const MenuSlct: FC<ContainerProps> = ({ match }) => {
   };
 
   const menuButtonList = (): any => {
-    if (isDone_menu === true && isDone_wish === true)
       return menu.map((data, index) => (
         <MenuButton
           onClick={() => addWish(data)}
@@ -189,7 +176,6 @@ const MenuSlct: FC<ContainerProps> = ({ match }) => {
   };
 
   const WishButtonList = (): any => {
-    if (isDone_menu === true && isDone_wish === true)
       return wish.map((data, index) => (
         <WishButton
           key={index}

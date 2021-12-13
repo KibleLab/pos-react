@@ -15,7 +15,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { ADD_TABLE_TABLE_MGNT_REQUEST } from '../reducers/tableMgnt';
+import { tableMgntActions } from '../reducers/tableMgnt';
 
 const TableMgnt: FC<TableMgntProps> = (props) => {
   const classes = useStyles();
@@ -65,7 +65,7 @@ const TableMgnt: FC<TableMgntProps> = (props) => {
       for (let j = 1; j < input + 1; j++) {
         setTimeout(() => {
           const addData = { table_no: j, table_name: 'Table' + j };
-          dispatch(ADD_TABLE_TABLE_MGNT_REQUEST({ addData }));
+          dispatch(tableMgntActions.addTable_request({ addData }));
         }, 1000);
       }
     }

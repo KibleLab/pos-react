@@ -4,20 +4,7 @@ import { io } from 'socket.io-client';
 import axios, { AxiosResponse } from 'axios';
 import { OrderData, SalesData } from '../types/sagas';
 
-import {
-  GET_SALES_DAILY_SALES_REQUEST,
-  GET_SALES_DAILY_SALES_SUCCESS,
-  GET_SALES_DAILY_SALES_FAILURE,
-  ADD_SALES_DAILY_SALES_REQUEST,
-  ADD_SALES_DAILY_SALES_SUCCESS,
-  ADD_SALES_DAILY_SALES_FAILURE,
-  QUAN_INCR_DAILY_SALES_REQUEST,
-  QUAN_INCR_DAILY_SALES_SUCCESS,
-  QUAN_INCR_DAILY_SALES_FAILURE,
-  RESET_SALES_DAILY_SALES_REQUEST,
-  RESET_SALES_DAILY_SALES_SUCCESS,
-  RESET_SALES_DAILY_SALES_FAILURE,
-} from '../reducers/dailySales';
+import { dailySalesActions } from '../reducers/dailySales';
 
 const socket = io('/api/dailysales', { path: '/socket', transports: ['websocket'] });
 
@@ -55,9 +42,9 @@ function* getSales() {
   while (true) {
     try {
       const payload: {} = yield take(channel);
-      yield put(GET_SALES_DAILY_SALES_SUCCESS({ data: payload }));
+      yield put(dailySalesActions.getSales_success({ data: payload }));
     } catch (err: any) {
-      yield put(GET_SALES_DAILY_SALES_FAILURE({ error: err.response.data }));
+      yield put(dailySalesActions.getSales_failure({ error: err.response.data }));
       channel.close();
     }
   }
@@ -66,44 +53,44 @@ function* getSales() {
 function* addSales(action: { payload: { orderData: OrderData } }) {
   try {
     const result: AxiosResponse<Array<SalesData>> = yield call(addSalesAPI, action.payload);
-    yield put(ADD_SALES_DAILY_SALES_SUCCESS({ data: result.data }));
+    yield put(dailySalesActions.addSales_success({ data: result.data }));
   } catch (err: any) {
-    yield put(ADD_SALES_DAILY_SALES_FAILURE({ error: err.response.data }));
+    yield put(dailySalesActions.addSales_failure({ error: err.response.data }));
   }
 }
 
 function* quanIncr(action: { payload: { orderData: OrderData; salesData: SalesData } }) {
   try {
     const result: AxiosResponse<Array<SalesData>> = yield call(quanIncrAPI, action.payload);
-    yield put(QUAN_INCR_DAILY_SALES_SUCCESS({ data: result.data }));
+    yield put(dailySalesActions.quanIncr_success({ data: result.data }));
   } catch (err: any) {
-    yield put(QUAN_INCR_DAILY_SALES_FAILURE({ error: err.response.data }));
+    yield put(dailySalesActions.quanIncr_failure({ error: err.response.data }));
   }
 }
 
 function* resetSales() {
   try {
     const result: AxiosResponse<Array<SalesData>> = yield call(resetSalesAPI);
-    yield put(RESET_SALES_DAILY_SALES_SUCCESS({ data: result.data }));
+    yield put(dailySalesActions.resetSales_success({ data: result.data }));
   } catch (err: any) {
-    yield put(RESET_SALES_DAILY_SALES_FAILURE({ error: err.response.data }));
+    yield put(dailySalesActions.resetSales_failure({ error: err.response.data }));
   }
 }
 
 function* watchGetSales() {
-  yield takeLatest(GET_SALES_DAILY_SALES_REQUEST, getSales);
+  yield takeLatest(dailySalesActions.getSales_request, getSales);
 }
 
 function* watchAddSales() {
-  yield takeLatest(ADD_SALES_DAILY_SALES_REQUEST, addSales);
+  yield takeLatest(dailySalesActions.addSales_request, addSales);
 }
 
 function* watchQuanIncr() {
-  yield takeLatest(QUAN_INCR_DAILY_SALES_REQUEST, quanIncr);
+  yield takeLatest(dailySalesActions.quanIncr_request, quanIncr);
 }
 
 function* watchResetSales() {
-  yield takeLatest(RESET_SALES_DAILY_SALES_REQUEST, resetSales);
+  yield takeLatest(dailySalesActions.resetSales_request, resetSales);
 }
 
 export default function* dailySales() {

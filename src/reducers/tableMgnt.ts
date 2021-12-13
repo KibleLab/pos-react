@@ -8,51 +8,44 @@ const initialState: InitialState_Data = {
   error: null,
 };
 
-const tableMgntSlice = createSlice({
+const tableMgnt = createSlice({
   name: 'tableMgnt',
   initialState,
   reducers: {
-    // GET_TABLE_TABLE_MGNT
-    GET_TABLE_TABLE_MGNT_REQUEST: (state) => {
+    // getTable
+    getTable_request: (state) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    GET_TABLE_TABLE_MGNT_SUCCESS: (state, action) => {
+    getTable_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data = [...action.payload.data];
     },
-    GET_TABLE_TABLE_MGNT_FAILURE: (state, action) => {
+    getTable_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
 
-    // ADD_TABLE_TABLE_MGNT
-    ADD_TABLE_TABLE_MGNT_REQUEST: (state, _action) => {
+    // addTable
+    addTable_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    ADD_TABLE_TABLE_MGNT_SUCCESS: (state, action) => {
+    addTable_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data = [...action.payload.data];
     },
-    ADD_TABLE_TABLE_MGNT_FAILURE: (state, action) => {
+    addTable_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
   },
 });
 
-export const {
-  GET_TABLE_TABLE_MGNT_REQUEST,
-  GET_TABLE_TABLE_MGNT_SUCCESS,
-  GET_TABLE_TABLE_MGNT_FAILURE,
-  ADD_TABLE_TABLE_MGNT_REQUEST,
-  ADD_TABLE_TABLE_MGNT_SUCCESS,
-  ADD_TABLE_TABLE_MGNT_FAILURE,
-} = tableMgntSlice.actions;
+export const tableMgntActions = { ...tableMgnt.actions };
 
-export default tableMgntSlice.reducer;
+export default tableMgnt.reducer;

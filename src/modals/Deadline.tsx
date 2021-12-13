@@ -12,8 +12,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { RESET_SALES_DAILY_SALES_REQUEST } from '../reducers/dailySales';
-import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
+import { dailySalesActions } from '../reducers/dailySales';
+import { modalActions } from '../reducers/modal';
 
 const Deadline = () => {
   const classes = useStyles();
@@ -26,14 +26,14 @@ const Deadline = () => {
   const dispatch = useDispatch<RootDispatch>();
 
   const close = () => {
-    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 4, open: false }));
+    dispatch(modalActions.modalOpen_request({ index: 4, open: false }));
   };
 
   const resetSales = () => {
     for (let i = 0; i < order.length; i++) {
       if (order[i].length === 0 && i === order.length - 1) {
-        dispatch(RESET_SALES_DAILY_SALES_REQUEST());
-        dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 4, open: false }));
+        dispatch(dailySalesActions.resetSales_request());
+        dispatch(modalActions.modalOpen_request({ index: 4, open: false }));
       } else if (order[i].length !== 0) {
         setMessage('결제가 안된 테이블이 있습니다.');
         setOpenSnackBar(true);

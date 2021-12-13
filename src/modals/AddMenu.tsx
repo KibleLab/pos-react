@@ -12,9 +12,9 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { ADD_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
-import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
-import { RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
+import { menuMgntActions } from '../reducers/menuMgnt';
+import { modalActions } from '../reducers/modal';
+import { selectActions } from '../reducers/select';
 
 const AddMenu = () => {
   const classes = useStyles();
@@ -45,8 +45,8 @@ const AddMenu = () => {
 
   const close = () => {
     setInputs({ menu_name: '', menu_price: '', menu_stock: '' });
-    dispatch(RESET_SELECT_SELECT_REQUEST());
-    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 0, open: false }));
+    dispatch(selectActions.resetSelect_request());
+    dispatch(modalActions.modalOpen_request({ index: 0, open: false }));
   };
 
   const addMenu = () => {
@@ -54,10 +54,10 @@ const AddMenu = () => {
       setMessage('정보를 입력해주세요');
       setOpenSnackBar(true);
     } else {
-      dispatch(ADD_MENU_MENU_MGNT_REQUEST({ addData: inputs }));
-      dispatch(RESET_SELECT_SELECT_REQUEST());
+      dispatch(menuMgntActions.addMenu_request({ addData: inputs }));
+      dispatch(selectActions.resetSelect_request());
       setInputs({ menu_name: '', menu_price: '', menu_stock: '' });
-      dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 0, open: false }));
+      dispatch(modalActions.modalOpen_request({ index: 0, open: false }));
     }
   };
 

@@ -13,7 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import TableMgnt from '../modals/TableMgnt';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { GET_TABLE_TABLE_MGNT_REQUEST } from '../reducers/tableMgnt';
+import { tableMgntActions } from '../reducers/tableMgnt';
 
 const Main = () => {
   const classes = useStyles();
@@ -28,7 +28,7 @@ const Main = () => {
   const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
-    dispatch(GET_TABLE_TABLE_MGNT_REQUEST());
+    dispatch(tableMgntActions.getTable_request());
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         const diff = Math.random() * 10;

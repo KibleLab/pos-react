@@ -1,36 +1,29 @@
 import { put, all, fork, takeLeading } from '@redux-saga/core/effects';
 
-import {
-  SET_SELECT_SELECT_REQUEST,
-  SET_SELECT_SELECT_SUCCESS,
-  SET_SELECT_SELECT_FAILURE,
-  RESET_SELECT_SELECT_REQUEST,
-  RESET_SELECT_SELECT_SUCCESS,
-  RESET_SELECT_SELECT_FAILURE,
-} from '../reducers/select';
+import { selectActions } from '../reducers/select';
 
 function* setSelect(action: { payload: { select: {} } }) {
   try {
-    yield put(SET_SELECT_SELECT_SUCCESS({ select: action.payload.select }));
+    yield put(selectActions.setSelect_success({ select: action.payload.select }));
   } catch (err: any) {
-    yield put(SET_SELECT_SELECT_FAILURE({ error: err.response.data }));
+    yield put(selectActions.setSelect_failure({ error: err.response.data }));
   }
 }
 
 function* resetSelect() {
   try {
-    yield put(RESET_SELECT_SELECT_SUCCESS());
+    yield put(selectActions.resetSelect_success());
   } catch (err: any) {
-    yield put(RESET_SELECT_SELECT_FAILURE({ error: err.response.data }));
+    yield put(selectActions.resetSelect_failure({ error: err.response.data }));
   }
 }
 
 function* watchSetSelect() {
-  yield takeLeading(SET_SELECT_SELECT_REQUEST, setSelect);
+  yield takeLeading(selectActions.setSelect_request, setSelect);
 }
 
 function* watchResetSelect() {
-  yield takeLeading(RESET_SELECT_SELECT_REQUEST, resetSelect);
+  yield takeLeading(selectActions.resetSelect_request, resetSelect);
 }
 
 export default function* select() {

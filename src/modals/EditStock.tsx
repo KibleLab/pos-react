@@ -12,9 +12,9 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { EDIT_STOCK_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
-import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
-import { RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
+import { menuMgntActions } from '../reducers/menuMgnt';
+import { modalActions } from '../reducers/modal';
+import { selectActions } from '../reducers/select';
 
 const EditStock = () => {
   const classes = useStyles();
@@ -49,15 +49,15 @@ const EditStock = () => {
 
   const close = () => {
     setInput(Number(select.menu_stock));
-    dispatch(RESET_SELECT_SELECT_REQUEST());
-    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 2, open: false }));
+    dispatch(selectActions.resetSelect_request());
+    dispatch(modalActions.modalOpen_request({ index: 2, open: false }));
   };
 
   const editStock = () => {
     const editData = { menu_name: select.menu_name, menu_stock: input };
-    dispatch(EDIT_STOCK_MENU_MGNT_REQUEST({ editData }));
-    dispatch(RESET_SELECT_SELECT_REQUEST());
-    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 2, open: false }));
+    dispatch(menuMgntActions.editStock_request({ editData }));
+    dispatch(selectActions.resetSelect_request());
+    dispatch(modalActions.modalOpen_request({ index: 2, open: false }));
   };
 
   return (

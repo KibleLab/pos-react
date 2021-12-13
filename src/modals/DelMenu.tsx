@@ -7,9 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { DELETE_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
-import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
-import { RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
+import { menuMgntActions } from '../reducers/menuMgnt';
+import { modalActions } from '../reducers/modal';
+import { selectActions } from '../reducers/select';
 
 const DelMenu = () => {
   const classes = useStyles();
@@ -20,14 +20,14 @@ const DelMenu = () => {
   const dispatch = useDispatch<RootDispatch>();
 
   const close = () => {
-    dispatch(RESET_SELECT_SELECT_REQUEST());
-    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 1, open: false }));
+    dispatch(selectActions.resetSelect_request());
+    dispatch(modalActions.modalOpen_request({ index: 1, open: false }));
   };
 
   const delMenu = () => {
-    dispatch(DELETE_MENU_MENU_MGNT_REQUEST({ delData: select }));
-    dispatch(RESET_SELECT_SELECT_REQUEST());
-    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 1, open: false }));
+    dispatch(menuMgntActions.deleteMenu_request({ delData: select }));
+    dispatch(selectActions.resetSelect_request());
+    dispatch(modalActions.modalOpen_request({ index: 1, open: false }));
   };
 
   return (

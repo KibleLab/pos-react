@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { GET_ORDER_ORDER_SHEET_REQUEST } from '../reducers/orderSheet';
+import { orderSheetActions } from '../reducers/orderSheet';
 
 const TableButton: FC<TableButtonProps> = (props) => {
   const classes = useStyles(props);
@@ -20,7 +20,7 @@ const TableButton: FC<TableButtonProps> = (props) => {
   const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
-    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
+    dispatch(orderSheetActions.getOrder_request({ table }));
   }, [dispatch, table]);
 
   const orderList = () => {

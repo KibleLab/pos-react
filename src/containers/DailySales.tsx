@@ -18,8 +18,8 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import Deadline from '../modals/Deadline';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { GET_SALES_DAILY_SALES_REQUEST } from '../reducers/dailySales';
-import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
+import { dailySalesActions } from '../reducers/dailySales';
+import { modalActions } from '../reducers/modal';
 
 const DailySales = () => {
   const classes = useStyles();
@@ -32,7 +32,7 @@ const DailySales = () => {
   const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
-    dispatch(GET_SALES_DAILY_SALES_REQUEST());
+    dispatch(dailySalesActions.getSales_request());
   }, [dispatch]);
 
   const total = () => {
@@ -48,7 +48,7 @@ const DailySales = () => {
       setMessage('정산할 내역이 없습니다.');
       setOpen(true);
     } else {
-      dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 4, open: true }));
+      dispatch(modalActions.modalOpen_request({ index: 4, open: true }));
     }
   };
 

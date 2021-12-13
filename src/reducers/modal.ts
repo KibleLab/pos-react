@@ -8,30 +8,29 @@ const initialState: InitialState_Open = {
   error: null,
 };
 
-const modalSlice = createSlice({
+const modal = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    // MODAL_OPEN_MODAL
-    MODAL_OPEN_MODAL_REQUEST: (state, _action) => {
+    // modalOpen
+    modalOpen_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    MODAL_OPEN_MODAL_SUCCESS: (state, action) => {
+    modalOpen_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.open[action.payload.index] = action.payload.open;
       state.open = [...state.open];
     },
-    MODAL_OPEN_MODAL_FAILURE: (state, action) => {
+    modalOpen_failure: (state, action) => {
       state.isLoading = true;
       state.error = action.payload.error;
     },
   },
 });
 
-export const { MODAL_OPEN_MODAL_REQUEST, MODAL_OPEN_MODAL_SUCCESS, MODAL_OPEN_MODAL_FAILURE } =
-  modalSlice.actions;
+export const modalActions = { ...modal.actions };
 
-export default modalSlice.reducer;
+export default modal.reducer;

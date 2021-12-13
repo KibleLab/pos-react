@@ -20,9 +20,9 @@ import DelMenu from '../modals/DelMenu';
 import EditStock from '../modals/EditStock';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { GET_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
-import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
-import { SET_SELECT_SELECT_REQUEST, RESET_SELECT_SELECT_REQUEST } from '../reducers/select';
+import { menuMgntActions } from '../reducers/menuMgnt';
+import { modalActions } from '../reducers/modal';
+import { selectActions } from '../reducers/select';
 
 const MenuMgnt: FC<ContainerProps> = ({ history }) => {
   const classes = useStyles();
@@ -38,11 +38,11 @@ const MenuMgnt: FC<ContainerProps> = ({ history }) => {
   const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
-    dispatch(GET_MENU_MENU_MGNT_REQUEST());
+    dispatch(menuMgntActions.getMenu_request());
   }, [dispatch]);
 
   const goBack = () => {
-    dispatch(RESET_SELECT_SELECT_REQUEST());
+    dispatch(selectActions.resetSelect_request());
     history.goBack();
   };
 
@@ -51,12 +51,12 @@ const MenuMgnt: FC<ContainerProps> = ({ history }) => {
       setMessage('상품을 선택해주세요.');
       setOpen(true);
     } else {
-      dispatch(MODAL_OPEN_MODAL_REQUEST({ index: index, open: true }));
+      dispatch(modalActions.modalOpen_request({ index: index, open: true }));
     }
   };
 
   const onRowClicked = (select: { data: MenuData }) => {
-    dispatch(SET_SELECT_SELECT_REQUEST({ select: select.data }));
+    dispatch(selectActions.setSelect_request({ select: select.data }));
   };
 
   const formatNumber = (number: number) => {
@@ -108,7 +108,7 @@ const MenuMgnt: FC<ContainerProps> = ({ history }) => {
       </Container>
       <Button
         className={classes.addMenuB}
-        onClick={() => dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 0, open: true }))}>
+        onClick={() => dispatch(modalActions.modalOpen_request({ index: 0, open: true }))}>
         새 상품 추가
       </Button>
       <AddMenu />

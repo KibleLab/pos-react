@@ -10,16 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import {
-  GET_ORDER_ORDER_SHEET_REQUEST,
-  RESET_ORDER_ORDER_SHEET_REQUEST,
-} from '../reducers/orderSheet';
-import {
-  ADD_SALES_DAILY_SALES_REQUEST,
-  GET_SALES_DAILY_SALES_REQUEST,
-  QUAN_INCR_DAILY_SALES_REQUEST,
-} from '../reducers/dailySales';
-import { MODAL_OPEN_MODAL_REQUEST } from '../reducers/modal';
+import { orderSheetActions } from '../reducers/orderSheet';
+import { dailySalesActions } from '../reducers/dailySales';
+import { modalActions } from '../reducers/modal';
 
 Modal.setAppElement('body');
 
@@ -39,12 +32,12 @@ const Payment: FC<PaymentProps> = ({ match }) => {
   const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
-    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
-    dispatch(GET_SALES_DAILY_SALES_REQUEST());
+    dispatch(orderSheetActions.getOrder_request({ table }));
+    dispatch(dailySalesActions.getSales_request());
   }, [dispatch, table]);
 
   const close = () => {
-    dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 3, open: false }));
+    dispatch(modalActions.modalOpen_request({ index: 3, open: false }));
   };
 
   const payCalc = () => {
@@ -54,11 +47,11 @@ const Payment: FC<PaymentProps> = ({ match }) => {
         let orderData = order[i];
         let salesData = sales[index];
         index === -1
-          ? dispatch(ADD_SALES_DAILY_SALES_REQUEST({ orderData }))
-          : dispatch(QUAN_INCR_DAILY_SALES_REQUEST({ orderData, salesData }));
+          ? dispatch(dailySalesActions.addSales_request({ orderData }))
+          : dispatch(dailySalesActions.quanIncr_request({ orderData, salesData }));
       }
-      dispatch(RESET_ORDER_ORDER_SHEET_REQUEST({ table }));
-      dispatch(MODAL_OPEN_MODAL_REQUEST({ index: 3, open: false }));
+      dispatch(orderSheetActions.resetOrder_request({ table }));
+      dispatch(modalActions.modalOpen_request({ index: 3, open: false }));
     }
   };
 

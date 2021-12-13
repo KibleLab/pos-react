@@ -4,23 +4,7 @@ import { io } from 'socket.io-client';
 import axios, { AxiosResponse } from 'axios';
 import { MenuData } from '../types/sagas';
 
-import {
-  GET_MENU_MENU_MGNT_REQUEST,
-  GET_MENU_MENU_MGNT_SUCCESS,
-  GET_MENU_MENU_MGNT_FAILURE,
-  ADD_MENU_MENU_MGNT_REQUEST,
-  ADD_MENU_MENU_MGNT_SUCCESS,
-  ADD_MENU_MENU_MGNT_FAILURE,
-  EDIT_STOCK_MENU_MGNT_REQUEST,
-  EDIT_STOCK_MENU_MGNT_SUCCESS,
-  EDIT_STOCK_MENU_MGNT_FAILURE,
-  CHANGE_MENU_MENU_MGNT_REQUEST,
-  CHANGE_MENU_MENU_MGNT_SUCCESS,
-  CHANGE_MENU_MENU_MGNT_FAILURE,
-  DELETE_MENU_MENU_MGNT_REQUEST,
-  DELETE_MENU_MENU_MGNT_SUCCESS,
-  DELETE_MENU_MENU_MGNT_FAILURE,
-} from '../reducers/menuMgnt';
+import { menuMgntActions } from '../reducers/menuMgnt';
 
 const socket = io('/api/menu-mgnt', { path: '/socket', transports: ['websocket'] });
 
@@ -67,9 +51,9 @@ function* getMenu() {
   while (true) {
     try {
       const payload: {} = yield take(channel);
-      yield put(GET_MENU_MENU_MGNT_SUCCESS({ data: payload }));
+      yield put(menuMgntActions.getMenu_success({ data: payload }));
     } catch (err: any) {
-      yield put(GET_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
+      yield put(menuMgntActions.getMenu_Failure({ error: err.response.data }));
       channel.close();
     }
   }
@@ -78,57 +62,57 @@ function* getMenu() {
 function* addMenu(action: { payload: { addData: MenuData } }) {
   try {
     const result: AxiosResponse<Array<MenuData>> = yield call(addMenuAPI, action.payload);
-    yield put(ADD_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
+    yield put(menuMgntActions.addMenu_success({ data: result.data }));
   } catch (err: any) {
-    yield put(ADD_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
+    yield put(menuMgntActions.addMenu_Failure({ error: err.response.data }));
   }
 }
 
 function* editStock(action: { payload: { editData: MenuData } }) {
   try {
     const result: AxiosResponse<Array<MenuData>> = yield call(editStockAPI, action.payload);
-    yield put(EDIT_STOCK_MENU_MGNT_SUCCESS({ data: result.data }));
+    yield put(menuMgntActions.editStock_success({ data: result.data }));
   } catch (err: any) {
-    yield put(EDIT_STOCK_MENU_MGNT_FAILURE({ error: err.response.data }));
+    yield put(menuMgntActions.editStock_Failure({ error: err.response.data }));
   }
 }
 
 function* changeMenu(action: { payload: { menuData: MenuData } }) {
   try {
     const result: AxiosResponse<Array<MenuData>> = yield call(changeMenuAPI, action.payload);
-    yield put(CHANGE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
+    yield put(menuMgntActions.changeMenu_success({ data: result.data }));
   } catch (err: any) {
-    yield put(CHANGE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
+    yield put(menuMgntActions.changeMenu_Failure({ error: err.response.data }));
   }
 }
 
 function* deleteMenu(action: { payload: { delData: MenuData } }) {
   try {
     const result: AxiosResponse<Array<MenuData>> = yield call(deleteMenuAPI, action.payload);
-    yield put(DELETE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
+    yield put(menuMgntActions.deleteMenu_success({ data: result.data }));
   } catch (err: any) {
-    yield put(DELETE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
+    yield put(menuMgntActions.deleteMenu_Failure({ error: err.response.data }));
   }
 }
 
 function* watchGetMenu() {
-  yield takeLatest(GET_MENU_MENU_MGNT_REQUEST, getMenu);
+  yield takeLatest(menuMgntActions.getMenu_request, getMenu);
 }
 
 function* watchAddMenu() {
-  yield takeLeading(ADD_MENU_MENU_MGNT_REQUEST, addMenu);
+  yield takeLeading(menuMgntActions.addMenu_request, addMenu);
 }
 
 function* watchEditStock() {
-  yield takeLeading(EDIT_STOCK_MENU_MGNT_REQUEST, editStock);
+  yield takeLeading(menuMgntActions.editStock_request, editStock);
 }
 
 function* watchChangeMenu() {
-  yield takeLatest(CHANGE_MENU_MENU_MGNT_REQUEST, changeMenu);
+  yield takeLatest(menuMgntActions.changeMenu_request, changeMenu);
 }
 
 function* watchDeleteMenu() {
-  yield takeLeading(DELETE_MENU_MENU_MGNT_REQUEST, deleteMenu);
+  yield takeLeading(menuMgntActions.deleteMenu_request, deleteMenu);
 }
 
 export default function* menuMgnt() {
